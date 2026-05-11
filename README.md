@@ -1,59 +1,148 @@
-# Frontend
+# 📚 BookHub - Frontend Angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.10.
+Interface web de la plateforme de gestion de bibliothèque communautaire **BookHub**.  
+Développée avec Angular 21 dans le cadre du projet DEV25_0364B.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🛠️ Stack technique
+
+| Technologie | Version |
+|---|---|
+| Angular | 21 |
+| TypeScript | 5.9 |
+| Angular HttpClient | inclus dans `@angular/common` |
+| Jasmine / Karma | Configuré par defaut dans un projet Angular CLI classique |
+
+---
+
+## 📋 Prérequis
+
+- [Node.js](https://nodejs.org/) v24.15.0
+- [npm](https://www.npmjs.com/) v11.12.1 
+- [Angular CLI](https://angular.io/cli) v21
+
+```bash
+npm install -g @angular/cli
+```
+
+---
+
+## 🚀 Installation et lancement
+
+### 1. Cloner le dépôt
+
+```bash
+git clone https://github.com/fanny-pretre/bookhub-frontend.git
+cd bookhub-frontend
+```
+
+### 2. Installer les dépendances
+
+```bash
+npm install
+```
+
+### 3. Configurer l'environnement
+
+Copier le fichier d'environnement et renseigner l'URL de l'API :
+
+```bash
+cp src/environments/environment.example.ts src/environments/environment.ts
+```
+
+```typescript
+// src/environments/environment.ts
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:8080/api'
+};
+```
+
+### 4. Lancer l'application
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+L'application est accessible sur **http://localhost:4200**
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🏗️ Structure du projet
 
-```bash
-ng generate component component-name
+```
+src/
+├── app/
+│   ├── core/                  # Services globaux, intercepteurs, guards
+│   │   ├── auth/              # AuthService, JwtInterceptor, AuthGuard
+│   │   └── services/          # BookService, LoanService, ReservationService...
+│   ├── shared/                # Composants réutilisables (header, footer, spinner...)
+│   ├── features/              # Modules fonctionnels
+│   │   ├── auth/              # Inscription, Connexion, Profil
+│   │   ├── catalogue/         # Liste livres, Détail livre, Recherche
+│   │   ├── loans/             # Mes emprunts, Historique
+│   │   ├── reservations/      # Mes réservations
+│   │   ├── ratings/           # Notation et commentaires
+│   │   └── dashboard/         # Dashboard lecteur, bibliothécaire, admin
+│   └── app-routing.module.ts
+├── environments/
+│   ├── environment.ts
+│   └── environment.prod.ts
+└── assets/
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
+
+## 🔐 Authentification
+
+Le token JWT est stocké côté client et transmis automatiquement via un intercepteur HTTP sur toutes les requêtes authentifiées.
+
+Les routes sont protégées par des **guards Angular** selon les rôles :
+
+| Rôle | Accès |
+|---|---|
+| `USER` | Catalogue, emprunts, réservations, notation |
+| `LIBRARIAN` | + Gestion catalogue, validation retours, modération |
+| `ADMIN` | + Gestion utilisateurs, accès complet |
+
+---
+
+## 🧪 Tests
 
 ```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
+# Lancer les tests unitaires
 ng test
+
+# Avec rapport de couverture
+ng test --code-coverage
 ```
 
-## Running end-to-end tests
+> Couverture minimale attendue : **20%**
 
-For end-to-end (e2e) testing, run:
+---
+
+## 📦 Build de production
 
 ```bash
-ng e2e
+ng build --configuration production
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Les fichiers compilés sont générés dans `dist/bookhub-frontend/`.
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 👥 Équipe
+
+| Nom | Rôle |
+|---|---|
+| Fanny | - |
+| Emma | - |
+| Sofia | - |
+| Agathe | - |
+
+---
+
+## 📄 Licence
+
+Projet réalisé dans le cadre de la formation **CDA** - ENI École Informatique.
