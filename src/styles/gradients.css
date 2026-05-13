@@ -1,0 +1,42 @@
+.gradient-header {
+  background: linear-gradient(
+    135deg,
+    #667eea 0%,
+    #764ba2 100%
+  );
+}
+
+.gradient-logo {
+  background: linear-gradient(
+    135deg,
+    #667eea 0%,
+    #764ba2 100%
+  );
+}
+
+.gradient-text {
+  background: linear-gradient(
+    135deg,
+    #667eea 0%,
+    #764ba2 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-nav-active {
+  background: linear-gradient(
+    135deg,
+    #667eea 0%,
+    #764ba2 100%
+  );
+}
+
+.gradient-page-bg {
+  background: linear-gradient(
+    135deg,
+    #fdfbfb 0%,
+    #ebedee 100%
+  );
+}

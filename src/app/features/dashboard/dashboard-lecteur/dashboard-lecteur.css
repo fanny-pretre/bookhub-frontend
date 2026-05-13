@@ -1,0 +1,528 @@
+/* =============================================
+   DASHBOARD LECTEUR — BookHub
+   CSS pur Angular, zéro Tailwind
+   ============================================= */
+
+/* ── Layout racine ── */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* =============================================
+   BANNIÈRE RETARD
+   ============================================= */
+.overdue-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 1rem 1.25rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 1rem;
+  color: #991b1b;
+  animation: fadeInDown 0.4s ease;
+}
+
+.overdue-banner__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  background: #fee2e2;
+  border-radius: 50%;
+  color: #dc2626;
+}
+
+.overdue-banner p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.overdue-banner strong {
+  font-weight: 700;
+}
+
+/* =============================================
+   HERO HEADER
+   ============================================= */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.35);
+  animation: fadeInUp 0.5s ease;
+}
+
+.hero__blobs {
+  pointer-events: none;
+}
+
+.hero__blob {
+  position: absolute;
+  width: 22rem;
+  height: 22rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  filter: blur(48px);
+}
+
+.hero__blob--tr {
+  top: -6rem;
+  right: -6rem;
+}
+
+.hero__blob--bl {
+  bottom: -6rem;
+  left: -6rem;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero__title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  line-height: 1.2;
+}
+
+.hero__subtitle {
+  margin: 0;
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* =============================================
+   STAT CARDS
+   ============================================= */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 4px 24px rgba(31, 38, 135, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.stat-card--link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.stat-card--link:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(31, 38, 135, 0.12);
+}
+
+.stat-card--link:hover .stat-card__arrow {
+  color: #6366f1;
+}
+
+.stat-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.stat-card__label {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* Icônes colorées */
+.stat-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.875rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card__icon--indigo {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+}
+
+.stat-card__icon--purple {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  color: #fff;
+}
+
+.stat-card__icon--emerald {
+  background: linear-gradient(135deg, #10b981, #0d9488);
+  color: #fff;
+}
+
+.stat-card__value {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #0f172a;
+  margin-bottom: 0.625rem;
+}
+
+.stat-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stat-card__sub {
+  font-size: 0.875rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.stat-card__sub--danger {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.stat-card__sub--success {
+  color: #059669;
+  font-weight: 600;
+}
+
+.stat-card__sub strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* Point rouge retard */
+.stat-card__dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #dc2626;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+.stat-card__arrow {
+  color: #94a3b8;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+}
+
+/* =============================================
+   CARD GÉNÉRIQUE
+   ============================================= */
+.card {
+  background: #fff;
+  border-radius: 1.25rem;
+  padding: 2rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 4px 24px rgba(31, 38, 135, 0.06);
+}
+
+.card--actions {
+  padding: 1.5rem;
+}
+
+.card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.card__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.card__title--sm {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.card__title-icon {
+  color: #6366f1;
+}
+
+.card__link {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6366f1;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.card__link:hover {
+  color: #4f46e5;
+}
+
+/* =============================================
+   GRILLE LIVRES RÉCENTS
+   ============================================= */
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.book {
+  cursor: pointer;
+}
+
+.book__cover-wrap {
+  aspect-ratio: 2 / 3;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: #f1f5f9;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.book:hover .book__cover-wrap {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.book__cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.book:hover .book__cover {
+  transform: scale(1.06);
+}
+
+.book__title {
+  margin: 0 0 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 0.2s;
+}
+
+.book:hover .book__title {
+  color: #6366f1;
+}
+
+.book__author {
+  margin: 0 0 0.25rem;
+  font-size: 0.8125rem;
+  color: #64748b;
+}
+
+.book__date {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #94a3b8;
+}
+
+/* =============================================
+   OBJECTIF DE LECTURE
+   ============================================= */
+.goal {
+  max-width: 42rem;
+}
+
+.goal__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.goal__desc {
+  margin: 0 0 1.5rem;
+  font-size: 0.9375rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.goal__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.goal__label {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.goal__pct {
+  font-size: 0.9375rem;
+  color: #64748b;
+}
+
+.goal__bar-bg {
+  height: 1rem;
+  background: #e2e8f0;
+  border-radius: 9999px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.goal__bar-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 9999px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* =============================================
+   ACTIONS RAPIDES
+   ============================================= */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(102, 126, 234, 0.4);
+}
+
+.btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+}
+
+.btn--primary:active {
+  transform: translateY(0);
+}
+
+.btn--outline-indigo {
+  background: transparent;
+  border-color: #6366f1;
+  color: #6366f1;
+}
+
+.btn--outline-indigo:hover {
+  background: #eef2ff;
+}
+
+.btn--outline-slate {
+  background: transparent;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+.btn--outline-slate:hover {
+  background: #f8fafc;
+}
+
+/* =============================================
+   ANIMATIONS
+   ============================================= */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1;   transform: scale(1);    }
+  50%       { opacity: 0.6; transform: scale(1.3); }
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 1024px) {
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .card {
+    padding: 1.25rem;
+  }
+
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
