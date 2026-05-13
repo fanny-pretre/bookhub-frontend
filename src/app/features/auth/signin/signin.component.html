@@ -1,0 +1,196 @@
+<div class="auth-page gradient-auth-bg" [class.dark]="darkMode">
+
+  <!-- Blobs d'arrière-plan -->
+  <div class="blob blob-top"></div>
+  <div class="blob blob-bottom"></div>
+
+  <div class="auth-wrapper animate-scale-in">
+
+    <!-- Toggle dark mode -->
+    <button class="dark-toggle focus-ring-primary btn-accessible"
+            (click)="darkMode = !darkMode"
+            [attr.aria-label]="darkMode ? 'Activer le mode clair' : 'Activer le mode sombre'"
+            [attr.aria-pressed]="darkMode">
+      <svg *ngIf="darkMode" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <svg *ngIf="!darkMode" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+
+    <div class="auth-wrapper animate-scale-in">
+
+    <!-- Logo & Titre -->
+    <div class="auth-header">
+      <div class="logo-row">
+        <div class="logo-icon-wrapper">
+          <div class="logo-glow gradient-logo"></div>
+          <div class="logo-icon gradient-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36"
+                 viewBox="0 0 24 24" fill="none" stroke="white"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+          </div>
+        </div>
+        <span class="logo-label gradient-text">BookHub</span>
+      </div>
+      <h1>Créez votre compte</h1>
+      <p>Rejoignez notre communauté de lecteurs</p>
+    </div>
+
+    <!-- Carte -->
+      <div class="auth-card" [class.glass-effect]="!darkMode" [class.glass-effect-dark]="darkMode">
+
+      <div class="alert alert-success" *ngIf="successMessage">
+        {{ successMessage }}
+      </div>
+      <div class="alert alert-error" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+
+        <!-- Prénom + Nom -->
+        <div class="form-row">
+
+          <div class="form-group">
+            <label for="firstname">Prénom</label>
+            <input
+              id="firstname"
+              type="text"
+              formControlName="firstname"
+              placeholder="Jean"
+              class="input-modern input-accessible"
+              [class.input-error]="firstname.invalid && firstname.touched"
+            />
+            <span class="error-msg" *ngIf="firstname.touched && firstname.hasError('required')">
+              Requis.
+            </span>
+            <span class="error-msg" *ngIf="firstname.touched && firstname.hasError('minlength')">
+              2 caractères min.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="lastname">Nom</label>
+            <input
+              id="lastname"
+              type="text"
+              formControlName="lastname"
+              placeholder="Dupont"
+              class="input-modern input-accessible"
+              [class.input-error]="lastname.invalid && lastname.touched"
+            />
+            <span class="error-msg" *ngIf="lastname.touched && lastname.hasError('required')">
+              Requis.
+            </span>
+            <span class="error-msg" *ngIf="lastname.touched && lastname.hasError('minlength')">
+              2 caractères min.
+            </span>
+          </div>
+
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Adresse email</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="vous@exemple.com"
+            class="input-modern input-accessible"
+            [class.input-error]="email.invalid && email.touched"
+          />
+          <span class="error-msg" *ngIf="email.touched && email.hasError('required')">
+            L'email est requis.
+          </span>
+          <span class="error-msg" *ngIf="email.touched && email.hasError('email')">
+            Format d'email invalide.
+          </span>
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <div class="password-wrapper">
+            <input
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="Créer un mot de passe sécurisé"
+              class="input-modern input-accessible"
+              [class.input-error]="password.invalid && password.touched"
+            />
+            <button type="button" class="password-toggle focus-ring-primary"
+                    (click)="showPassword = !showPassword"
+                    [attr.aria-label]="showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'">
+              <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                <path d="m14.12 14.12a3 3 0 1 1-4.24-4.24"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Barre de force -->
+          <div class="strength-wrapper" *ngIf="password.value?.length > 0">
+            <div class="strength-bar">
+              <div class="strength-fill"
+                   [style.width.%]="getPasswordStrength().percent"
+                   [class]="'strength-' + getPasswordStrength().level">
+              </div>
+            </div>
+            <p class="strength-label">
+              Force : <strong>{{ getPasswordStrength().label }}</strong>
+            </p>
+          </div>
+
+          <span class="error-msg" *ngIf="password.touched && password.hasError('required')">
+            Le mot de passe est requis.
+          </span>
+          <ul class="error-list" *ngIf="password.touched && password.hasError('passwordStrength')">
+            <li *ngFor="let err of password.errors!['passwordStrength']">{{ err }}</li>
+          </ul>
+        </div>
+
+        <button type="submit" class="btn-modern btn-accessible w-full focus-ring-primary"
+                [disabled]="isLoading">
+          {{ isLoading ? 'Création en cours...' : 'Créer mon compte' }}
+        </button>
+
+        <div class="auth-link">
+          <p>Vous avez déjà un compte ?
+            <a routerLink="/connexion" class="link-accessible">Se connecter</a>
+          </p>
+        </div>
+
+      </form>
+    </div>
+
+    <p class="auth-footer">
+      En créant un compte, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.
+    </p>
+
+  </div>
+</div>
