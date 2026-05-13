@@ -28,6 +28,9 @@ export class SigninComponent {
   // Booléen pour désactiver le bouton pendant l'envoi (évite les doubles soumissions)
   isLoading = false;
 
+  showPassword = false;
+  darkMode = false; // Toggle dark mode
+
   constructor(
     // FormBuilder est un service Angular qui simplifie la création de FormGroup/FormControl
     private fb: FormBuilder,
@@ -61,6 +64,14 @@ export class SigninComponent {
   }
   get password() {
     return this.registerForm.get('password')!;
+  }
+
+  getPasswordStrength(): { percent: number; level: string; label: string } {
+    const val = this.password.value ?? '';
+    if (val.length === 0) return { percent: 0, level: '', label: '' };
+    if (val.length < 6) return { percent: 33, level: 'weak', label: 'Faible' };
+    if (val.length < 10) return { percent: 66, level: 'medium', label: 'Bon' };
+    return { percent: 100, level: 'strong', label: 'Fort' };
   }
 
   onSubmit(): void {
