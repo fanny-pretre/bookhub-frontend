@@ -1,0 +1,114 @@
+<div class="signin-container">
+  <div class="signin-card">
+    <h1>Créer un compte</h1>
+    <p class="subtitle">Rejoignez la bibliothèque communautaire</p>
+
+    <!-- Alerte de succès : affichée uniquement si successMessage est non vide -->
+    <div class="alert alert-success" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <!-- Alerte d'erreur : affichée uniquement si errorMessage est non vide -->
+    <div class="alert alert-error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <!--
+      [formGroup] lie le <form> à notre FormGroup déclaré dans le composant
+      (ngSubmit) appelle onSubmit() au clic sur le bouton de type submit
+      novalidate désactive la validation HTML native du navigateur (Angular s'en charge)
+    -->
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+
+      <!-- CHAMP PRÉNOM -->
+      <div class="form-group">
+        <label for="firstname">Prénom</label>
+        <input
+          id="firstname"
+          type="text"
+          formControlName="firstname"
+          placeholder="Votre prénom"
+          [class.input-error]="firstname.invalid && firstname.touched"
+        />
+        <!-- .touched devient true quand l'utilisateur a cliqué dans le champ puis est parti -->
+        <span class="error-msg" *ngIf="firstname.touched && firstname.hasError('required')">
+          Le prénom est requis.
+        </span>
+        <span class="error-msg" *ngIf="firstname.touched && firstname.hasError('minlength')">
+          Minimum 2 caractères.
+        </span>
+      </div>
+
+      <!-- CHAMP NOM -->
+      <div class="form-group">
+        <label for="lastname">Nom</label>
+        <input
+          id="lastname"
+          type="text"
+          formControlName="lastname"
+          placeholder="Votre nom"
+          [class.input-error]="lastname.invalid && lastname.touched"
+        />
+        <span class="error-msg" *ngIf="lastname.touched && lastname.hasError('required')">
+          Le nom est requis.
+        </span>
+        <span class="error-msg" *ngIf="lastname.touched && lastname.hasError('minlength')">
+          Minimum 2 caractères.
+        </span>
+      </div>
+
+      <!-- CHAMP EMAIL -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="votre@email.com"
+          [class.input-error]="email.invalid && email.touched"
+        />
+        <span class="error-msg" *ngIf="email.touched && email.hasError('required')">
+          L'email est requis.
+        </span>
+        <!-- 'email' est la clé générée par Validators.email quand le format est invalide -->
+        <span class="error-msg" *ngIf="email.touched && email.hasError('email')">
+          Format d'email invalide.
+        </span>
+      </div>
+
+      <!-- CHAMP MOT DE PASSE -->
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Mot de passe sécurisé"
+          [class.input-error]="password.invalid && password.touched"
+        />
+        <span class="error-msg" *ngIf="password.touched && password.hasError('required')">
+          Le mot de passe est requis.
+        </span>
+        <!-- 'passwordStrength' est la clé retournée par notre validateur custom -->
+        <!-- password.errors!['passwordStrength'] contient le tableau de messages d'erreur -->
+        <ul class="error-list" *ngIf="password.touched && password.hasError('passwordStrength')">
+          <li *ngFor="let err of password.errors!['passwordStrength']">{{ err }}</li>
+        </ul>
+        <p class="password-hint">
+          12 caractères min., 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.
+        </p>
+      </div>
+
+      <!-- Bouton désactivé pendant le chargement pour éviter les doubles envois -->
+      <button type="submit" class="btn-submit" [disabled]="isLoading">
+        {{ isLoading ? 'Création en cours...' : 'Créer mon compte' }}
+      </button>
+
+    </form>
+
+    <!-- routerLink est fourni par RouterLink importé dans le composant -->
+    <p class="login-link">
+      Déjà inscrit ? <a routerLink="/login">Se connecter</a>
+    </p>
+  </div>
+</div>
