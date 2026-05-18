@@ -34,7 +34,7 @@
     <div class="navbar__right">
 
       <!-- Bouton Catalogue -->
-      <a routerLink="/catalogue" class="btn-catalogue" aria-label="Parcourir le catalogue">
+      <a routerLink="/books" class="btn-catalogue" aria-label="Parcourir le catalogue">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
@@ -170,7 +170,7 @@
       {{ item.label }}
     </a>
     <a
-      routerLink="/catalogue"
+      routerLink="/books"
       routerLinkActive="nav-mobile__link--active"
       class="nav-mobile__link nav-mobile__link--catalogue"
       (click)="toggleMobileMenu()"
