@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { Navbar } from '../../core/navbar/navbar';
-import { AuthService } from '../../shared/services/auth.service';
+import { Navbar } from '../../../core/navbar/navbar';
+import { AuthService } from '../../../shared/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import {
   ProfilService,
   UpdateMdpPayload,
   UpdateProfilPayload,
-} from '../../shared/services/profil-lecteur.service';
+} from '../../../shared/services/profil-lecteur.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 

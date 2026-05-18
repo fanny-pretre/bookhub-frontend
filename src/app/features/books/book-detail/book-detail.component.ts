@@ -4,11 +4,12 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ApiResponse, Book } from '../../../shared/models/book.model';
 import { switchMap } from 'rxjs';
+import { Navbar } from '../../../core/navbar/navbar';
 
 @Component({
   selector: 'app-book-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, Navbar],
   templateUrl: './book-detail.component.html',
   styleUrls: ['./book-detail.component.css'],
 })
