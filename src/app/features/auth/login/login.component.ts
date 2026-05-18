@@ -48,15 +48,17 @@ export class LoginComponent {
     this.authService.login(this.loginForm.value).subscribe({
       next: (response: any) => {
         const data = response.data;
-
         this.authService.setToken(data.token);
-        this.authService.setUser({
-          prenom: data.prenom,
-          nom: data.nom,
-          role: data.role,
-        });
 
-        this.router.navigate(['/dashboard-lecteur']);
+        this.authService.fetchAndStoreUser(data.id).subscribe({
+          next: () => {
+            // On ajoute le role au user déjà stocké
+            const user = this.authService.getUser();
+            this.authService.setUser({ ...user, role: data.role });
+            this.router.navigate(['/dashboard-lecteur']);
+          },
+          error: () => this.router.navigate(['/dashboard-lecteur']),
+        });
       },
       error: () => {
         this.isLoading = false;

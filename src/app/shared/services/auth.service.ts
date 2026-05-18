@@ -1,9 +1,7 @@
-// HttpClient est le service Angular pour faire des requêtes HTTP
 import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { RegisterRequest, AuthResponse } from '../models/auth.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 // @Injectable({ providedIn: 'root' }) signifie que ce service est un singleton
 // disponible dans toute l'application sans avoir à le déclarer ailleurs
@@ -39,6 +37,7 @@ export class AuthService {
   login(credentials: { email: string; mdp: string }): Observable<any> {
     return this.http.post(`${this.API_URL}/auth/login`, credentials);
   }
+
   register(payload: { prenom: string; nom: string; email: string; mdp: string }): Observable<any> {
     return this.http.post(`${this.API_URL}/auth/register`, payload);
   }
@@ -85,5 +84,18 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!this.getToken();
+  }
+
+  fetchAndStoreUser(id: number): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.getToken()}`,
+    });
+
+    return this.http.get(`${this.API_URL}/users/${id}`, { headers }).pipe(
+      tap((response: any) => {
+        // ProfilDto : { id, nom, prenom, email, telephone }
+        this.setUser(response.data);
+      })
+    );
   }
 }
