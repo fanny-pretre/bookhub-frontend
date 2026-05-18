@@ -1,9 +1,15 @@
+// HttpClient est le service Angular pour faire des requêtes HTTP
 import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { RegisterRequest, AuthResponse } from '../models/auth.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+// @Injectable({ providedIn: 'root' }) signifie que ce service est un singleton
+// disponible dans toute l'application sans avoir à le déclarer ailleurs
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthService {
   private readonly USER_KEY = 'user';
   private readonly TOKEN_KEY = 'token';
@@ -33,7 +39,6 @@ export class AuthService {
   login(credentials: { email: string; mdp: string }): Observable<any> {
     return this.http.post(`${this.API_URL}/auth/login`, credentials);
   }
-
   register(payload: { prenom: string; nom: string; email: string; mdp: string }): Observable<any> {
     return this.http.post(`${this.API_URL}/auth/register`, payload);
   }

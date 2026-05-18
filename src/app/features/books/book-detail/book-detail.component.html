@@ -1,0 +1,126 @@
+<div class="book-detail-page section-modern">
+  <div class="container-modern">
+
+    <!-- Bouton retour -->
+    <a routerLink="/books" class="back-btn" aria-label="Retour au catalogue">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Retour au catalogue
+    </a>
+
+    <!-- Toast de confirmation affiché après un emprunt -->
+    <div class="toast toast-success" *ngIf="showToast">
+      ✓ Livre emprunté avec succès !
+    </div>
+
+    <!-- Skeleton affiché pendant le chargement -->
+    <div class="book-detail-card card-modern" *ngIf="isLoading">
+      <p>Chargement...</p>
+    </div>
+
+    <!-- Message d'erreur affiché si l'appel API échoue -->
+    <div class="alert alert-error" *ngIf="errorMessage && !isLoading">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Contenu principal, *ngIf="book" protège contre book = null -->
+    <ng-container *ngIf="book && !isLoading">
+
+      <div class="book-detail-card card-modern animate-fade-in-up-modern">
+        <div class="book-detail-grid">
+
+          <!-- Colonne gauche : couverture -->
+          <div class="book-cover-column">
+            <div class="book-cover-wrapper">
+              <img
+                *ngIf="book.couverture"
+                [src]="'http://localhost:8080' + book.couverture"
+                [alt]="book.titre"
+                class="book-cover"
+              />
+            </div>
+          </div>
+
+          <!-- Colonne droite : toutes les infos -->
+          <div class="book-info-column">
+
+            <!-- Titre et auteur -->
+            <div class="book-header">
+              <h1 class="book-title">{{ book.titre }}</h1>
+              <p class="book-author">
+                par {{ book.auteur.prenom }} {{ book.auteur.nom }}
+              </p>
+            </div>
+
+            <!-- ISBN + CATEGORIES -->
+            <div class="metadata-grid">
+
+              <div class="metadata-card metadata-indigo">
+                <span class="metadata-label">ISBN</span>
+                <span class="metadata-value">{{ book.isbn }}</span>
+              </div>
+
+              <div class="metadata-card metadata-purple">
+                <span class="metadata-label">Catégories</span>
+                <span class="metadata-value" *ngIf="book.categories.length > 0">
+                  {{ book.categories[0].typeCategorie }}
+                  <ng-container *ngFor="let cat of book.categories.slice(1)">
+                    , {{ cat.typeCategorie }}
+                  </ng-container>
+                </span>
+                <span class="metadata-value" *ngIf="!book.categories.length">
+                  Non renseignée
+                </span>
+              </div>
+
+            </div>
+
+            <!-- Badge de disponibilité -->
+            <div class="availability-section">
+
+              <span
+                class="badge-modern"
+                [ngClass]="book.disponibilite ? 'badge-success' : 'badge-error'">
+
+                {{ book.disponibilite ? '✓ Disponible' : '✗ Indisponible' }}
+              </span>
+
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div class="description-card" *ngIf="book.description">
+              <h2>Description</h2>
+              <p>{{ book.description }}</p>
+            </div>
+
+            <!-- ACTION -->
+            <div class="actions">
+              <button
+                *ngIf="book.disponibilite"
+                class="btn-modern btn-accessible focus-ring-primary"
+                (click)="handleBorrow()">
+                📖 Emprunter ce livre
+              </button>
+
+              <button
+                *ngIf="!book.disponibilite"
+                class="btn-modern btn-accessible gradient-button-disabled focus-ring-primary"
+                (click)="handleReserve()">
+                🔔 Réserver ce livre
+              </button>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- COMMENTS -->
+        <div class="comments-card card-modern animate-fade-in-up-modern">
+          <h2>💬 Avis des lecteurs</h2>
+          <p>Aucun avis pour le moment.</p>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

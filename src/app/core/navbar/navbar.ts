@@ -18,8 +18,9 @@ export class Navbar implements OnInit, OnDestroy {
   mobileMenuOpen = false;
 
   navItems = [
-    { path: '/dashboard-lecteur', label: 'Tableau de bord' },
-    { path: '/my-loans', label: 'Mes emprunts' },
+    { path: '/dashboard', label: 'Dashboard' },
+    { path: '/my-loans', label: 'Emprunts' },
+    { path: '/profile', label: 'Profil' },
   ];
 
   private sub!: Subscription;
@@ -45,15 +46,16 @@ export class Navbar implements OnInit, OnDestroy {
   toggleDropdown(): void {
     this.dropdownOpen = !this.dropdownOpen;
   }
-  closeDropdown(): void {
-    this.dropdownOpen = false;
-  }
-  toggleMobileMenu(): void {
+  toggleMobileMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
   }
 
-  goToSearch(): void {
-    this.router.navigate(['/catalogue']);
+  closeDropdown() {
+    this.dropdownOpen = false;
+  }
+
+  goToSearch() {
+    this.router.navigate(['/books']);
   }
 
   logout(): void {
