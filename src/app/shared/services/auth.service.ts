@@ -1,10 +1,8 @@
 import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
-// @Injectable({ providedIn: 'root' }) signifie que ce service est un singleton
-// disponible dans toute l'application sans avoir à le déclarer ailleurs
 @Injectable({
   providedIn: 'root',
 })
@@ -35,9 +33,14 @@ export class AuthService {
   // ─── Auth ────────────────────────────────────────────────
 
   login(credentials: { email: string; mdp: string }): Observable<any> {
-    return this.http.post(`${this.API_URL}/auth/login`, credentials);
+    return this.http.post<any>(`${this.API_URL}/auth/login`, credentials).pipe(
+      tap((response) => {
+        if (response?.data?.token) {
+          this.setToken(response.data.token);
+        }
+      }),
+    );
   }
-
   register(payload: { prenom: string; nom: string; email: string; mdp: string }): Observable<any> {
     return this.http.post(`${this.API_URL}/auth/register`, payload);
   }
@@ -87,15 +90,10 @@ export class AuthService {
   }
 
   fetchAndStoreUser(id: number): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.getToken()}`,
-    });
-
-    return this.http.get(`${this.API_URL}/users/${id}`, { headers }).pipe(
+    return this.http.get(`${this.API_URL}/users/${id}`).pipe(
       tap((response: any) => {
-        // ProfilDto : { id, nom, prenom, email, telephone }
         this.setUser(response.data);
-      })
+      }),
     );
   }
 }
