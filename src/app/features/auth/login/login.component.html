@@ -51,9 +51,7 @@
     <!-- Carte -->
     <div class="auth-card" [class.glass-effect]="!darkMode" [class.glass-effect-dark]="darkMode">
 
-      <div class="alert alert-success" *ngIf="successMessage">
-        {{ successMessage }}
-      </div>
+      <!-- ✅ Plus de successMessage, uniquement l'erreur -->
       <div class="alert alert-error" *ngIf="errorMessage">
         {{ errorMessage }}
       </div>
@@ -87,7 +85,7 @@
             <input
               id="password"
               [type]="showPassword ? 'text' : 'password'"
-              formControlName="password"
+              formControlName="mdp"
               placeholder="Entrez votre mot de passe"
               class="input-modern input-accessible"
               [class.input-error]="password.invalid && password.touched"

@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Navbar } from '../../../core/navbar/navbar';
+import { AuthService } from '../../../shared/services/auth.service';
 
 interface Loan {
   id: number;
@@ -27,12 +29,23 @@ interface RecentBook {
 @Component({
   selector: 'app-dashboard-lecteur',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, Navbar],
   templateUrl: './dashboard-lecteur.html',
   styleUrl: './dashboard-lecteur.css',
 })
-export class DashboardLecteur {
-  userName = 'John';
+export class DashboardLecteur implements OnInit {
+  userName = 'Utilisateur';
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    // Réactif : se met à jour si l'utilisateur change
+    this.authService.currentUser$.subscribe((user) => {
+      if (user) {
+        this.userName = `${user.prenom ?? ''} ${user.nom ?? ''}`.trim() || 'Utilisateur';
+      }
+    });
+  }
 
   loans: Loan[] = [
     {

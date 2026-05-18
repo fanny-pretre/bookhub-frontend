@@ -1,10 +1,10 @@
 // Interface représentant les données envoyées au backend lors de l'inscription
 // Correspond au payload attendu par POST /api/auth/register
 export interface RegisterRequest {
-  firstname: string;
-  lastname: string;
+  nom: string;
+  prenom: string;
   email: string;
-  password: string;
+  mdp: string;
 }
 
 // Interface représentant la réponse du backend

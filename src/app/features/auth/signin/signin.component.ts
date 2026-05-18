@@ -4,10 +4,10 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 
 // Notre service qui va appeler l'API backend
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 // Notre validateur personnalisé pour la politique de mot de passe
-import { passwordStrengthValidator } from '../../../core/validators/password.validator';
+import { passwordStrengthValidator } from '../../../shared/validators/password.validator';
 
 @Component({
   selector: 'app-signin',
@@ -75,33 +75,31 @@ export class SigninComponent {
   }
 
   onSubmit(): void {
-    // Si le formulaire est invalide, on affiche les erreurs sans envoyer la requête
-    // markAllAsTouched() déclenche l'affichage des messages d'erreur sur tous les champs
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
       return;
     }
 
-    // On passe en mode chargement et on remet les messages à zéro
     this.isLoading = true;
     this.successMessage = '';
     this.errorMessage = '';
 
-    // On envoie les données du formulaire au backend via notre service
+    const payload = {
+      nom: this.registerForm.value.lastname,
+      prenom: this.registerForm.value.firstname,
+      email: this.registerForm.value.email,
+      mdp: this.registerForm.value.password,
+    };
+
     this.authService.register(this.registerForm.value).subscribe({
-      // Cas succès : le backend a répondu avec un statut 2xx
-      next: (response) => {
-        this.isLoading = false;
-        // On affiche le message retourné par le back, ou un message par défaut
-        this.successMessage = response.message ?? 'Compte créé avec succès !';
-        // Après 2 secondes, on redirige vers la page de connexion
-        setTimeout(() => this.router.navigate(['/login']), 2000);
+      next: (response: any) => {
+        this.authService.setUser(response.data?.user);
+        this.authService.setToken(response.data?.token);
+        this.router.navigate(['/dashboard-lecteur']);
       },
-      // Cas erreur : le backend a répondu avec un statut 4xx ou 5xx
-      error: (err) => {
+      error: () => {
         this.isLoading = false;
-        // err.error contient le corps de la réponse d'erreur du backend (ex: { error: "..." })
-        this.errorMessage = err.error?.error ?? 'Une erreur est survenue. Réessaie.';
+        this.errorMessage = "Une erreur est survenue lors de l'inscription";
       },
     });
   }

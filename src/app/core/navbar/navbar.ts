@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,38 +11,53 @@ import { CommonModule } from '@angular/common';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
-export class Navbar {
+export class Navbar implements OnInit, OnDestroy {
+  userName = '';
+  userEmail = '';
   dropdownOpen = false;
   mobileMenuOpen = false;
 
   navItems = [
-    { path: '/dashboard', label: 'Dashboard' },
-    { path: '/my-loans', label: 'Emprunts' },
-    { path: '/profile', label: 'Profil' },
+    { path: '/dashboard-lecteur', label: 'Tableau de bord' },
+    { path: '/my-loans', label: 'Mes emprunts' },
   ];
 
-  userName = 'John Doe';
-  userEmail = 'john.doe@example.com';
+  private sub!: Subscription;
 
-  constructor(public router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
-  toggleDropdown() {
+  ngOnInit(): void {
+    this.sub = this.authService.currentUser$.subscribe((user) => {
+      if (user) {
+        this.userName = `${user.prenom ?? ''} ${user.nom ?? ''}`.trim() || 'Utilisateur';
+        this.userEmail = user.email ?? '';
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+
+  toggleDropdown(): void {
     this.dropdownOpen = !this.dropdownOpen;
   }
-  toggleMobileMenu() {
+  closeDropdown(): void {
+    this.dropdownOpen = false;
+  }
+  toggleMobileMenu(): void {
     this.mobileMenuOpen = !this.mobileMenuOpen;
   }
 
-  closeDropdown() {
-    this.dropdownOpen = false;
-  }
-
-  goToSearch() {
+  goToSearch(): void {
     this.router.navigate(['/catalogue']);
   }
 
-  logout() {
-    this.dropdownOpen = false;
+  logout(): void {
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 }
