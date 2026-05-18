@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { Book, SearchParams } from '../../../shared/models/book.model';
 import { BookService } from '../../../shared/services/book.service';
+import { Navbar } from '../../../core/navbar/navbar';
 
 @Component({
   selector: 'app-book-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, Navbar],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css',
 })

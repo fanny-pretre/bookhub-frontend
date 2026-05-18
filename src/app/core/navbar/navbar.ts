@@ -18,8 +18,8 @@ export class Navbar implements OnInit, OnDestroy {
   mobileMenuOpen = false;
 
   navItems = [
-    { path: '/dashboard', label: 'Dashboard' },
-    { path: '/my-loans', label: 'Emprunts' },
+    { path: '/dashboard-lecteur', label: 'Dashboard' },
+    { path: '/mes-emprunts', label: 'Emprunts' },
     { path: '/profile', label: 'Profil' },
   ];
 
