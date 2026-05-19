@@ -4,22 +4,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Reservation, ReservationResponse, ApiResponse } from '../models/reservation.model';
 
-export interface ApiResponse<T> {
-  success: boolean;
-  message: string;
-  data: T;
-}
-
-export interface ReservationResponse {
-  id: number;
-  message: string;
-  isbn: string;
-  queuePosition: number;
-  status: string;
-  bookTitle: string;
-  reservationDate: string;
-}
-
 export interface EmpruntResponse {
   id: number;
   message: string;
