@@ -2,6 +2,7 @@ import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { Utilisateur, ApiResponse } from '../models/utilisateur.model';
 
 export interface UpdateProfilPayload {
   prenom: string;
@@ -38,4 +39,6 @@ export class ProfilService {
   updateMotDePasse(id: number, payload: UpdateMdpPayload): Observable<any> {
     return this.http.put(`${this.API}/users/${id}/password`, payload, { headers: this.headers });
   }
+
+
 }

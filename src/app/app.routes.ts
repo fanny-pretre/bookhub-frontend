@@ -1,3 +1,4 @@
+
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
 import { SigninComponent } from './features/auth/signin/signin.component';
@@ -12,6 +13,7 @@ import { ReservationsValidation } from './features/bibliothecaire/reservations-v
 import { Statistiques } from './features/bibliothecaire/statistiques/statistiques';
 import { Moderation } from './features/bibliothecaire/moderation/moderation';
 import { authGuard } from './core/guards/auth.guard';
+import { GestionEmpruntsComponent } from './features/bibliothecaire/gestion-emprunts/gestion-emprunts';
 
 export const routes: Routes = [
   // Redirection racine
