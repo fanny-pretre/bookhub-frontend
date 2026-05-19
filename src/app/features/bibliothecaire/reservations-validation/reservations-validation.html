@@ -1,0 +1,184 @@
+<app-navbar></app-navbar>
+
+<div class="loans-page">
+
+  <!-- Hero -->
+  <div class="loans-hero">
+
+    <div class="loans-hero__blobs" aria-hidden="true">
+      <div class="loans-hero__blob loans-hero__blob--tr"></div>
+      <div class="loans-hero__blob loans-hero__blob--bl"></div>
+    </div>
+
+    <div class="loans-hero__content">
+
+      <h1 class="loans-hero__title">
+        Validation des réservations
+      </h1>
+
+      <p class="loans-hero__subtitle">
+        Validez les demandes de réservation
+        et transformez-les en emprunts
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+
+    <div class="stat-card">
+
+      <div class="stat-card__icon stat-card__icon--indigo">
+        📚
+      </div>
+
+      <div>
+
+        <p class="stat-card__value">
+          {{ reservationsCount }}
+        </p>
+
+        <p class="stat-card__label">
+          Réservations à valider
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Messages -->
+  <div
+    class="message message--success"
+    *ngIf="successMessage">
+
+    {{ successMessage }}
+
+  </div>
+
+  <div
+    class="message message--error"
+    *ngIf="errorMessage">
+
+    {{ errorMessage }}
+
+  </div>
+
+  <!-- Card -->
+  <div class="card">
+
+    <div class="card-header">
+
+      <h2>
+        Demandes en attente
+      </h2>
+
+      <span class="badge badge--active">
+        {{ reservationsCount }} demande(s)
+      </span>
+
+    </div>
+
+    <div class="tab-content">
+
+      <!-- Loading -->
+      <p *ngIf="loading && reservationsCount === 0">
+        Chargement...
+      </p>
+
+      <!-- Empty -->
+      <div
+        *ngIf="!loading && reservationsCount === 0"
+        class="empty-state">
+
+        <div class="empty-state__icon">
+          📖
+        </div>
+
+        <h3>
+          Aucune réservation à valider
+        </h3>
+
+        <p>
+          Les nouvelles demandes apparaîtront ici.
+        </p>
+
+      </div>
+
+      <!-- Liste -->
+      <div
+        class="loan-list"
+        *ngIf="reservationsCount > 0">
+
+        <div
+          class="loan-item"
+          *ngFor="let reservation of activeReservations">
+
+          <div class="loan-item__body">
+
+            <h3 class="loan-item__title">
+              {{ reservation.bookTitle }}
+            </h3>
+
+            <div class="loan-item__dates">
+
+              <div class="loan-item__date">
+                ISBN :
+                <strong>{{ reservation.isbn }}</strong>
+              </div>
+
+              <div class="loan-item__date">
+                Réservé le :
+                <strong>
+                  {{ reservation.reservationDate }}
+                </strong>
+              </div>
+
+              <div class="loan-item__date">
+                Position :
+                <strong>
+                  {{ reservation.queuePosition }}
+                </strong>
+              </div>
+
+              <div class="loan-item__date">
+                Statut :
+                <strong>
+                  {{ reservation.status }}
+                </strong>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="loan-item__badge">
+
+            <span class="badge badge--active">
+              {{ reservation.status }}
+            </span>
+
+            <button
+              type="button"
+              class="btn btn--primary"
+              [disabled]="validatingId === reservation.id"
+              (click)="validateReservation(reservation.id)">
+
+              {{ validatingId === reservation.id ? 'Validation...' : 'Valider l’emprunt' }}
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
