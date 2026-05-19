@@ -13,11 +13,12 @@ import { FormsModule } from '@angular/forms';
 
 import { BookService } from '../../../shared/services/book.service';
 import { Book, BookFormData } from '../../../shared/models/book.model';
+import { NavbarAdmin } from '../../../core/navbar admin/navbar-admin';
 
 @Component({
   selector: 'app-book-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NavbarAdmin],
   templateUrl: './book-admin.component.html',
   styleUrl: './book-admin.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

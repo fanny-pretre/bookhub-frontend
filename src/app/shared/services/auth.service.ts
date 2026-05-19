@@ -2,6 +2,7 @@ import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
+    private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object,
   ) {
     if (isPlatformBrowser(this.platformId)) {
@@ -37,7 +39,6 @@ export class AuthService {
     return this.http.post<any>(`${this.API_URL}/auth/login`, credentials).pipe(
       tap((response) => {
         const token = response?.data?.token;
-
         if (token) {
           this.setToken(token);
         }
@@ -55,6 +56,7 @@ export class AuthService {
       localStorage.removeItem(this.USER_KEY);
     }
     this.currentUserSubject.next(null);
+    this.router.navigate(['/connexion']);
   }
 
   // ───────────────────── USER ─────────────────────
@@ -67,12 +69,45 @@ export class AuthService {
         localStorage.removeItem(this.USER_KEY);
       }
     }
-
     this.currentUserSubject.next(user ?? null);
   }
 
   getUser(): any {
-    return this.currentUserSubject.value;
+    const user = this.currentUserSubject.value;
+
+    if (user) return user;
+
+    if (isPlatformBrowser(this.platformId)) {
+      const storedUser = localStorage.getItem(this.USER_KEY);
+
+      if (storedUser && storedUser !== 'undefined' && storedUser !== 'null') {
+        try {
+          const parsedUser = JSON.parse(storedUser);
+          this.currentUserSubject.next(parsedUser);
+          return parsedUser;
+        } catch {
+          localStorage.removeItem(this.USER_KEY);
+        }
+      }
+    }
+
+    return null;
+  }
+
+  getUserRole(): string | null {
+    return this.getUser()?.role ?? null;
+  }
+
+  getHomeRouteForRole(): string {
+    switch (this.getUserRole()) {
+      case 'ADMIN':
+      case 'BIBLIOTHECAIRE':
+        return '/bibliothecaire/dashboard';
+      case 'USER':
+        return '/lecteur/dashboard';
+      default:
+        return '/connexion';
+    }
   }
 
   // ───────────────────── TOKEN ─────────────────────

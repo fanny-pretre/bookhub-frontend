@@ -4,15 +4,14 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 import { Navbar } from '../../../core/navbar/navbar';
 
-import {
-  ReservationService
-} from '../../../shared/services/reservation.service';
+import { ReservationService } from '../../../shared/services/reservation.service';
 import { ReservationResponse } from '../../../shared/models/reservation.model';
+import { NavbarAdmin } from '../../../core/navbar admin/navbar-admin';
 
 @Component({
   selector: 'app-reservations-validation',
   standalone: true,
-  imports: [CommonModule, Navbar],
+  imports: [CommonModule, NavbarAdmin],
   templateUrl: './reservations-validation.html',
   styleUrl: './reservations-validation.css',
 })
@@ -55,8 +54,6 @@ export class ReservationsValidation implements OnInit {
 
     this.reservationService.getAllReservations().subscribe({
       next: (response) => {
-        console.log('Réservations reçues :', response);
-
         this.reservations = response.data ?? [];
 
         // On garde uniquement les réservations "En cours"
