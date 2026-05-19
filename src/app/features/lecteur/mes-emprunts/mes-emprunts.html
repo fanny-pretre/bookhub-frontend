@@ -13,6 +13,11 @@
     <p>{{ errorMessage }}</p>
   </div>
 
+  <!-- 🔥 Ajoute ici -->
+  <div *ngIf="successMessage" class="success-state">
+    <p>{{ successMessage }}</p>
+  </div>
+
   <!-- Contenu principal : visible dès que le chargement est terminé, même si tout est vide -->
   <ng-container *ngIf="!isLoading">
 
