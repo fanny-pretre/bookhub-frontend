@@ -6,6 +6,7 @@ import { BookListComponent } from './features/books/book-list/book-list.componen
 import { BookDetailComponent } from './features/books/book-detail/book-detail.component';
 import { ProfileComponent } from './features/lecteur/profil-lecteur/profil-lecteur';
 import { MesEmpruntsComponent } from './features/lecteur/mes-emprunts/mes-emprunts';
+import { ReservationsValidation } from './features/bibliothecaire/reservations-validation/reservations-validation';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'connexion', pathMatch: 'full' },
@@ -23,4 +24,6 @@ export const routes: Routes = [
   { path: 'mes-emprunts', component: MesEmpruntsComponent },
 
   { path: '', redirectTo: 'connexion', pathMatch: 'full' },
+
+  { path: 'reservations-validation', component: ReservationsValidation, },
 ];
