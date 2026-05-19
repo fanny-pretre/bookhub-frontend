@@ -5,9 +5,9 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Navbar } from '../../../core/navbar/navbar';
 
 import {
-  ReservationService,
-  ReservationResponse,
+  ReservationService
 } from '../../../shared/services/reservation.service';
+import { ReservationResponse } from '../../../shared/models/reservation.model';
 
 @Component({
   selector: 'app-reservations-validation',

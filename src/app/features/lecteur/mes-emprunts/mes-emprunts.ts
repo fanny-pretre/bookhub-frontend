@@ -57,6 +57,7 @@ const STATUT_ENCOURS = 2;
 export class MesEmpruntsComponent implements OnInit, OnDestroy {
   activeTab: 'progress' | 'history' | 'reservations' = 'progress';
 
+  successMessage: string | null = null;
   inProgressLoans: Loan[] = [];
   historyLoans: HistoryLoan[] = [];
   reservations: Reservation[] = [];
@@ -156,15 +157,34 @@ export class MesEmpruntsComponent implements OnInit, OnDestroy {
     this.activeTab = tab;
   }
 
+  private showSuccess(message: string): void {
+    this.successMessage = message;
+    setTimeout(() => {
+      this.successMessage = null;
+      this.cdr.detectChanges();
+    }, 3000);
+    this.cdr.detectChanges();
+  }
+
   cancelReservation(id: number): void {
     this.mesEmpruntsService
       .deleteReservation(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.reservations = this.reservations.filter((r) => r.id !== id);
+          this.mesEmpruntsService
+            .getMyReservations()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((reservations) => {
+              this.processReservations(reservations);
+              this.showSuccess('Vous avez bien annulé la réservation.');
+            });
         },
-        error: (err) => console.error('Erreur suppression réservation', err),
+        error: (err) => {
+          console.error('Erreur suppression réservation', err);
+          this.errorMessage = 'Impossible d’annuler la réservation.';
+          this.cdr.detectChanges();
+        },
       });
   }
 
