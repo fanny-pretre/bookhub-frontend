@@ -8,11 +8,10 @@ export interface Auteur {
 // Interface représentant une catégorie, correspond à CategorieDTO côté Spring
 export interface Categorie {
   id: number;
-  typeCategorie: string; // ex: "Roman", "Fantasy", "Policier"...
+  typeCategorie: string;
 }
 
-// Interface principale représentant un livre
-// Correspond aux champs du LivreDTO Java
+// Interface principale représentant un livre, correspond au LivreDTO Java
 export interface Book {
   isbn: string;
   titre: string;
@@ -25,29 +24,43 @@ export interface Book {
   rating?: number;
 }
 
-// Format de la réponse paginée de Spring Boot Page<T>
-// Retourné par GET /api/books/search
+// Format de la réponse paginée Spring Boot Page<T>
 export interface BooksPage {
-  content: Book[]; // Les livres de la page courante
-  totalElements: number; // Nombre total de livres en base (toutes pages confondues)
-  totalPages: number; // Nombre total de pages
-  number: number; // Page courante
-  size: number; // Nombre d'éléments par page (20)
+  content: Book[];
+  totalElements: number;
+  totalPages: number;
+  number: number;
+  size: number;
 }
 
-// Wrapper générique utilisé par le back pour toutes ses réponses
+// Wrapper générique retourné par le back pour toutes ses réponses
 export interface ApiResponse<T> {
-  success: boolean; // true si la requête a réussi
+  success: boolean;
   message: string;
   data: T;
 }
 
-// Paramètres de recherche envoyés à GET /api/books/search
-// Chaque champ correspond à un @RequestParam côté Spring
+// Paramètres de recherche pour GET /api/books/search
 export interface SearchParams {
-  search?: string;      // titre, auteur, ISBN
-  category?: string;    // typeCategorie
-  available?: boolean;  // disponibilite
-  page?: number;        // commence à 0 côté Spring
-  sort?: string;        // ex: "title,asc"
+  search?: string;
+  category?: string;
+  available?: boolean;
+  page?: number;
+  sort?: string;
+}
+
+// Payload envoyé au back pour créer ou modifier un livre
+// Séparé de Book car le back attend un format légèrement différent
+export interface BookFormData {
+  isbn: string;
+  titre: string;
+  description: string;
+  couverture: string;
+  disponibilite: boolean;
+  dateAjout: string;
+  auteur: {
+    nom: string;
+    prenom: string;
+  };
+  categories: Categorie[]; // On envoie les noms, le back fait le mapping vers les entités
 }

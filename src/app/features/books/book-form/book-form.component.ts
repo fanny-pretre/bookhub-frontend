@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { BookService } from '../../../shared/services/book.service';
-import { Book } from '../../../shared/models/book.model';
+import { Book, BookFormData } from '../../../shared/models/book.model';
 
 @Component({
   selector: 'app-book-form',
@@ -83,13 +83,19 @@ export class BookFormComponent implements OnInit {
 
     const formValue = this.form.value;
 
-    const payload = {
-      titre: formValue.titre,
+    // Les noms de champs doivent correspondre exactement à l'interface BookFormData
+    const payload: BookFormData = {
       isbn: formValue.isbn,
+      titre: formValue.titre,
       description: formValue.description,
-      auteur: formValue.auteur,
-      category: formValue.categorie,
-      coverUrl: formValue.couverture,
+      couverture: formValue.couverture,
+      disponibilite: true,
+      dateAjout: new Date().toISOString().split('T')[0],
+      auteur: {
+        nom: formValue.auteur.nom,
+        prenom: formValue.auteur.prenom,
+      },
+      categories: [formValue.categorie],
     };
 
     const request$ = this.isEditMode
@@ -97,11 +103,9 @@ export class BookFormComponent implements OnInit {
       : this.bookService.createBook(payload);
 
     request$.subscribe({
-      next: () => {
-        this.router.navigate(['/admin/books']);
-      },
+      next: () => this.router.navigate(['/admin/books']),
       error: (err) => {
-        this.errorMessage = err.error?.message || 'Erreur lors de la sauvegarde';
+        this.errorMessage = err.error?.message ?? 'Erreur lors de la sauvegarde';
       },
     });
   }

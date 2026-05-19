@@ -19,28 +19,32 @@ export class AuthService {
     @Inject(PLATFORM_ID) private platformId: Object,
   ) {
     if (isPlatformBrowser(this.platformId)) {
-      try {
-        const stored = localStorage.getItem(this.USER_KEY);
-        if (stored && stored !== 'undefined' && stored !== 'null') {
-          this.currentUserSubject.next(JSON.parse(stored));
+      const storedUser = localStorage.getItem(this.USER_KEY);
+
+      if (storedUser && storedUser !== 'undefined' && storedUser !== 'null') {
+        try {
+          this.currentUserSubject.next(JSON.parse(storedUser));
+        } catch {
+          localStorage.removeItem(this.USER_KEY);
         }
-      } catch {
-        localStorage.removeItem(this.USER_KEY);
       }
     }
   }
 
-  // ─── Auth ────────────────────────────────────────────────
+  // ───────────────────── AUTH ─────────────────────
 
   login(credentials: { email: string; mdp: string }): Observable<any> {
     return this.http.post<any>(`${this.API_URL}/auth/login`, credentials).pipe(
       tap((response) => {
-        if (response?.data?.token) {
-          this.setToken(response.data.token);
+        const token = response?.data?.token;
+
+        if (token) {
+          this.setToken(token);
         }
       }),
     );
   }
+
   register(payload: { prenom: string; nom: string; email: string; mdp: string }): Observable<any> {
     return this.http.post(`${this.API_URL}/auth/register`, payload);
   }
@@ -53,7 +57,7 @@ export class AuthService {
     this.currentUserSubject.next(null);
   }
 
-  // ─── User ────────────────────────────────────────────────
+  // ───────────────────── USER ─────────────────────
 
   setUser(user: any): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -63,14 +67,15 @@ export class AuthService {
         localStorage.removeItem(this.USER_KEY);
       }
     }
+
     this.currentUserSubject.next(user ?? null);
   }
 
   getUser(): any {
-    return this.currentUserSubject.getValue();
+    return this.currentUserSubject.value;
   }
 
-  // ─── Token ───────────────────────────────────────────────
+  // ───────────────────── TOKEN ─────────────────────
 
   setToken(token: string): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -79,20 +84,22 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    if (isPlatformBrowser(this.platformId)) {
-      return localStorage.getItem(this.TOKEN_KEY);
+    if (!isPlatformBrowser(this.platformId)) {
+      return null;
     }
-    return null;
+    return localStorage.getItem(this.TOKEN_KEY);
   }
 
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
 
+  // ───────────────────── BACK USER ─────────────────────
+
   fetchAndStoreUser(id: number): Observable<any> {
     return this.http.get(`${this.API_URL}/users/${id}`).pipe(
       tap((response: any) => {
-        this.setUser(response.data);
+        this.setUser(response?.data);
       }),
     );
   }
