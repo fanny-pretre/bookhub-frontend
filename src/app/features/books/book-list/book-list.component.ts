@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { Book, SearchParams } from '../../../shared/models/book.model';
@@ -15,26 +15,24 @@ import { Navbar } from '../../../core/navbar/navbar';
   styleUrl: './book-list.component.css',
 })
 export class BookListComponent implements OnInit {
-  books: Book[] = []; // Livres de la page courante
+  books: Book[] = [];
   isLoading = true;
-  errorMessage = ''; // Message affiché en cas d'erreur API
+  errorMessage = '';
 
   // Pagination
-  currentPage = 0; // Page courante côté Spring (0 = première page)
-  totalPages = 1; // Nombre total de pages retourné par le back
-  totalElements = 0; // Nombre total de livres (toutes pages)
-  readonly pageSize = 20; // Fixé à 20 par le cahier des charges
+  currentPage = 0;
+  totalPages = 1;
+  totalElements = 0;
+  readonly pageSize = 20;
 
-  // Filtres de recherche, liés aux inputs du template
-  searchQuery = ''; // Texte de recherche libre
-  selectedCategory = ''; // Catégorie sélectionnée dans le select
-  selectedAvailability = ''; // 'true', 'false', ou '' pour tous
-  selectedSort = 'titre,asc'; // Tri par défaut : titre alphabétique
+  // Filtres
+  searchQuery = '';
+  selectedCategory = '';
+  selectedAvailability = '';
+  selectedSort = 'titre,asc';
 
   private searchSubject = new Subject<void>();
 
-  // Liste des catégories affichées dans le select
-  // Doit correspondre aux typeCategorie en base de données
   categories = [
     'Roman',
     'Fantasy',
@@ -50,6 +48,7 @@ export class BookListComponent implements OnInit {
   constructor(
     private bookService: BookService,
     private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute, // ← ajout
   ) {}
 
   ngOnInit(): void {
@@ -58,33 +57,33 @@ export class BookListComponent implements OnInit {
       this.loadBooks();
     });
 
-    // Charge les livres au démarrage du composant
-    this.loadBooks();
+    // Lit le query param ?search=... envoyé par la navbar
+    this.route.queryParams.subscribe((params) => {
+      if (params['search']) {
+        this.searchQuery = params['search'];
+      }
+      this.loadBooks();
+    });
   }
 
   onSearchChange(): void {
-    // On émet la valeur actuelle dans le subject
     this.searchSubject.next();
   }
 
-  // Appelé par (ngModelChange) sur les selects (catégorie, dispo, tri)
   onFilterChange(): void {
     this.currentPage = 0;
     this.searchSubject.next();
   }
 
-  // Lance la requête GET /api/books/search avec les filtres courants
   loadBooks(): void {
     this.isLoading = true;
     this.errorMessage = '';
 
-    // On construit l'objet SearchParams avec les valeurs courantes des filtres
     const params: SearchParams = {
       page: this.currentPage,
       sort: this.selectedSort,
     };
 
-    // On n'ajoute les filtres optionnels que s'ils ont une valeur
     if (this.searchQuery.trim()) params.search = this.searchQuery.trim();
     if (this.selectedCategory) params.category = this.selectedCategory;
     if (this.selectedAvailability === 'true') params.available = true;
@@ -107,7 +106,6 @@ export class BookListComponent implements OnInit {
     });
   }
 
-  // Passe à la page précédente, le bouton est désactivé si currentPage === 0
   previousPage(): void {
     if (this.currentPage > 0) {
       this.currentPage--;
@@ -116,7 +114,6 @@ export class BookListComponent implements OnInit {
     }
   }
 
-  // Passe à la page suivante, le bouton est désactivé si on est à la dernière page
   nextPage(): void {
     if (this.currentPage < this.totalPages - 1) {
       this.currentPage++;
@@ -126,7 +123,6 @@ export class BookListComponent implements OnInit {
   }
 
   goToPage(page: number): void {
-    // page ici est 1-based (affiché), on convertit en 0-based pour Spring
     const springPage = page - 1;
     if (springPage !== this.currentPage) {
       this.currentPage = springPage;
@@ -135,14 +131,10 @@ export class BookListComponent implements OnInit {
     }
   }
 
-  // Pour l'affichage, on convertit le 0-based de Spring en 1-based pour l'UI
   get currentPageDisplay(): number {
     return this.currentPage + 1;
   }
 
-  // Génère les numéros de pages à afficher dans la pagination
-  // Affiche 2 pages de chaque côté de la page courante
-  // Ex: page 5/10 -> [3, 4, 5, 6, 7]
   getPageNumbers(): number[] {
     const pages: number[] = [];
     const range = 2;
@@ -152,12 +144,10 @@ export class BookListComponent implements OnInit {
     return pages;
   }
 
-  // Nombre de livres disponibles sur la page courante
   get availableCount(): number {
     return this.books.filter((b) => b.disponibilite).length;
   }
 
-  // Nombre de livres indisponibles sur la page courante
   get unavailableCount(): number {
     return this.books.filter((b) => !b.disponibilite).length;
   }

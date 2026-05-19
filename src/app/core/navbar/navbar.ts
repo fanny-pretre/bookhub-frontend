@@ -1,13 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
@@ -16,6 +17,7 @@ export class Navbar implements OnInit, OnDestroy {
   userEmail = '';
   dropdownOpen = false;
   mobileMenuOpen = false;
+  searchQuery = ''; // ← lié au champ de recherche
 
   navItems = [
     { path: '/lecteur/dashboard', label: 'Dashboard' },
@@ -46,16 +48,33 @@ export class Navbar implements OnInit, OnDestroy {
   toggleDropdown(): void {
     this.dropdownOpen = !this.dropdownOpen;
   }
-  toggleMobileMenu() {
+
+  toggleMobileMenu(): void {
     this.mobileMenuOpen = !this.mobileMenuOpen;
   }
 
-  closeDropdown() {
+  closeDropdown(): void {
     this.dropdownOpen = false;
   }
 
-  goToSearch() {
-    this.router.navigate(['/books']);
+  /**
+   * Navigue vers le catalogue en passant la recherche en query param.
+   * BookListComponent lit déjà `searchQuery` via ses propres filtres,
+   * il suffira d'initialiser searchQuery depuis ActivatedRoute dans book-list.
+   */
+  goToSearch(): void {
+    const query = this.searchQuery.trim();
+    this.router.navigate(['/lecteur/books'], {
+      queryParams: query ? { search: query } : {},
+    });
+  }
+
+  /**
+   * Déclenché à chaque frappe dans le champ (keyup.enter ou blur).
+   * On retire le `readonly` du template et on branche [(ngModel)].
+   */
+  onSearchSubmit(): void {
+    this.goToSearch();
   }
 
   logout(): void {
