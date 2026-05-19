@@ -133,7 +133,7 @@
          *ngIf="!isLoading && books.length > 0">
 
       <a *ngFor="let book of books"
-      [routerLink]="['/books', book.isbn]"
+      [routerLink]="['/lecteur/books', book.isbn]"
       class="book-card book-card-modern"
       [attr.aria-label]="'Voir ' + book.titre + ' par ' + book.auteur.prenom + ' ' + book.auteur.nom">
 

@@ -1,0 +1,226 @@
+<div class="page-container">
+
+  <!-- HEADER -->
+  <div class="page-header">
+
+    <h1 class="page-title">
+      Statistiques
+    </h1>
+
+    <p class="page-subtitle">
+      Analysez les données de votre bibliothèque
+    </p>
+
+  </div>
+
+  <!-- CARDS -->
+  <div class="stats-grid">
+
+    <!-- CARD 1 -->
+    <div class="stat-card gradient-pink">
+
+      <div class="card-top">
+
+        <div class="stat-icon">
+          📘
+        </div>
+
+        <div class="card-arrow">
+          ↗
+        </div>
+
+      </div>
+
+      <div class="stat-value">
+        1,245
+      </div>
+
+      <div class="stat-title">
+        Total de livres
+      </div>
+
+      <div class="stat-footer">
+        +12 ce mois
+      </div>
+
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="stat-card gradient-blue">
+
+      <div class="card-top">
+
+        <div class="stat-icon">
+          👥
+        </div>
+
+        <div class="card-arrow">
+          ↗
+        </div>
+
+      </div>
+
+      <div class="stat-value">
+        342
+      </div>
+
+      <div class="stat-title">
+        Lecteurs actifs
+      </div>
+
+      <div class="stat-footer">
+        +28 ce mois
+      </div>
+
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="stat-card gradient-orange">
+
+      <div class="card-top">
+
+        <div class="stat-icon">
+          📖
+        </div>
+
+        <div class="card-arrow">
+          ↗
+        </div>
+
+      </div>
+
+      <div class="stat-value">
+        89
+      </div>
+
+      <div class="stat-title">
+        Emprunts en cours
+      </div>
+
+      <div class="stat-footer">
+        14 retours aujourd’hui
+      </div>
+
+    </div>
+
+    <!-- CARD 4 -->
+    <div class="stat-card gradient-yellow">
+
+      <div class="card-top">
+
+        <div class="stat-icon">
+          ⚠️
+        </div>
+
+        <div class="card-arrow">
+          ↗
+        </div>
+
+      </div>
+
+      <div class="stat-value">
+        12
+      </div>
+
+      <div class="stat-title">
+        Emprunts en retard
+      </div>
+
+      <div class="stat-footer">
+        À relancer
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- PANELS -->
+  <div class="panels">
+
+    <!-- EMPRUNTS -->
+    <div class="panel">
+
+      <h2 class="panel-title">
+        Emprunts par mois
+      </h2>
+
+      <!-- ITEM -->
+      <div
+        class="bar-item"
+        *ngFor="let item of monthlyLoans"
+      >
+
+        <div class="bar-header">
+
+          <span class="bar-label">
+            {{ item.month }}
+          </span>
+
+          <span class="bar-value">
+            {{ item.value }}
+          </span>
+
+        </div>
+
+        <div class="progress-bar">
+
+          <div
+            class="progress-fill"
+            [style.width.%]="item.value"
+          ></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- CATEGORIES -->
+    <div class="panel">
+
+      <h2 class="panel-title">
+        Catégories populaires
+      </h2>
+
+      <!-- CATEGORY -->
+      <div
+        class="category-row"
+        *ngFor="let category of categories; let i = index"
+      >
+
+        <div class="category-index">
+          {{ i + 1 }}
+        </div>
+
+        <div class="category-content">
+
+          <div class="bar-header">
+
+            <span class="bar-label">
+              {{ category.name }}
+            </span>
+
+            <span class="bar-value">
+              {{ category.value }} emprunts
+            </span>
+
+          </div>
+
+          <div class="progress-bar">
+
+            <div
+              class="progress-fill"
+              [style.width.%]="category.value / 5"
+            ></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

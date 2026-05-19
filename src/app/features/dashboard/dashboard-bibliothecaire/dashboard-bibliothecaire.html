@@ -1,0 +1,49 @@
+<section class="dashboard">
+
+  <!-- Header -->
+  <div class="dashboard__header">
+    <div>
+      <h1 class="dashboard__title">Bienvenue, {{ adminName }}</h1>
+      <p class="dashboard__subtitle">Tableau de bord de gestion de la bibliothèque</p>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card" *ngFor="let stat of stats">
+      <div class="stat-card__top">
+        <div class="stat-card__icon" [style.color]="stat.color" [style.background]="stat.color + '18'">
+          <span [innerHTML]="stat.icon"></span>
+        </div>
+        <span class="stat-card__trend" [innerHTML]="trendIcon(stat.trend)"></span>
+      </div>
+      <p class="stat-card__value">{{ stat.value }}</p>
+      <p class="stat-card__label">{{ stat.label }}</p>
+    </div>
+  </div>
+
+  <!-- Quick access -->
+  <div class="quick-grid">
+    <a
+      class="quick-card"
+      *ngFor="let card of quickAccess"
+      [routerLink]="card.route"
+    >
+      <div class="quick-card__top">
+        <div class="quick-card__icon" [style.color]="card.color" [style.background]="card.color + '18'">
+          <span [innerHTML]="card.icon"></span>
+        </div>
+        <span class="quick-card__badge">{{ card.badge }}</span>
+      </div>
+      <h3 class="quick-card__title">{{ card.title }}</h3>
+      <p class="quick-card__desc">{{ card.description }}</p>
+      <span class="quick-card__link">
+        Accéder
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </span>
+    </a>
+  </div>
+
+</section>

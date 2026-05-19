@@ -18,9 +18,9 @@ export class Navbar implements OnInit, OnDestroy {
   mobileMenuOpen = false;
 
   navItems = [
-    { path: '/dashboard-lecteur', label: 'Dashboard' },
-    { path: '/mes-emprunts', label: 'Emprunts' },
-    { path: '/profile', label: 'Profil' },
+    { path: '/lecteur/dashboard', label: 'Dashboard' },
+    { path: '/lecteur/mes-emprunts', label: 'Emprunts' },
+    { path: '/lecteur/profile', label: 'Profil' },
   ];
 
   private sub!: Subscription;

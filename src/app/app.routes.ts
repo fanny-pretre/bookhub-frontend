@@ -1,3 +1,4 @@
+
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
 import { SigninComponent } from './features/auth/signin/signin.component';
@@ -6,36 +7,43 @@ import { BookListComponent } from './features/books/book-list/book-list.componen
 import { BookDetailComponent } from './features/books/book-detail/book-detail.component';
 import { MesEmpruntsComponent } from './features/lecteur/mes-emprunts/mes-emprunts';
 import { BookAdminComponent } from './features/admin/book-admin/book-admin.component';
-import { BookFormComponent } from './features/books/book-form/book-form.component';
 import { ProfileComponent } from './features/lecteur/profil-lecteur/profil-lecteur';
+import { DashboardBibliothecaireComponent } from './features/dashboard/dashboard-bibliothecaire/dashboard-bibliothecaire';
 import { ReservationsValidation } from './features/bibliothecaire/reservations-validation/reservations-validation';
+import { Statistiques } from './features/bibliothecaire/statistiques/statistiques';
+import { Moderation } from './features/bibliothecaire/moderation/moderation';
 
 export const routes: Routes = [
   // Redirection racine
   { path: '', redirectTo: 'connexion', pathMatch: 'full' },
 
-  // Auth
+  // Routes publiques
   { path: 'connexion', component: LoginComponent },
   { path: 'inscription', component: SigninComponent },
 
-  // Espace lecteur
-  { path: 'dashboard-lecteur', component: DashboardLecteur },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'mes-emprunts', component: MesEmpruntsComponent },
-
-  // Catalogue
-  { path: 'books', component: BookListComponent },
-  { path: 'books/:isbn', component: BookDetailComponent },
-
-  // Administration, les routes spécifiques avant le paramètre dynamique
-  { path: 'admin/books', component: BookAdminComponent },
-
-  { path: 'admin/books/new', component: BookFormComponent },
-  { path: 'admin/books/:isbn/edit', component: BookFormComponent },
-
-  { path: '', redirectTo: 'connexion', pathMatch: 'full' },
-
-  { path: 'reservations-validation', component: ReservationsValidation, },
-  // Wildcard en dernier, capture tout ce qui ne correspond à aucune route
-  { path: '**', redirectTo: 'connexion' },
+  // Routes lecteur
+  {
+    path: 'lecteur',
+    data: { role: 'ROLE_LECTEUR' },
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardLecteur },
+      { path: 'profile', component: ProfileComponent },
+      { path: 'mes-emprunts', component: MesEmpruntsComponent },
+      { path: 'books', component: BookListComponent },
+      { path: 'books/:isbn', component: BookDetailComponent },
+    ],
+  },
+  {
+  path: 'bibliothecaire',
+  data: { role: 'BIBLIOTHECAIRE' },
+  children: [
+    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    { path: 'dashboard',     component: DashboardBibliothecaireComponent },
+    { path: 'gestionemprunts', component: ReservationsValidation },
+    { path: 'statistiques', component: Statistiques},
+    { path: 'moderation', component: Moderation},
+    { path: 'catalogue', component: BookAdminComponent },
+  ],
+}
 ];

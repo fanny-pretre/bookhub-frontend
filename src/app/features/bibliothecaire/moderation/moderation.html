@@ -1,0 +1,161 @@
+<div class="moderation-page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+
+    <a class="back-link">
+      ← Retour au dashboard
+    </a>
+
+    <h1 class="page-title">
+      Modération
+    </h1>
+
+    <p class="page-subtitle">
+      Gérez les utilisateurs et les signalements
+    </p>
+
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-grid">
+
+    <div
+      class="stat-card"
+      *ngFor="let stat of stats"
+    >
+
+      <div class="stat-top">
+
+        <div class="stat-icon" [ngClass]="stat.color">
+          {{ stat.icon }}
+        </div>
+
+      </div>
+
+      <div class="stat-title">
+        {{ stat.title }}
+      </div>
+
+      <div class="stat-value">
+        {{ stat.value }}
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-grid">
+
+    <!-- REPORTS -->
+    <div class="panel">
+
+      <h2 class="panel-title">
+        Signalements en attente
+      </h2>
+
+      <div
+        class="report-card"
+        *ngFor="let report of reports"
+      >
+
+        <div class="report-header">
+
+          <span class="badge">
+            {{ report.type }}
+          </span>
+
+          <span class="warning-icon">
+            ⚠️
+          </span>
+
+        </div>
+
+        <div class="report-title">
+          {{ report.title }}
+        </div>
+
+        <div class="report-reason">
+          {{ report.reason }}
+        </div>
+
+        <div class="report-date">
+          Signalé le {{ report.date }}
+        </div>
+
+        <div class="report-actions">
+
+          <button class="btn btn-secondary">
+            ✖ Ignorer
+          </button>
+
+          <button class="btn btn-danger">
+            🛡 Traiter
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- USERS -->
+    <div class="panel">
+
+      <h2 class="panel-title">
+        Nouveaux utilisateurs
+      </h2>
+
+      <div
+        class="user-card"
+        *ngFor="let user of users"
+      >
+
+        <div class="user-top">
+
+          <div class="avatar">
+            {{ user.initials }}
+          </div>
+
+          <div class="user-info">
+
+            <div class="user-name">
+              {{ user.name }}
+            </div>
+
+            <div class="user-email">
+              {{ user.email }}
+            </div>
+
+            <div class="user-date">
+              Inscrit le {{ user.date }}
+            </div>
+
+          </div>
+
+          <div class="status">
+            actif
+          </div>
+
+        </div>
+
+        <div class="user-actions">
+
+          <button class="btn btn-secondary">
+            👤 Valider
+          </button>
+
+          <button class="btn btn-primary">
+            Voir le profil
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
