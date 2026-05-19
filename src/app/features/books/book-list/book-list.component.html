@@ -103,7 +103,7 @@
     <!-- Compteurs -->
     <div class="books-meta" *ngIf="!isLoading && books.length > 0">
       <p class="books-count">
-        <strong>{{ pageSize }}</strong> résultats
+        <strong>{{ totalElements }}</strong> résultats
         — page {{ currentPageDisplay }}/{{ totalPages }}
       </p>
       <div class="books-badges">

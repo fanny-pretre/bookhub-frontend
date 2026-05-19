@@ -13,7 +13,7 @@
 
     <!-- Toast de confirmation affiché après un emprunt -->
     <div class="toast toast-success" *ngIf="showToast">
-      ✓ Livre emprunté avec succès !
+      {{ successMessage }}
     </div>
 
     <!-- Skeleton affiché pendant le chargement -->
@@ -36,11 +36,11 @@
           <div class="book-cover-column">
             <div class="book-cover-wrapper">
               <img
-                *ngIf="book.couverture"
-                [src]="'http://localhost:8080' + book.couverture"
-                [alt]="book.titre"
-                class="book-cover"
-              />
+          [src]="book.couverture"
+          [alt]="'Couverture de ' + book.titre"
+          class="book-cover book-cover-modern"
+          loading="lazy"
+        />
             </div>
           </div>
 
@@ -99,20 +99,20 @@
             <!-- ACTION -->
             <div class="actions">
               <button
-                *ngIf="book.disponibilite"
-                class="btn-modern btn-accessible focus-ring-primary"
-                (click)="handleBorrow()">
-                📖 Emprunter ce livre
-              </button>
-
-              <button
-                *ngIf="!book.disponibilite"
-                class="btn-modern btn-accessible gradient-button-disabled focus-ring-primary"
-                (click)="handleReserve()">
-                🔔 Réserver ce livre
-              </button>
-
+              class="btn-modern btn-accessible gradient-button focus-ring-primary"
+              (click)="handleReserve()"
+              [disabled]="reservationStatus?.reserved"
+              [style.opacity]="reservationStatus?.reserved ? '0.5' : '1'"
+              [style.cursor]="reservationStatus?.reserved ? 'not-allowed' : 'pointer'">
+              🔔 {{ reservationStatus?.reserved ? 'Réservé' : 'Réserver ce livre' }}
+            </button>
             </div>
+            <div *ngIf="reservationStatus?.reserved && !reservationStatus?.queued">
+            ✅ Vous avez réservé ce livre
+          </div>
+          <div *ngIf="reservationStatus?.queued">
+          ⏳ Vous êtes en position {{ reservationStatus?.queuePosition }} dans la file
+        </div>
           </div>
         </div>
 
