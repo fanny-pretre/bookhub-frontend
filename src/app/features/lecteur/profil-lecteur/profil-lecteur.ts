@@ -94,7 +94,7 @@ export class ProfileComponent implements OnInit {
         const updatedUser = { ...this.user, ...payload };
         this.authService.setUser(updatedUser);
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.router.navigate(['/profile']);
+          this.router.navigate(['/lecteur/profile']);
         });
       },
       error: (err: any) => {
