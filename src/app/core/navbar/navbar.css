@@ -1,6 +1,5 @@
 /* =============================================
    NAVBAR — BookHub
-   CSS pur Angular, zéro Tailwind
    ============================================= */
 
 .navbar {
@@ -110,7 +109,9 @@
   color: #0f172a;
 }
 
-.nav-link--active {
+/* Lien actif — priorité maximale, le :hover ne doit pas l'écraser */
+.nav-link--active,
+.nav-link--active:hover {          /* ← c'est le fix clé */
   background: linear-gradient(135deg, #667eea, #764ba2);
   color: #fff !important;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
@@ -167,14 +168,14 @@
 .searchbar__input {
   width: 100%;
   height: 2.625rem;
-  padding: 0 1rem 0 2.75rem;
+  padding: 0 2.5rem 0 2.75rem; /* droite = place pour le bouton clear */
   border: 2px solid #e2e8f0;
   border-radius: 0.75rem;
   font-size: 0.9rem;
   color: #0f172a;
   background: #fff;
   outline: none;
-  cursor: pointer;
+  cursor: text;
   transition: border-color 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
 }
@@ -186,6 +187,31 @@
 .searchbar__input:focus {
   border-color: #6366f1;
   box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+}
+
+/* Bouton ✕ pour vider le champ */
+.searchbar__clear {
+  position: absolute;
+  right: 0.625rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  background: #e2e8f0;
+  border-radius: 50%;
+  color: #64748b;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  padding: 0;
+}
+
+.searchbar__clear:hover {
+  background: #cbd5e1;
+  color: #0f172a;
 }
 
 /* =============================================
@@ -354,7 +380,9 @@
   color: #6366f1;
 }
 
-.nav-mobile__link--active {
+/* Lien mobile actif — même principe, le hover ne change rien */
+.nav-mobile__link--active,
+.nav-mobile__link--active:hover {   /* ← fix mobile aussi */
   color: #6366f1;
   font-weight: 700;
 }

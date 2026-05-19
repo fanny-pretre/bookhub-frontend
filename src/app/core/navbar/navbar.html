@@ -54,10 +54,24 @@
           type="text"
           class="searchbar__input"
           placeholder="Rechercher un livre..."
-          (focus)="goToSearch()"
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearchSubmit()"
           aria-label="Rechercher un livre"
-          readonly
         />
+        <!-- Bouton clear (affiché seulement si texte présent) -->
+        <button
+          *ngIf="searchQuery"
+          class="searchbar__clear"
+          (click)="searchQuery = ''; onSearchSubmit()"
+          aria-label="Effacer la recherche"
+          type="button"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
       </div>
 
       <!-- Menu profil -->
