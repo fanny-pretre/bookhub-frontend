@@ -12,19 +12,22 @@ import { DashboardBibliothecaireComponent } from './features/dashboard/dashboard
 import { ReservationsValidation } from './features/bibliothecaire/reservations-validation/reservations-validation';
 import { Statistiques } from './features/bibliothecaire/statistiques/statistiques';
 import { Moderation } from './features/bibliothecaire/moderation/moderation';
+import { authGuard } from './core/guards/auth.guard';
+import { roleGuard } from './core/guards/role.guard';
+import { Unauthorized } from './shared/unauthorized/unauthorized';
 
 export const routes: Routes = [
-  // Redirection racine
+
   { path: '', redirectTo: 'connexion', pathMatch: 'full' },
 
-  // Routes publiques
   { path: 'connexion', component: LoginComponent },
   { path: 'inscription', component: SigninComponent },
 
-  // Routes lecteur
+  // ───────────────── USER + ADMIN ─────────────────
   {
     path: 'lecteur',
-    data: { role: 'ROLE_LECTEUR' },
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['USER'] },
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardLecteur },
@@ -34,16 +37,19 @@ export const routes: Routes = [
       { path: 'books/:isbn', component: BookDetailComponent },
     ],
   },
+
+  // ───────────────── ADMIN ONLY ─────────────────
   {
-  path: 'bibliothecaire',
-  data: { role: 'BIBLIOTHECAIRE' },
-  children: [
-    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-    { path: 'dashboard',     component: DashboardBibliothecaireComponent },
-    { path: 'gestionemprunts', component: ReservationsValidation },
-    { path: 'statistiques', component: Statistiques},
-    { path: 'moderation', component: Moderation},
-    { path: 'catalogue', component: BookAdminComponent },
-  ],
-}
+    path: 'bibliothecaire',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ADMIN'] },
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardBibliothecaireComponent },
+      { path: 'gestionemprunts', component: ReservationsValidation },
+      { path: 'statistiques', component: Statistiques },
+      { path: 'moderation', component: Moderation },
+      { path: 'catalogue', component: BookAdminComponent },
+    ],
+  }
 ];
