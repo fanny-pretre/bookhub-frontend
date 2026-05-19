@@ -2,254 +2,282 @@
 
 <div class="loans-page">
 
-  <!-- Hero -->
-  <div class="loans-hero">
-    <div class="loans-hero__blobs" aria-hidden="true">
-      <div class="loans-hero__blob loans-hero__blob--tr"></div>
-      <div class="loans-hero__blob loans-hero__blob--bl"></div>
-    </div>
-    <div class="loans-hero__content">
-      <h1 class="loans-hero__title">Mes emprunts</h1>
-      <p class="loans-hero__subtitle">
-        Suivez vos livres empruntés et votre historique de lecture
-      </p>
-    </div>
+  <!-- Chargement -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="loading-spinner"></div>
+    <p>Chargement de vos emprunts…</p>
   </div>
 
-  <!-- Stats -->
-  <div class="stats-grid">
-
-    <div class="stat-card">
-      <div class="stat-card__icon stat-card__icon--indigo">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-        </svg>
-      </div>
-      <div>
-        <p class="stat-card__value">{{ inProgressLoans.length }}</p>
-        <p class="stat-card__label">Emprunts actifs</p>
-      </div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-card__icon stat-card__icon--red">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-          <line x1="12" y1="9" x2="12" y2="13"/>
-          <line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>
-      </div>
-      <div>
-        <p class="stat-card__value">{{ overdueCount }}</p>
-        <p class="stat-card__label">En retard</p>
-      </div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-card__icon stat-card__icon--emerald">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-          <polyline points="22 4 12 14.01 9 11.01"/>
-        </svg>
-      </div>
-      <div>
-        <p class="stat-card__value">{{ historyLoans.length }}</p>
-        <p class="stat-card__label">Complétés</p>
-      </div>
-    </div>
-
+  <!-- Erreur réseau / serveur -->
+  <div *ngIf="errorMessage && !isLoading" class="error-state">
+    <p>{{ errorMessage }}</p>
   </div>
 
-  <!-- Onglets -->
-  <div class="card">
+  <!-- Contenu principal : visible dès que le chargement est terminé, même si tout est vide -->
+  <ng-container *ngIf="!isLoading">
 
-    <div class="tabs">
-      <button class="tab" [class.tab--active]="activeTab === 'progress'"
-              (click)="setTab('progress')">
-        En cours ({{ inProgressLoans.length }})
-        <span class="tab__bar" *ngIf="activeTab === 'progress'"></span>
-      </button>
-      <button class="tab" [class.tab--active]="activeTab === 'history'"
-              (click)="setTab('history')">
-        Historique ({{ historyLoans.length }})
-        <span class="tab__bar" *ngIf="activeTab === 'history'"></span>
-      </button>
-      <button class="tab" [class.tab--active]="activeTab === 'reservations'"
-              (click)="setTab('reservations')">
-        Réservations ({{ reservations.length }})
-        <span class="tab__bar" *ngIf="activeTab === 'reservations'"></span>
-      </button>
+    <!-- Hero -->
+    <div class="loans-hero">
+      <div class="loans-hero__blobs" aria-hidden="true">
+        <div class="loans-hero__blob loans-hero__blob--tr"></div>
+        <div class="loans-hero__blob loans-hero__blob--bl"></div>
+      </div>
+      <div class="loans-hero__content">
+        <h1 class="loans-hero__title">Mes emprunts</h1>
+        <p class="loans-hero__subtitle">
+          Suivez vos livres empruntés et votre historique de lecture
+        </p>
+      </div>
     </div>
 
-    <div class="tab-content">
+    <!-- Stats -->
+    <div class="stats-grid">
 
-      <!-- ── En cours ── -->
-      <div *ngIf="activeTab === 'progress'">
-        <div *ngIf="inProgressLoans.length === 0" class="empty-state">
-          <div class="empty-state__icon">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-            </svg>
-          </div>
-          <h3>Aucun emprunt actif</h3>
-          <p>Commencez à explorer notre catalogue pour emprunter des livres</p>
-          <a routerLink="/catalogue" class="btn btn--primary">Parcourir le catalogue</a>
+      <div class="stat-card">
+        <div class="stat-card__icon stat-card__icon--indigo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
         </div>
+        <div>
+          <p class="stat-card__value">{{ inProgressLoans.length }}</p>
+          <p class="stat-card__label">Emprunts actifs</p>
+        </div>
+      </div>
 
-        <div class="loan-list" *ngIf="inProgressLoans.length > 0">
-          <div class="loan-item" *ngFor="let loan of inProgressLoans"
-               [class.loan-item--overdue]="loan.overdue">
-            <div class="loan-item__cover" [class]="getGradient(loan.id)"></div>
-            <div class="loan-item__body">
-              <h3 class="loan-item__title">{{ loan.title }}</h3>
-              <div class="loan-item__dates">
-                <div class="loan-item__date">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                       stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12 6 12 12 16 14"/>
-                  </svg>
-                  Emprunté : <strong>{{ loan.borrowDate }}</strong>
-                </div>
-                <div class="loan-item__date">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                       stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                    <line x1="16" y1="2" x2="16" y2="6"/>
-                    <line x1="8"  y1="2" x2="8"  y2="6"/>
-                    <line x1="3"  y1="10" x2="21" y2="10"/>
-                  </svg>
-                  Retour prévu : <strong>{{ loan.dueDate }}</strong>
+      <div class="stat-card">
+        <div class="stat-card__icon stat-card__icon--red">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <div>
+          <p class="stat-card__value">{{ overdueCount }}</p>
+          <p class="stat-card__label">En retard</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card__icon stat-card__icon--emerald">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <div>
+          <p class="stat-card__value">{{ historyLoans.length }}</p>
+          <p class="stat-card__label">Complétés</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Carte onglets : toujours affichée -->
+    <div class="card">
+
+      <div class="tabs">
+        <button class="tab" [class.tab--active]="activeTab === 'progress'"
+                (click)="setTab('progress')">
+          En cours ({{ inProgressLoans.length }})
+          <span class="tab__bar" *ngIf="activeTab === 'progress'"></span>
+        </button>
+        <button class="tab" [class.tab--active]="activeTab === 'history'"
+                (click)="setTab('history')">
+          Historique ({{ historyLoans.length }})
+          <span class="tab__bar" *ngIf="activeTab === 'history'"></span>
+        </button>
+        <button class="tab" [class.tab--active]="activeTab === 'reservations'"
+                (click)="setTab('reservations')">
+          Réservations ({{ reservations.length }})
+          <span class="tab__bar" *ngIf="activeTab === 'reservations'"></span>
+        </button>
+      </div>
+
+      <div class="tab-content">
+
+        <!-- ── En cours ── -->
+        <div *ngIf="activeTab === 'progress'">
+
+          <!-- Aucun emprunt en cours -->
+          <div *ngIf="inProgressLoans.length === 0" class="empty-state">
+            <div class="empty-state__icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              </svg>
+            </div>
+            <h3>Vous n'avez pas d'emprunt actuellement</h3>
+            <p>Parcourez notre catalogue et empruntez votre prochain livre</p>
+            <a routerLink="/catalogue" class="btn btn--primary">Parcourir le catalogue</a>
+          </div>
+
+          <div class="loan-list" *ngIf="inProgressLoans.length > 0">
+            <div class="loan-item" *ngFor="let loan of inProgressLoans"
+                 [class.loan-item--overdue]="loan.overdue">
+              <div class="loan-item__cover" [class]="getGradient(loan.id)"></div>
+              <div class="loan-item__body">
+                <h3 class="loan-item__title">{{ loan.title }}</h3>
+                <div class="loan-item__dates">
+                  <div class="loan-item__date">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    Emprunté : <strong>{{ loan.borrowDate }}</strong>
+                  </div>
+                  <div class="loan-item__date">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                      <line x1="16" y1="2" x2="16" y2="6"/>
+                      <line x1="8"  y1="2" x2="8"  y2="6"/>
+                      <line x1="3"  y1="10" x2="21" y2="10"/>
+                    </svg>
+                    Retour prévu : <strong>{{ loan.dueDate }}</strong>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="loan-item__badge">
-              <span class="badge badge--overdue" *ngIf="loan.overdue">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                  <line x1="12" y1="9" x2="12" y2="13"/>
-                  <line x1="12" y1="17" x2="12.01" y2="17"/>
-                </svg>
-                {{ loan.daysLeft | abs }} jours de retard
-              </span>
-              <span class="badge badge--active" *ngIf="!loan.overdue">
-                {{ loan.daysLeft }} jours restants
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── Historique ── -->
-      <div *ngIf="activeTab === 'history'">
-        <div *ngIf="historyLoans.length === 0" class="empty-state">
-          <div class="empty-state__icon">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-            </svg>
-          </div>
-          <h3>Aucun historique</h3>
-          <p>Vos emprunts terminés apparaîtront ici</p>
-        </div>
-
-        <div class="loan-list" *ngIf="historyLoans.length > 0">
-          <div class="loan-item" *ngFor="let loan of historyLoans">
-            <div class="loan-item__cover" [class]="getGradient(loan.id)"></div>
-            <div class="loan-item__body">
-              <h3 class="loan-item__title">{{ loan.title }}</h3>
-              <div class="loan-item__dates">
-                <div class="loan-item__date">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                       stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12 6 12 12 16 14"/>
+              <div class="loan-item__badge">
+                <span class="badge badge--overdue" *ngIf="loan.overdue">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
                   </svg>
-                  Emprunté : <strong>{{ loan.borrowDate }}</strong>
+                  {{ loan.daysLeft | abs }} jours de retard
+                </span>
+                <span class="badge badge--active" *ngIf="!loan.overdue">
+                  {{ loan.daysLeft }} jours restants
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ── Historique ── -->
+        <div *ngIf="activeTab === 'history'">
+
+          <!-- Aucun historique -->
+          <div *ngIf="historyLoans.length === 0" class="empty-state">
+            <div class="empty-state__icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <h3>Vous n'avez pas d'emprunt actuellement ou aucun emprunt n'est terminé</h3>
+            <p>Vos emprunts terminés apparaîtront ici une fois les livres rendus</p>
+          </div>
+
+          <div class="loan-list" *ngIf="historyLoans.length > 0">
+            <div class="loan-item" *ngFor="let loan of historyLoans">
+              <div class="loan-item__cover" [class]="getGradient(loan.id)"></div>
+              <div class="loan-item__body">
+                <h3 class="loan-item__title">{{ loan.title }}</h3>
+                <div class="loan-item__dates">
+                  <div class="loan-item__date">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    Emprunté : <strong>{{ loan.borrowDate }}</strong>
+                  </div>
+                  <div class="loan-item__date">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                      <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    Rendu : <strong>{{ loan.returnDate }}</strong>
+                  </div>
                 </div>
-                <div class="loan-item__date">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                       stroke="currentColor" stroke-width="2" aria-hidden="true">
+              </div>
+              <div class="loan-item__badge">
+                <span class="badge badge--returned">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2.5" aria-hidden="true">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                     <polyline points="22 4 12 14.01 9 11.01"/>
                   </svg>
-                  Rendu : <strong>{{ loan.returnDate }}</strong>
-                </div>
+                  Rendu
+                </span>
               </div>
             </div>
-            <div class="loan-item__badge">
-              <span class="badge badge--returned">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                  <polyline points="22 4 12 14.01 9 11.01"/>
-                </svg>
-                Rendu
-              </span>
+          </div>
+
+        </div>
+
+        <!-- ── Réservations ── -->
+        <div *ngIf="activeTab === 'reservations'">
+
+          <!-- Aucune réservation -->
+          <div *ngIf="reservations.length === 0" class="empty-state">
+            <div class="empty-state__icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              </svg>
             </div>
+            <h3>Vous n'avez pas de réservation actuellement</h3>
+            <p>Réservez un livre depuis le catalogue pour le retrouver ici</p>
+            <a routerLink="/catalogue" class="btn btn--primary">Parcourir le catalogue</a>
           </div>
-        </div>
-      </div>
 
-      <!-- ── Réservations ── -->
-      <div *ngIf="activeTab === 'reservations'">
-        <div *ngIf="reservations.length === 0" class="empty-state">
-          <div class="empty-state__icon">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-            </svg>
-          </div>
-          <h3>Aucune réservation</h3>
-          <p>Vos réservations apparaîtront ici</p>
-        </div>
-
-        <div class="loan-list" *ngIf="reservations.length > 0">
-          <div class="loan-item" *ngFor="let reservation of reservations">
-            <div class="loan-item__cover" [class]="getGradient(reservation.id)"></div>
-            <div class="loan-item__body">
-              <h3 class="loan-item__title">{{ reservation.title }}</h3>
-              <div class="loan-item__dates">
-                <div class="loan-item__date">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                       stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                    <line x1="16" y1="2" x2="16" y2="6"/>
-                    <line x1="8"  y1="2" x2="8"  y2="6"/>
-                    <line x1="3"  y1="10" x2="21" y2="10"/>
-                  </svg>
-                  Réservé le : <strong>{{ reservation.reservedDate }}</strong>
-                </div>
-                <div class="loan-item__date">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                       stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12 6 12 12 16 14"/>
-                  </svg>
-                  Disponible vers : <strong>{{ reservation.estimatedDate }}</strong>
+          <div class="loan-list" *ngIf="reservations.length > 0">
+            <div class="loan-item" *ngFor="let reservation of reservations">
+              <div class="loan-item__cover" [class]="getGradient(reservation.id)"></div>
+              <div class="loan-item__body">
+                <h3 class="loan-item__title">{{ reservation.title }}</h3>
+                <div class="loan-item__dates">
+                  <div class="loan-item__date">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                      <line x1="16" y1="2" x2="16" y2="6"/>
+                      <line x1="8"  y1="2" x2="8"  y2="6"/>
+                      <line x1="3"  y1="10" x2="21" y2="10"/>
+                    </svg>
+                    Réservé le : <strong>{{ reservation.reservedDate }}</strong>
+                  </div>
+                  <div class="loan-item__date">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    Disponible vers : <strong>{{ reservation.estimatedDate }}</strong>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="loan-item__badge">
-              <span class="badge badge--position">
-                Position {{ reservation.position }}
-              </span>
-              <button class="btn-cancel">Annuler</button>
+              <div class="loan-item__badge">
+                <span class="badge badge--position">
+                  Position {{ reservation.position }}
+                </span>
+                <button class="btn-cancel" (click)="cancelReservation(reservation.id)">
+                  Annuler
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
+        </div>
+
+      </div>
     </div>
-  </div>
+
+  </ng-container>
 
 </div>

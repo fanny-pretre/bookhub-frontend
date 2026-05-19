@@ -1,10 +1,24 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Subject, forkJoin, of } from 'rxjs';
+import { takeUntil, switchMap, filter, catchError } from 'rxjs/operators';
 import { Navbar } from '../../../core/navbar/navbar';
-import { Subscription } from 'rxjs';
 import { AuthService } from '../../../shared/services/auth.service';
 import { AbsPipe } from '../../../abs.pipe';
+import {
+  EmpruntResponseDTO,
+  MesEmpruntsService,
+  ReservationResponseDTO,
+} from '../../../shared/services/mesEmprunts.service';
+import { BookService } from '../../../shared/services/book.service';
+
 export interface Loan {
   id: number;
   title: string;
@@ -20,6 +34,7 @@ export interface HistoryLoan {
   borrowDate: string;
   returnDate: string;
 }
+
 export interface Reservation {
   id: number;
   title: string;
@@ -27,98 +42,160 @@ export interface Reservation {
   position: number;
   estimatedDate: string;
 }
+
+const STATUT_TERMINE = 1;
+const STATUT_ENCOURS = 2;
+
 @Component({
   selector: 'app-mes-emprunts',
   standalone: true,
-  imports: [CommonModule, RouterModule, Navbar,AbsPipe],
+  imports: [CommonModule, RouterModule, Navbar, AbsPipe],
   templateUrl: './mes-emprunts.html',
   styleUrl: './mes-emprunts.css',
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class MesEmpruntsComponent implements OnInit, OnDestroy {
   activeTab: 'progress' | 'history' | 'reservations' = 'progress';
-  private sub!: Subscription;
 
-  constructor(private authService: AuthService) {}
+  inProgressLoans: Loan[] = [];
+  historyLoans: HistoryLoan[] = [];
+  reservations: Reservation[] = [];
+
+  isLoading = true;
+  errorMessage: string | null = null;
+
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    private authService: AuthService,
+    private mesEmpruntsService: MesEmpruntsService,
+    private cdr: ChangeDetectorRef,
+    private bookService: BookService,
+  ) {}
 
   ngOnInit(): void {
-    this.sub = this.authService.currentUser$.subscribe();
+    this.authService.currentUser$
+      .pipe(
+        filter((user) => !!user),
+        takeUntil(this.destroy$),
+
+        switchMap((user) => {
+          const userId = user.id ?? user.idUtilisateur ?? user.userId;
+
+          this.isLoading = true;
+          this.errorMessage = null;
+
+          return forkJoin({
+            loans: this.mesEmpruntsService.getLoansByUser(userId),
+            reservations: this.mesEmpruntsService.getMyReservations(),
+            books: this.bookService.getAllBooks(),
+          });
+        }),
+      )
+      .subscribe(({ loans, reservations, books }) => {
+        const bookMap = new Map(books.map((book) => [book.isbn, book.titre]));
+
+        this.processLoans(loans, bookMap);
+        this.processReservations(reservations);
+
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      });
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
+
+  // ── Transformation DTO → modèle vue ──────────────────────────────────────
+
+  private processLoans(loans: EmpruntResponseDTO[], bookMap: Map<string, string>): void {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    this.inProgressLoans = loans
+      .filter((l) => l.idStatut === STATUT_ENCOURS)
+      .map((l) => {
+        const dueDate = new Date(l.dateRetourPrevue);
+        const diffMs = dueDate.getTime() - today.getTime();
+        const daysLeft = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+        return {
+          id: l.id,
+          title: bookMap.get(l.isbn) ?? l.isbn,
+          borrowDate: this.formatDate(l.dateEmprunt),
+          dueDate: this.formatDate(l.dateRetourPrevue),
+          daysLeft,
+          overdue: daysLeft < 0,
+        };
+      });
+
+    this.historyLoans = loans
+      .filter((l) => l.idStatut === STATUT_TERMINE)
+      .map((l) => ({
+        id: l.id,
+        title: bookMap.get(l.isbn) ?? l.isbn,
+        borrowDate: this.formatDate(l.dateEmprunt),
+        returnDate: this.formatDate(l.dateRetourPrevue),
+      }));
+  }
+
+  private processReservations(reservations: ReservationResponseDTO[]): void {
+    this.reservations = reservations.map((r) => ({
+      id: r.id,
+      title: r.bookTitle,
+      reservedDate: this.formatDate(r.reservationDate),
+      position: r.queuePosition ?? 0,
+      estimatedDate: '—',
+    }));
+  }
+
+  // ── Actions ──────────────────────────────────────────────────────────────
 
   setTab(tab: 'progress' | 'history' | 'reservations'): void {
     this.activeTab = tab;
   }
 
-  // ── Données mock (à remplacer par appel API) ──────────────
+  cancelReservation(id: number): void {
+    this.mesEmpruntsService
+      .deleteReservation(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.reservations = this.reservations.filter((r) => r.id !== id);
+        },
+        error: (err) => console.error('Erreur suppression réservation', err),
+      });
+  }
 
-  inProgressLoans: Loan[] = [
-    {
-      id: 1,
-      title: 'The Great Gatsby',
-      borrowDate: '15 avr. 2026',
-      dueDate: '15 mai 2026',
-      daysLeft: 4,
-      overdue: false,
-    },
-    {
-      id: 2,
-      title: '1984',
-      borrowDate: '20 avr. 2026',
-      dueDate: '20 mai 2026',
-      daysLeft: 9,
-      overdue: false,
-    },
-    {
-      id: 3,
-      title: 'To Kill a Mockingbird',
-      borrowDate: '10 mar. 2026',
-      dueDate: '10 avr. 2026',
-      daysLeft: -31,
-      overdue: true,
-    },
-  ];
-
-  historyLoans: HistoryLoan[] = [
-    { id: 4, title: 'Pride and Prejudice', borrowDate: '1 fév. 2026', returnDate: '28 fév. 2026' },
-    { id: 5, title: 'Animal Farm', borrowDate: '15 jan. 2026', returnDate: '10 fév. 2026' },
-    { id: 6, title: 'Brave New World', borrowDate: '20 déc. 2025', returnDate: '15 jan. 2026' },
-  ];
-
-  reservations: Reservation[] = [
-    {
-      id: 7,
-      title: 'The Hobbit',
-      reservedDate: '1 mai 2026',
-      position: 2,
-      estimatedDate: '20 mai 2026',
-    },
-    {
-      id: 8,
-      title: 'The Catcher in the Rye',
-      reservedDate: '25 avr. 2026',
-      position: 1,
-      estimatedDate: '15 mai 2026',
-    },
-  ];
+  // ── Computed ─────────────────────────────────────────────────────────────
 
   get overdueCount(): number {
     return this.inProgressLoans.filter((l) => l.overdue).length;
   }
 
   getGradient(id: number): string {
-    const gradients: Record<number, string> = {
-      1: 'gradient-indigo',
-      2: 'gradient-rose',
-      3: 'gradient-emerald',
-      4: 'gradient-amber',
-      5: 'gradient-violet',
-      6: 'gradient-lime',
-      7: 'gradient-sky',
-      8: 'gradient-cyan',
-    };
-    return gradients[id] ?? 'gradient-indigo';
+    const palette = [
+      'gradient-indigo',
+      'gradient-rose',
+      'gradient-emerald',
+      'gradient-amber',
+      'gradient-violet',
+      'gradient-lime',
+      'gradient-sky',
+      'gradient-cyan',
+    ];
+    return palette[id % palette.length];
+  }
+
+  // ── Utilitaires ──────────────────────────────────────────────────────────
+
+  private formatDate(isoDate: string | null | undefined): string {
+    if (!isoDate) return '—';
+    return new Date(isoDate).toLocaleDateString('fr-FR', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    });
   }
 }
