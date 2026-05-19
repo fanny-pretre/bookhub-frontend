@@ -55,9 +55,9 @@ export class LoginComponent {
             // On ajoute le role au user déjà stocké
             const user = this.authService.getUser();
             this.authService.setUser({ ...user, role: data.role });
-            this.router.navigate(['/dashboard-lecteur']);
+            this.router.navigate(['lecteur/dashboard']);
           },
-          error: () => this.router.navigate(['/dashboard-lecteur']),
+          error: () => this.router.navigate(['lecteur/dashboard']),
         });
       },
       error: () => {
