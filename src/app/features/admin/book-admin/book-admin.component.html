@@ -1,0 +1,89 @@
+<div class="admin-page">
+
+  <!-- HEADER -->
+  <div class="admin-header">
+    <div>
+      <h1>Administration du catalogue</h1>
+      <p>Gérez les livres de la bibliothèque</p>
+    </div>
+
+    <button class="btn-primary" routerLink="/admin/books/new">
+      + Ajouter un livre
+    </button>
+  </div>
+
+  <!-- SEARCH BAR -->
+  <div class="search-bar">
+    <input
+      type="text"
+      placeholder="Rechercher par titre, auteur ou ISBN..."
+      [(ngModel)]="searchQuery"
+    />
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-card">
+
+    <table class="admin-table">
+
+      <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Auteur</th>
+        <th>ISBN</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+
+      <tr *ngFor="let book of filteredBooks">
+
+        <td class="title-cell">
+          {{ book.titre }}
+        </td>
+
+        <td>
+          {{ book.auteur.prenom }} {{ book.auteur.nom }}
+        </td>
+
+        <td class="isbn">
+          {{ book.isbn }}
+        </td>
+
+        <td>
+            <span
+              class="badge"
+              [class.available]="book.disponibilite"
+              [class.unavailable]="!book.disponibilite">
+
+              {{ book.disponibilite ? 'Disponible' : 'Indisponible' }}
+            </span>
+        </td>
+
+        <td class="actions">
+
+          <button
+            class="btn-secondary"
+            [routerLink]="['/admin/books', book.isbn, 'edit']">
+            Modifier
+          </button>
+
+          <button
+            class="btn-danger"
+            (click)="deleteBook(book)">
+            Supprimer
+          </button>
+
+        </td>
+
+      </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

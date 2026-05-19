@@ -4,9 +4,11 @@ import { SigninComponent } from './features/auth/signin/signin.component';
 import {DashboardLecteur} from './features/dashboard/dashboard-lecteur/dashboard-lecteur';
 import { BookListComponent } from './features/books/book-list/book-list.component';
 import { BookDetailComponent } from './features/books/book-detail/book-detail.component';
-import { ProfileComponent } from './features/lecteur/profil-lecteur/profil-lecteur';
 import { MesEmpruntsComponent } from './features/lecteur/mes-emprunts/mes-emprunts';
 import { ReservationsValidation } from './features/bibliothecaire/reservations-validation/reservations-validation';
+import { BookAdminComponent } from './features/admin/book-admin/book-admin.component';
+import { BookFormComponent } from './features/books/book-form/book-form.component';
+import { ProfileComponent } from './features/lecteur/profil-lecteur/profil-lecteur';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'connexion', pathMatch: 'full' },
@@ -18,10 +20,17 @@ export const routes: Routes = [
 
   { path: 'profile', component: ProfileComponent },
 
+  { path: '**', redirectTo: 'connexion' },
   { path: 'books', component: BookListComponent },
   { path: 'books/:isbn', component: BookDetailComponent },
 
   { path: 'mes-emprunts', component: MesEmpruntsComponent },
+
+  // ADMIN
+  { path: 'admin/books', component: BookAdminComponent },
+
+  { path: 'admin/books/new', component: BookFormComponent },
+  { path: 'admin/books/:isbn/edit', component: BookFormComponent },
 
   { path: '', redirectTo: 'connexion', pathMatch: 'full' },
 

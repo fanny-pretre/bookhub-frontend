@@ -45,4 +45,20 @@ export class BookService {
       .get<ApiResponse<BooksPage>>(`${this.apiUrl}/search`, { params: httpParams })
       .pipe(map((response) => response.data));
   }
+
+  deleteBook(isbn: string) {
+    return this.http.delete(`${this.apiUrl}/${isbn}`);
+  }
+
+  getBookByIsbn(isbn: string) {
+    return this.http.get<Book>(`http://localhost:8080/api/books/${isbn}`);
+  }
+
+  createBook(book: any) {
+    return this.http.post(`http://localhost:8080/api/books`, book);
+  }
+
+  updateBook(isbn: string, book: any) {
+    return this.http.put(`http://localhost:8080/api/books/${isbn}`, book);
+  }
 }
