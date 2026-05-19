@@ -2,40 +2,28 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Book, BooksPage, ApiResponse, SearchParams } from '../models/book.model';
+import { Book, BooksPage, ApiResponse, SearchParams, BookFormData } from '../models/book.model';
 
 @Injectable({ providedIn: 'root' })
 export class BookService {
-  // URL de base de l'API, tous les appels books partent de là
   private apiUrl = 'http://localhost:8080/api/books';
 
-  // HttpClient est injecté par Angular pour faire des requêtes HTTP
   constructor(private http: HttpClient) {}
 
   // GET /api/books
-  // Récupère tous les livres sans pagination (utilisé si besoin d'une liste complète)
+  // liste complète sans pagination (admin)
   getAllBooks(): Observable<Book[]> {
-    return (
-      this.http
-        .get<ApiResponse<Book[]>>(this.apiUrl)
-        // .pipe(map(...)) transforme la réponse avant de la retourner au composant
-        // On extrait uniquement response.data pour ne pas exposer le wrapper ApiResponse
-        .pipe(map((response) => response.data))
-    );
+    return this.http.get<ApiResponse<Book[]>>(this.apiUrl).pipe(map((response) => response.data));
   }
 
-  // GET /api/books/search?page=0&size=20&sort=titre,asc&search=...&category=...&available=...
-  // Récupère les livres filtrés et paginés, utilisé par la page catalogue
+  // GET /api/books/search
+  // liste filtrée et paginée (catalogue lecteur)
   searchBooks(params: SearchParams): Observable<BooksPage> {
-    // HttpParams construit les query params de façon sécurisée (encodage automatique)
-    // ?? 0 est l'opérateur "nullish coalescing" : utilise la valeur de gauche si non null/undefined
     let httpParams = new HttpParams()
-      .set('page', (params.page ?? 0).toString()) // page courante (0-based pour Spring)
-      .set('size', '20') // toujours 20 livres par page
-      .set('sort', params.sort ?? 'titre,asc'); // tri par défaut : titre alphabétique
+      .set('page', (params.page ?? 0).toString())
+      .set('size', '20')
+      .set('sort', params.sort ?? 'titre,asc');
 
-    // On n'ajoute les filtres optionnels que s'ils sont renseignés
-    // pour ne pas envoyer des params vides au back
     if (params.search) httpParams = httpParams.set('search', params.search);
     if (params.category) httpParams = httpParams.set('category', params.category);
     if (params.available !== undefined)
@@ -44,5 +32,35 @@ export class BookService {
     return this.http
       .get<ApiResponse<BooksPage>>(`${this.apiUrl}/search`, { params: httpParams })
       .pipe(map((response) => response.data));
+  }
+
+  // GET /api/books/{isbn}
+  // détail d'un livre
+  getBookByIsbn(isbn: string): Observable<Book> {
+    return this.http
+      .get<ApiResponse<Book>>(`${this.apiUrl}/${isbn}`)
+      .pipe(map((response) => response.data));
+  }
+
+  // POST /api/books
+  // création (bibliothécaire uniquement)
+  createBook(data: BookFormData): Observable<Book> {
+    return this.http
+      .post<ApiResponse<Book>>(this.apiUrl, data)
+      .pipe(map((response) => response.data));
+  }
+
+  // PUT /api/books/{isbn}
+  // modification (bibliothécaire uniquement)
+  updateBook(isbn: string, data: BookFormData): Observable<Book> {
+    return this.http
+      .put<ApiResponse<Book>>(`${this.apiUrl}/${isbn}`, data)
+      .pipe(map((response) => response.data));
+  }
+
+  // DELETE /api/books/{isbn}
+  // suppression (échoue si emprunt en cours)
+  deleteBook(isbn: string): Observable<void> {
+    return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${isbn}`).pipe(map(() => undefined));
   }
 }

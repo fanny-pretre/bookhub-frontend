@@ -1,0 +1,58 @@
+<h1>{{ isEditMode ? 'Modifier un livre' : 'Ajouter un livre' }}</h1>
+
+<!-- Loader -->
+<div *ngIf="isLoading">
+  Chargement...
+</div>
+
+<!-- Erreur -->
+<div *ngIf="errorMessage" style="color:red;">
+  {{ errorMessage }}
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submit()" *ngIf="!isLoading">
+
+  <!-- TITRE -->
+  <div>
+    <label>Titre</label>
+    <input type="text" formControlName="titre" />
+  </div>
+
+  <!-- ISBN -->
+  <div>
+    <label>ISBN</label>
+    <input type="text" formControlName="isbn" [readonly]="isEditMode" />
+  </div>
+
+  <!-- DESCRIPTION -->
+  <div>
+    <label>Description</label>
+    <textarea formControlName="description"></textarea>
+  </div>
+
+  <!-- AUTEUR -->
+  <div formGroupName="auteur">
+    <label>Prénom auteur</label>
+    <input type="text" formControlName="prenom" />
+
+    <label>Nom auteur</label>
+    <input type="text" formControlName="nom" />
+  </div>
+
+  <!-- CATEGORIE -->
+  <div>
+    <label>Catégorie</label>
+    <input type="text" formControlName="categorie" />
+  </div>
+
+  <!-- COUVERTURE -->
+  <div>
+    <label>Couverture (URL)</label>
+    <input type="text" formControlName="couverture" />
+  </div>
+
+  <button type="submit" [disabled]="form.invalid">
+    {{ isEditMode ? 'Modifier' : 'Créer' }}
+  </button>
+
+</form>
