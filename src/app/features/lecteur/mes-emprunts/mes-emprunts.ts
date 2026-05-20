@@ -141,14 +141,27 @@ export class MesEmpruntsComponent implements OnInit, OnDestroy {
       }));
   }
 
-  private processReservations(reservations: ReservationResponseDTO[]): void {
-    this.reservations = reservations.map((r) => ({
-      id: r.id,
-      title: r.bookTitle,
-      reservedDate: this.formatDate(r.reservationDate),
-      position: r.queuePosition ?? 0,
-      estimatedDate: '—',
-    }));
+  private processReservations(
+    reservations: ReservationResponseDTO[],
+  ): void {
+
+    this.reservations = reservations
+
+      .filter(
+        (r) =>
+          r.status === 'En cours' ||
+          r.status === 'Liste attente',
+      )
+
+      .map((r) => ({
+        id: r.id,
+        title: r.bookTitle,
+        reservedDate: this.formatDate(
+          r.reservationDate,
+        ),
+        position: r.queuePosition ?? 0,
+        estimatedDate: '—',
+      }));
   }
 
   // ── Actions ──────────────────────────────────────────────────────────────
