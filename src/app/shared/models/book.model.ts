@@ -57,7 +57,7 @@ export interface BookFormData {
   description: string;
   couverture: string;
   disponibilite: boolean;
-  dateAjout: string;
+  dateAjout?: string;
   auteur: {
     nom: string;
     prenom: string;
