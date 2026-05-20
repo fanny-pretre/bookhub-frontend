@@ -63,7 +63,7 @@ export class BookAdminComponent implements OnInit {
       isbn: ['', [Validators.required]],
       auteurPrenom: ['', Validators.required],
       auteurNom: ['', Validators.required],
-      description: [''],
+      description: ['', Validators.required],
       couverture: [''],
       categorie: ['', Validators.required],
       disponibilite: [true],
