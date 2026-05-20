@@ -129,13 +129,15 @@
 }
 
 .badge-available {
-  background: rgba(16, 185, 129, 0.85);
-  color: white;
+  background: rgb(158 232 184);
+  color: #047857;
+  border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 .badge-unavailable {
-  background: rgba(239, 68, 68, 0.85);
-  color: white;
+  background: rgb(232 169 169);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 /* Infos livre */
@@ -266,14 +268,14 @@
 }
 
 .pagination-btn-active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f1999a 0%, #e15f40 100%);
   border-color: transparent;
   color: white;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
 .pagination-btn-active:hover {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: linear-gradient(135deg, #f1999a 0%, #e15f40 100%) !important;
   color: white !important;
 }
 

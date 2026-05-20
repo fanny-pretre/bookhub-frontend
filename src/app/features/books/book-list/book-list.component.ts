@@ -23,7 +23,7 @@ export class BookListComponent implements OnInit {
   currentPage = 0;
   totalPages = 1;
   totalElements = 0;
-  readonly pageSize = 20;
+  readonly pageSize = 10;
 
   // Filtres
   searchQuery = '';
@@ -81,6 +81,7 @@ export class BookListComponent implements OnInit {
 
     const params: SearchParams = {
       page: this.currentPage,
+      size: this.pageSize,
       sort: this.selectedSort,
     };
 
@@ -91,6 +92,14 @@ export class BookListComponent implements OnInit {
 
     this.bookService.searchBooks(params).subscribe({
       next: (data) => {
+        console.log(
+          'totalPages:',
+          data.totalPages,
+          'totalElements:',
+          data.totalElements,
+          'size:',
+          data.size,
+        );
         this.books = data.content ?? [];
         this.totalPages = data.totalPages ?? 1;
         this.totalElements = data.totalElements ?? 0;

@@ -8,6 +8,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  padding: 2rem;
 }
 
 /* =============================================
@@ -55,7 +56,7 @@
   overflow: hidden;
   padding: 2.5rem;
   border-radius: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #95b2ea 0%, #ff6d49 100%);
   box-shadow: 0 10px 40px rgba(102, 126, 234, 0.35);
   animation: fadeInUp 0.5s ease;
 }
@@ -163,17 +164,17 @@
 }
 
 .stat-card__icon--indigo {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #ff6d49, #ff6d49);
   color: #fff;
 }
 
 .stat-card__icon--purple {
-  background: linear-gradient(135deg, #a855f7, #ec4899);
+  background: linear-gradient(135deg, #f1999a, #f1999a);
   color: #fff;
 }
 
 .stat-card__icon--emerald {
-  background: linear-gradient(135deg, #10b981, #0d9488);
+  background: linear-gradient(135deg, #95b2ea, #95b2ea);
   color: #fff;
 }
 
@@ -403,7 +404,7 @@
 
 .goal__bar-fill {
   height: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #95b2ea 0%, #e15f40 100%);
   border-radius: 9999px;
   transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -433,7 +434,7 @@
 }
 
 .btn--primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f1999a 0%, #e15f40 100%);
   color: #fff;
   box-shadow: 0 4px 14px rgba(102, 126, 234, 0.4);
 }
@@ -449,8 +450,8 @@
 
 .btn--outline-indigo {
   background: transparent;
-  border-color: #6366f1;
-  color: #6366f1;
+  border-color: #f1999a;
+  color: #e15f40;
 }
 
 .btn--outline-indigo:hover {

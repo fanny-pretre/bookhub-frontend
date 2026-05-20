@@ -3,7 +3,7 @@
   <div class="container-modern">
 
     <!-- Bouton retour -->
-    <a routerLink="/books" class="back-btn" aria-label="Retour au catalogue">
+    <a routerLink="/lecteur/books" class="back-btn" aria-label="Retour au catalogue">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="15 18 9 12 15 6"/>
@@ -99,7 +99,7 @@
             <!-- ACTION -->
             <div class="actions">
               <button
-              class="btn-modern btn-accessible gradient-button focus-ring-primary"
+              class="btn-modern-detail btn-accessible gradient-button focus-ring-primary"
               (click)="handleReserve()"
               [disabled]="reservationStatus?.reserved"
               [style.opacity]="reservationStatus?.reserved ? '0.5' : '1'"

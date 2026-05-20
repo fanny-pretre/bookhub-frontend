@@ -46,6 +46,7 @@ export interface SearchParams {
   category?: string;
   available?: boolean;
   page?: number;
+  size?: number;
   sort?: string;
 }
 
