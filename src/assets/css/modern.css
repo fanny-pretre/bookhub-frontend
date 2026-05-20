@@ -41,7 +41,7 @@
 /* Boutons modernes avec états */
 .btn-modern {
   position: relative;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg,#95b2ea, #ff6d49);
   border: none;
   color: white;
   font-weight: 600;
@@ -62,20 +62,13 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  background: linear-gradient(135deg, #95b2ea, #ff6d49);
   transition: left 0.4s ease;
   z-index: -1;
 }
 
 .btn-modern:hover::before {
   left: 0;
-}
-
-.btn-modern:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 7px 25px 0 rgba(102, 126, 234, 0.5),
-    0 3px 8px 0 rgba(102, 126, 234, 0.3);
 }
 
 .btn-modern:active {
@@ -231,12 +224,17 @@
 }
 
 /* Typographie moderne */
-.text-gradient-modern {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+.gradient-text {
+  background: linear-gradient(135deg, #95b2ea, #ff6d49);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  font-weight: 700;
+  font-weight: 800;
+}
+
+.gradient-logo {
+  background: linear-gradient(135deg, #95b2ea, #ff6d49);
 }
 
 /* Section avec fond subtil */

@@ -1,7 +1,6 @@
 <app-navbar-admin></app-navbar-admin>
 
 <div class="loans-page">
-
   <section class="loans-hero">
     <div>
       <h1>Gérer les emprunts</h1>
@@ -17,52 +16,107 @@
     {{ errorMessage }}
   </div>
 
-  <div *ngIf="loading" class="loading-state">
-    Chargement...
-  </div>
+  <div *ngIf="loading" class="loading-state">Chargement...</div>
 
   <ng-container *ngIf="!loading">
-
     <div class="stats-grid">
-
+      <!-- EN COURS -->
       <div class="stat-card">
-        <div class="stat-card__icon stat-card__icon--blue">📖</div>
+        <div class="stat-card__icon stat-card__icon--blue">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              d="M24 12c0 6.627-5.373 12-12 12s-12-5.373-12-12h2c0 5.514 4.486 10 10 10s10-4.486 10-10-4.486-10-10-10c-2.777 0-5.287 1.141-7.099 2.977l2.061 2.061-6.962 1.354 1.305-7.013 2.179 2.18c2.172-2.196 5.182-3.559 8.516-3.559 6.627 0 12 5.373 12 12zm-13-6v8h7v-2h-5v-6h-2z"
+            />
+          </svg>
+        </div>
         <div>
           <p class="stat-card__label">En cours</p>
           <p class="stat-card__value">{{ empruntsEnCours.length }}</p>
         </div>
       </div>
 
+      <!-- A VALIDER -->
       <div class="stat-card">
-        <div class="stat-card__icon stat-card__icon--orange">🕘</div>
+        <div class="stat-card__icon stat-card__icon--orange">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+        </div>
         <div>
           <p class="stat-card__label">À valider</p>
           <p class="stat-card__value">{{ activeReservations.length }}</p>
         </div>
       </div>
 
+      <!-- EN RETARD -->
       <div class="stat-card">
-        <div class="stat-card__icon stat-card__icon--red">!</div>
+        <div class="stat-card__icon stat-card__icon--red">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path
+              d="M10.29 3.86l-8 14A1 1 0 0 0 3.17 19h17.66a1 1 0 0 0 .88-1.5l-8-14a1 1 0 0 0-1.76 0z"
+            />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+        </div>
         <div>
           <p class="stat-card__label">En retard</p>
           <p class="stat-card__value">{{ empruntsEnRetard.length }}</p>
         </div>
       </div>
 
+      <!-- COMPLETES -->
       <div class="stat-card">
-        <div class="stat-card__icon stat-card__icon--green">✓</div>
+        <div class="stat-card__icon stat-card__icon--green">
+          <svg
+            clip-rule="evenodd"
+            fill-rule="evenodd"
+            stroke-linejoin="round"
+            stroke-miterlimit="2"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            stroke="currentColor"
+          >
+            <path
+              d="m20 20h-15.25c-.414 0-.75.336-.75.75s.336.75.75.75h15.75c.53 0 1-.47 1-1v-15.75c0-.414-.336-.75-.75-.75s-.75.336-.75.75zm-1-17c0-.478-.379-1-1-1h-15c-.62 0-1 .519-1 1v15c0 .621.52 1 1 1h15c.478 0 1-.379 1-1zm-15.5.5h14v14h-14zm2.749 7.806 2.924 2.504c.142.127.321.19.498.19.203 0 .405-.082.553-.243l4.953-5.508c.131-.144.196-.324.196-.503 0-.41-.331-.746-.748-.746-.204 0-.405.082-.554.243l-4.453 4.962-2.371-2.011c-.144-.128-.321-.19-.499-.19-.415 0-.748.335-.748.746 0 .205.084.409.249.556z"
+              fill-rule="nonzero"
+            />
+          </svg>
+        </div>
         <div>
           <p class="stat-card__label">Complétés</p>
           <p class="stat-card__value">{{ empruntsHistorique.length }}</p>
         </div>
       </div>
-
     </div>
 
     <div class="actions-grid">
-
       <div class="action-card" (click)="setTab('en-cours')">
-        <div class="action-card__icon action-card__icon--blue">👁</div>
+        <div class="action-card__icon action-card__icon--blue">
+          <svg
+            clip-rule="evenodd"
+            fill-rule="evenodd"
+            stroke-linejoin="round"
+            stroke-miterlimit="2"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="white"
+            width="24"
+            heigh="24"
+          >
+            <path
+              d="m11.998 5c-4.078 0-7.742 3.093-9.853 6.483-.096.159-.145.338-.145.517s.048.358.144.517c2.112 3.39 5.776 6.483 9.854 6.483 4.143 0 7.796-3.09 9.864-6.493.092-.156.138-.332.138-.507s-.046-.351-.138-.507c-2.068-3.403-5.721-6.493-9.864-6.493zm8.413 7c-1.837 2.878-4.897 5.5-8.413 5.5-3.465 0-6.532-2.632-8.404-5.5 1.871-2.868 4.939-5.5 8.404-5.5 3.518 0 6.579 2.624 8.413 5.5zm-8.411-4c2.208 0 4 1.792 4 4s-1.792 4-4 4-4-1.792-4-4 1.792-4 4-4zm0 1.5c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5-1.12-2.5-2.5-2.5z"
+              fill-rule="nonzero"
+            />
+          </svg>
+        </div>
         <div>
           <h3>Voir les emprunts</h3>
           <p>Consulter tous les emprunts en cours</p>
@@ -76,66 +130,50 @@
           <p>Valider les demandes de réservation</p>
         </div>
       </div>
-
     </div>
 
     <div class="card">
-
       <div class="tabs">
-
         <button
           class="tab"
           [class.tab--active]="activeTab === 'en-cours'"
-          (click)="setTab('en-cours')">
-
+          (click)="setTab('en-cours')"
+        >
           En cours ({{ empruntsEnCours.length }})
-
         </button>
 
         <button
           class="tab"
           [class.tab--active]="activeTab === 'a-valider'"
-          (click)="setTab('a-valider')">
-
+          (click)="setTab('a-valider')"
+        >
           À valider ({{ activeReservations.length }})
-
         </button>
 
-        <button
-          class="tab"
-          [class.tab--active]="activeTab === 'retard'"
-          (click)="setTab('retard')">
-
+        <button class="tab" [class.tab--active]="activeTab === 'retard'" (click)="setTab('retard')">
           En retard ({{ empruntsEnRetard.length }})
-
         </button>
 
         <button
           class="tab"
           [class.tab--active]="activeTab === 'historique'"
-          (click)="setTab('historique')">
-
+          (click)="setTab('historique')"
+        >
           Historique ({{ empruntsHistorique.length }})
-
         </button>
-
       </div>
 
       <div class="tab-content">
-
         <!-- EN COURS -->
 
         <div *ngIf="activeTab === 'en-cours'">
-
           <div *ngIf="empruntsEnCours.length === 0" class="empty-state">
             <h3>Aucun emprunt en cours</h3>
             <p>Il n’y a aucun retour à enregistrer.</p>
           </div>
 
           <div class="loan-row" *ngFor="let emprunt of empruntsEnCours">
-
             <div class="loan-row__left">
-
               <h3>{{ getBookTitle(emprunt) }}</h3>
 
               <p>
@@ -144,48 +182,33 @@
               </p>
 
               <small>
-                Du {{ formatDate(emprunt.dateEmprunt) }}
-                au {{ formatDate(emprunt.dateRetourPrevue) }}
+                Du {{ formatDate(emprunt.dateEmprunt) }} au
+                {{ formatDate(emprunt.dateRetourPrevue) }}
               </small>
-
             </div>
 
             <div class="loan-row__right">
-
               <button
                 class="btn-return"
                 [disabled]="returningId === emprunt.id"
-                (click)="returnLoan(emprunt.id)">
-
-                {{
-                  returningId === emprunt.id
-                    ? 'Validation...'
-                    : 'Marquer retourné'
-                }}
-
+                (click)="returnLoan(emprunt.id)"
+              >
+                {{ returningId === emprunt.id ? 'Validation...' : 'Marquer retourné' }}
               </button>
-
             </div>
-
           </div>
-
         </div>
 
         <!-- A VALIDER -->
 
         <div *ngIf="activeTab === 'a-valider'">
-
           <div *ngIf="activeReservations.length === 0" class="empty-state">
             <h3>Aucune réservation à valider</h3>
             <p>Les nouvelles demandes apparaîtront ici.</p>
           </div>
 
-          <div
-            class="loan-row"
-            *ngFor="let reservation of activeReservations">
-
+          <div class="loan-row" *ngFor="let reservation of activeReservations">
             <div class="loan-row__left">
-
               <h3>{{ reservation.bookTitle }}</h3>
 
               <p>
@@ -198,48 +221,31 @@
                 <span>{{ reservation.isbn }}</span>
               </p>
 
-              <small>
-                Réservé le {{ formatDate(reservation.reservationDate) }}
-              </small>
-
+              <small> Réservé le {{ formatDate(reservation.reservationDate) }} </small>
             </div>
 
             <div class="loan-row__right">
-
               <button
                 class="btn-return"
                 [disabled]="validatingId === reservation.id"
-                (click)="validateReservation(reservation.id)">
-
-                {{
-                  validatingId === reservation.id
-                    ? 'Validation...'
-                    : 'Valider'
-                }}
-
+                (click)="validateReservation(reservation.id)"
+              >
+                {{ validatingId === reservation.id ? 'Validation...' : 'Valider' }}
               </button>
-
             </div>
-
           </div>
-
         </div>
 
         <!-- RETARDS -->
 
         <div *ngIf="activeTab === 'retard'">
-
           <div *ngIf="empruntsEnRetard.length === 0" class="empty-state">
             <h3>Aucun emprunt en retard</h3>
             <p>Tout est à jour.</p>
           </div>
 
-          <div
-            class="loan-row loan-row--late"
-            *ngFor="let emprunt of empruntsEnRetard">
-
+          <div class="loan-row loan-row--late" *ngFor="let emprunt of empruntsEnRetard">
             <div class="loan-row__left">
-
               <h3>{{ getBookTitle(emprunt) }}</h3>
 
               <p>
@@ -251,47 +257,29 @@
                 Retour prévu le
                 {{ formatDate(emprunt.dateRetourPrevue) }}
               </small>
-
             </div>
 
             <div class="loan-row__right">
-
               <div class="return-info return-info--late">
                 <span>Retard</span>
-                <strong>
-                  {{ getDaysLeft(emprunt.dateRetourPrevue) * -1 }} jours
-                </strong>
+                <strong> {{ getDaysLeft(emprunt.dateRetourPrevue) * -1 }} jours </strong>
               </div>
 
-              <button
-                class="btn-return"
-                (click)="returnLoan(emprunt.id)">
-
-                Marquer retourné
-
-              </button>
-
+              <button class="btn-return" (click)="returnLoan(emprunt.id)">Marquer retourné</button>
             </div>
-
           </div>
-
         </div>
 
         <!-- HISTORIQUE -->
 
         <div *ngIf="activeTab === 'historique'">
-
           <div *ngIf="empruntsHistorique.length === 0" class="empty-state">
             <h3>Aucun historique</h3>
             <p>Les emprunts retournés apparaîtront ici.</p>
           </div>
 
-          <div
-            class="loan-row"
-            *ngFor="let emprunt of empruntsHistorique">
-
+          <div class="loan-row" *ngFor="let emprunt of empruntsHistorique">
             <div class="loan-row__left">
-
               <h3>{{ getBookTitle(emprunt) }}</h3>
 
               <p>
@@ -300,27 +288,17 @@
               </p>
 
               <small>
-                Du {{ formatDate(emprunt.dateEmprunt) }}
-                au {{ formatDate(emprunt.dateRetourPrevue) }}
+                Du {{ formatDate(emprunt.dateEmprunt) }} au
+                {{ formatDate(emprunt.dateRetourPrevue) }}
               </small>
-
             </div>
 
             <div class="loan-row__right">
-
-              <span class="badge badge--completed">
-                Retourné
-              </span>
-
+              <span class="badge badge--completed"> Retourné </span>
             </div>
-
           </div>
-
         </div>
-
       </div>
     </div>
-
   </ng-container>
-
 </div>
