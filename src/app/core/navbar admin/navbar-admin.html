@@ -37,9 +37,30 @@
     <div class="navbar__right">
       <!-- Profil -->
       <div class="profile">
-        <button class="profile__btn" (click)="toggleDropdown()">
-          <div class="profile__avatar">👤</div>
+        <button
+          class="profile__btn"
+          (click)="toggleDropdown()"
+          [attr.aria-expanded]="dropdownOpen"
+          aria-label="Menu utilisateur"
+          aria-haspopup="true"
+        >
+          <div class="profile__avatar" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
           <span class="profile__name">{{ userName }}</span>
+          <svg
+            class="profile__chevron"
+            [class.profile__chevron--open]="dropdownOpen"
+            width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2"
+            aria-hidden="true"
+          >
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
         </button>
 
         <div class="dropdown" *ngIf="dropdownOpen">
@@ -48,7 +69,30 @@
           </div>
 
           <a routerLink="/lecteur/profile" class="dropdown__item" (click)="closeDropdown()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
             Mon profil
+          </a>
+
+          <a routerLink="/lecteur/dashboard" class="dropdown__item" (click)="closeDropdown()">
+            <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+          </svg>
+            Mode Lecteur
           </a>
 
           <button class="dropdown__item dropdown__item--logout" (click)="logout()">
