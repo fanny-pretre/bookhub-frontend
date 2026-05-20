@@ -1,5 +1,6 @@
-<section class="dashboard">
+<app-navbar-admin></app-navbar-admin>
 
+<section class="dashboard">
   <!-- Header -->
   <div class="dashboard__header">
     <div>
@@ -12,7 +13,11 @@
   <div class="stats-grid">
     <div class="stat-card" *ngFor="let stat of stats">
       <div class="stat-card__top">
-        <div class="stat-card__icon" [style.color]="stat.color" [style.background]="stat.color + '18'">
+        <div
+          class="stat-card__icon"
+          [style.color]="stat.color"
+          [style.background]="stat.color + '18'"
+        >
           <span [innerHTML]="stat.icon"></span>
         </div>
         <span class="stat-card__trend" [innerHTML]="trendIcon(stat.trend)"></span>
@@ -24,13 +29,13 @@
 
   <!-- Quick access -->
   <div class="quick-grid">
-    <a
-      class="quick-card"
-      *ngFor="let card of quickAccess"
-      [routerLink]="card.route"
-    >
+    <a class="quick-card" *ngFor="let card of quickAccess" [routerLink]="card.route">
       <div class="quick-card__top">
-        <div class="quick-card__icon" [style.color]="card.color" [style.background]="card.color + '18'">
+        <div
+          class="quick-card__icon"
+          [style.color]="card.color"
+          [style.background]="card.color + '18'"
+        >
           <span [innerHTML]="card.icon"></span>
         </div>
         <span class="quick-card__badge">{{ card.badge }}</span>
@@ -39,11 +44,17 @@
       <p class="quick-card__desc">{{ card.description }}</p>
       <span class="quick-card__link">
         Accéder
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="9 18 15 12 9 6"/>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="9 18 15 12 9 6" />
         </svg>
       </span>
     </a>
   </div>
-
 </section>

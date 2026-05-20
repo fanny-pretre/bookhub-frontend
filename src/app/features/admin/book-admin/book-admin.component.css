@@ -135,11 +135,20 @@
   font-weight: 600;
 }
 
-.available   { background: #dcfce7; color: #166534; }
-.unavailable { background: #fee2e2; color: #991b1b; }
+.available {
+  background: #dcfce7;
+  color: #166534;
+}
+.unavailable {
+  background: #fee2e2;
+  color: #991b1b;
+}
 
 /* ── Boutons ── */
-.actions { display: flex; gap: 0.5rem; }
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
 
 .btn-primary {
   background: linear-gradient(135deg, #667eea, #764ba2);
@@ -150,11 +159,19 @@
   cursor: pointer;
   font-weight: 600;
   font-size: 0.9rem;
-  transition: opacity 0.2s, transform 0.2s;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
 }
 
-.btn-primary:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
-.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-primary:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
 .btn-secondary {
   background: #eef2ff;
@@ -168,7 +185,9 @@
   transition: background 0.2s;
 }
 
-.btn-secondary:hover { background: #e0e7ff; }
+.btn-secondary:hover {
+  background: #e0e7ff;
+}
 
 .btn-danger {
   background: #fee2e2;
@@ -182,7 +201,9 @@
   transition: background 0.2s;
 }
 
-.btn-danger:hover { background: #fecaca; }
+.btn-danger:hover {
+  background: #fecaca;
+}
 
 /* ── Modale ── */
 .modal-overlay {
@@ -234,7 +255,9 @@
   transition: background 0.2s;
 }
 
-.modal-close:hover { background: #f1f5f9; }
+.modal-close:hover {
+  background: #f1f5f9;
+}
 
 /* ── Formulaire modale ── */
 .form-grid {
@@ -284,7 +307,9 @@
   cursor: not-allowed;
 }
 
-.input-error { border-color: #ef4444 !important; }
+.input-error {
+  border-color: #ef4444 !important;
+}
 
 .error-msg {
   color: #ef4444;
@@ -292,7 +317,9 @@
   margin-top: 0.25rem;
 }
 
-.form-group textarea { resize: vertical; }
+.form-group textarea {
+  resize: vertical;
+}
 
 .modal-footer {
   display: flex;
@@ -304,6 +331,12 @@
 }
 
 @media (max-width: 560px) {
-  .form-grid { grid-template-columns: 1fr; }
-  .admin-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
 }

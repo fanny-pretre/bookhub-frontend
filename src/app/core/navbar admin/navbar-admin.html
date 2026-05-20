@@ -1,0 +1,76 @@
+<header class="navbar">
+  <div class="navbar__container">
+    <!-- GAUCHE -->
+    <div class="navbar__left">
+      <!-- Logo -->
+      <a routerLink="/bibliothecaire/dashboard" class="logo" aria-label="BookHub — accueil">
+        <div class="logo__icon" aria-hidden="true">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+          </svg>
+        </div>
+        <span class="logo__text">BookHub</span>
+      </a>
+
+      <!-- Nav desktop -->
+      <nav class="nav-desktop">
+        <a
+          *ngFor="let item of navItems"
+          [routerLink]="item.path"
+          routerLinkActive="nav-link--active"
+          class="nav-link"
+        >
+          {{ item.label }}
+        </a>
+      </nav>
+    </div>
+
+    <!-- DROITE -->
+    <div class="navbar__right">
+      <!-- Profil -->
+      <div class="profile">
+        <button class="profile__btn" (click)="toggleDropdown()">
+          <div class="profile__avatar">👤</div>
+          <span class="profile__name">{{ userName }}</span>
+        </button>
+
+        <div class="dropdown" *ngIf="dropdownOpen">
+          <div class="dropdown__header">
+            <p class="dropdown__name">{{ userName }}</p>
+          </div>
+
+          <a routerLink="/lecteur/profile" class="dropdown__item" (click)="closeDropdown()">
+            Mon profil
+          </a>
+
+          <button class="dropdown__item dropdown__item--logout" (click)="logout()">
+            Déconnexion
+          </button>
+        </div>
+      </div>
+
+      <!-- Burger -->
+      <button class="burger" (click)="toggleMobileMenu()">☰</button>
+    </div>
+  </div>
+
+  <!-- Mobile -->
+  <nav *ngIf="mobileMenuOpen" class="nav-mobile">
+    <a
+      *ngFor="let item of navItems"
+      [routerLink]="item.path"
+      class="nav-mobile__link"
+      (click)="toggleMobileMenu()"
+    >
+      {{ item.label }}
+    </a>
+  </nav>
+</header>

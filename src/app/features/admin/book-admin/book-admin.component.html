@@ -1,81 +1,78 @@
-<div class="admin-page">
+<app-navbar-admin></app-navbar-admin>
 
+<div class="admin-page">
   <!-- HEADER -->
   <div class="admin-header">
     <div>
       <h1>Administration du catalogue</h1>
-      <p *ngIf="!isLoading">
-        {{ books.length }} livre(s) dans la bibliothèque
-      </p>
+      <p *ngIf="!isLoading">{{ books.length }} livre(s) dans la bibliothèque</p>
     </div>
     <!-- Ouvre la modale de création -->
-    <button class="btn-primary" (click)="openCreateModal()">
-      + Ajouter un livre
-    </button>
+    <button class="btn-primary" (click)="openCreateModal()">+ Ajouter un livre</button>
   </div>
 
   <!-- Messages succès / erreur -->
   <div class="alert alert-success" *ngIf="successMessage">{{ successMessage }}</div>
-  <div class="alert alert-error"   *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div class="alert alert-error" *ngIf="errorMessage">{{ errorMessage }}</div>
 
   <!-- BARRE DE RECHERCHE -->
   <div class="search-bar">
-    <input type="text" placeholder="Rechercher..." [(ngModel)]="searchQuery" (ngModelChange)="updateFilteredBooks()" class="search-input" />
+    <input
+      type="text"
+      placeholder="Rechercher..."
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="updateFilteredBooks()"
+      class="search-input"
+    />
   </div>
 
   <!-- TABLEAU -->
   <div class="table-card">
-
     <!-- Skeleton chargement -->
     <div *ngIf="isLoading" class="loading">Chargement...</div>
 
     <table class="admin-table" *ngIf="!isLoading">
       <thead>
-      <tr>
-        <th>Titre</th>
-        <th>Auteur</th>
-        <th>ISBN</th>
-        <th>Catégorie</th>
-        <th>Statut</th>
-        <th>Actions</th>
-      </tr>
+        <tr>
+          <th>Titre</th>
+          <th>Auteur</th>
+          <th>ISBN</th>
+          <th>Catégorie</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let book of filteredBooks">
+        <tr *ngFor="let book of filteredBooks">
+          <td class="title-cell">{{ book.titre }}</td>
 
-        <td class="title-cell">{{ book.titre }}</td>
+          <td>{{ book.auteur.prenom }} {{ book.auteur.nom }}</td>
 
-        <td>{{ book.auteur.prenom }} {{ book.auteur.nom }}</td>
+          <td class="isbn">{{ book.isbn }}</td>
 
-        <td class="isbn">{{ book.isbn }}</td>
+          <td>{{ book.categories[0]?.typeCategorie ?? '—' }}</td>
 
-        <td>{{ book.categories[0]?.typeCategorie ?? '—' }}</td>
-
-        <td>
-            <span class="badge"
-                  [class.available]="book.disponibilite"
-                  [class.unavailable]="!book.disponibilite">
+          <td>
+            <span
+              class="badge"
+              [class.available]="book.disponibilite"
+              [class.unavailable]="!book.disponibilite"
+            >
               {{ book.disponibilite ? 'Disponible' : 'Indisponible' }}
             </span>
-        </td>
+          </td>
 
-        <td class="actions">
-          <!-- Ouvre la modale pré-remplie avec les données du livre -->
-          <button class="btn-secondary" (click)="openEditModal(book)">
-            ✏️ Modifier
-          </button>
-          <button class="btn-danger" (click)="deleteBook(book)">
-            🗑️ Supprimer
-          </button>
-        </td>
+          <td class="actions">
+            <!-- Ouvre la modale pré-remplie avec les données du livre -->
+            <button class="btn-secondary" (click)="openEditModal(book)">✏️ Modifier</button>
+            <button class="btn-danger" (click)="deleteBook(book)">🗑️ Supprimer</button>
+          </td>
+        </tr>
 
-      </tr>
-
-      <!-- État vide -->
-      <tr *ngIf="filteredBooks.length === 0">
-        <td colspan="6" class="empty-row">Aucun livre trouvé.</td>
-      </tr>
-
+        <!-- État vide -->
+        <tr *ngIf="filteredBooks.length === 0">
+          <td colspan="6" class="empty-row">Aucun livre trouvé.</td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -84,24 +81,29 @@
   <!-- Overlay sombre derrière la modale -->
   <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()"></div>
 
-  <div class="modal" *ngIf="showModal" role="dialog"
-       [attr.aria-label]="isEditMode ? 'Modifier un livre' : 'Ajouter un livre'">
-
+  <div
+    class="modal"
+    *ngIf="showModal"
+    role="dialog"
+    [attr.aria-label]="isEditMode ? 'Modifier un livre' : 'Ajouter un livre'"
+  >
     <div class="modal-header">
       <h2>{{ isEditMode ? '✏️ Modifier le livre' : '+ Ajouter un livre' }}</h2>
       <button class="modal-close" (click)="closeModal()" aria-label="Fermer">✕</button>
     </div>
 
     <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" novalidate>
-
       <div class="form-grid">
-
         <!-- Titre -->
         <div class="form-group form-group-full">
           <label for="titre">Titre *</label>
-          <input id="titre" type="text" formControlName="titre"
-                 placeholder="Titre du livre"
-                 [class.input-error]="f['titre'].invalid && f['titre'].touched" />
+          <input
+            id="titre"
+            type="text"
+            formControlName="titre"
+            placeholder="Titre du livre"
+            [class.input-error]="f['titre'].invalid && f['titre'].touched"
+          />
           <span class="error-msg" *ngIf="f['titre'].touched && f['titre'].hasError('required')">
             Le titre est requis.
           </span>
@@ -110,10 +112,17 @@
         <!-- Prénom auteur -->
         <div class="form-group">
           <label for="auteurPrenom">Prénom auteur *</label>
-          <input id="auteurPrenom" type="text" formControlName="auteurPrenom"
-                 placeholder="Prénom"
-                 [class.input-error]="f['auteurPrenom'].invalid && f['auteurPrenom'].touched" />
-          <span class="error-msg" *ngIf="f['auteurPrenom'].touched && f['auteurPrenom'].hasError('required')">
+          <input
+            id="auteurPrenom"
+            type="text"
+            formControlName="auteurPrenom"
+            placeholder="Prénom"
+            [class.input-error]="f['auteurPrenom'].invalid && f['auteurPrenom'].touched"
+          />
+          <span
+            class="error-msg"
+            *ngIf="f['auteurPrenom'].touched && f['auteurPrenom'].hasError('required')"
+          >
             Requis.
           </span>
         </div>
@@ -121,10 +130,17 @@
         <!-- Nom auteur -->
         <div class="form-group">
           <label for="auteurNom">Nom auteur *</label>
-          <input id="auteurNom" type="text" formControlName="auteurNom"
-                 placeholder="Nom"
-                 [class.input-error]="f['auteurNom'].invalid && f['auteurNom'].touched" />
-          <span class="error-msg" *ngIf="f['auteurNom'].touched && f['auteurNom'].hasError('required')">
+          <input
+            id="auteurNom"
+            type="text"
+            formControlName="auteurNom"
+            placeholder="Nom"
+            [class.input-error]="f['auteurNom'].invalid && f['auteurNom'].touched"
+          />
+          <span
+            class="error-msg"
+            *ngIf="f['auteurNom'].touched && f['auteurNom'].hasError('required')"
+          >
             Requis.
           </span>
         </div>
@@ -132,9 +148,13 @@
         <!-- ISBN (désactivé en mode édition) -->
         <div class="form-group">
           <label for="isbn">ISBN * (13 chiffres)</label>
-          <input id="isbn" type="text" formControlName="isbn"
-                 placeholder="9782070612758"
-                 [class.input-error]="f['isbn'].invalid && f['isbn'].touched" />
+          <input
+            id="isbn"
+            type="text"
+            formControlName="isbn"
+            placeholder="9782070612758"
+            [class.input-error]="f['isbn'].invalid && f['isbn'].touched"
+          />
           <span class="error-msg" *ngIf="f['isbn'].touched && f['isbn'].hasError('required')">
             Requis.
           </span>
@@ -146,12 +166,18 @@
         <!-- Catégorie -->
         <div class="form-group">
           <label for="categorie">Catégorie *</label>
-          <select id="categorie" formControlName="categorie"
-                  [class.input-error]="f['categorie'].invalid && f['categorie'].touched">
+          <select
+            id="categorie"
+            formControlName="categorie"
+            [class.input-error]="f['categorie'].invalid && f['categorie'].touched"
+          >
             <option value="">Choisir...</option>
             <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
           </select>
-          <span class="error-msg" *ngIf="f['categorie'].touched && f['categorie'].hasError('required')">
+          <span
+            class="error-msg"
+            *ngIf="f['categorie'].touched && f['categorie'].hasError('required')"
+          >
             Requis.
           </span>
         </div>
@@ -159,18 +185,29 @@
         <!-- URL Couverture -->
         <div class="form-group form-group-full">
           <label for="couverture">URL de la couverture</label>
-          <input id="couverture" type="text" formControlName="couverture"
-                 placeholder="https://... ou chemin relatif" />
+          <input
+            id="couverture"
+            type="text"
+            formControlName="couverture"
+            placeholder="https://... ou chemin relatif"
+          />
         </div>
 
         <!-- Description -->
         <div class="form-group form-group-full">
           <label for="description">Description *</label>
-          <textarea id="description" formControlName="description"
-                    placeholder="Résumé du livre..." rows="4"
-                    [class.input-error]="f['description'].invalid && f['description'].touched">
+          <textarea
+            id="description"
+            formControlName="description"
+            placeholder="Résumé du livre..."
+            rows="4"
+            [class.input-error]="f['description'].invalid && f['description'].touched"
+          >
           </textarea>
-          <span class="error-msg" *ngIf="f['description'].touched && f['description'].hasError('required')">
+          <span
+            class="error-msg"
+            *ngIf="f['description'].touched && f['description'].hasError('required')"
+          >
             Requis.
           </span>
         </div>
@@ -183,20 +220,15 @@
             <option [ngValue]="false">Indisponible</option>
           </select>
         </div>
-
       </div>
 
       <!-- Boutons formulaire -->
       <div class="modal-footer">
-        <button type="button" class="btn-secondary" (click)="closeModal()">
-          Annuler
-        </button>
+        <button type="button" class="btn-secondary" (click)="closeModal()">Annuler</button>
         <button type="submit" class="btn-primary" [disabled]="isSaving">
-          {{ isSaving ? 'Enregistrement...' : (isEditMode ? 'Modifier' : 'Ajouter') }}
+          {{ isSaving ? 'Enregistrement...' : isEditMode ? 'Modifier' : 'Ajouter' }}
         </button>
       </div>
-
     </form>
   </div>
-
 </div>

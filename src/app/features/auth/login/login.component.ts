@@ -48,16 +48,19 @@ export class LoginComponent {
     this.authService.login(this.loginForm.value).subscribe({
       next: (response: any) => {
         const data = response.data;
-        this.authService.setToken(data.token);
 
         this.authService.fetchAndStoreUser(data.id).subscribe({
           next: () => {
-            // On ajoute le role au user déjà stocké
             const user = this.authService.getUser();
             this.authService.setUser({ ...user, role: data.role });
-            this.router.navigate(['lecteur/dashboard']);
+
+            this.router.navigate([this.authService.getHomeRouteForRole()]);
           },
-          error: () => this.router.navigate(['lecteur/dashboard']),
+          error: () => {
+            // Même en cas d'échec du fetch, on a le token + le rôle → on redirige
+            this.authService.setUser({ id: data.id, role: data.role });
+            this.router.navigate([this.authService.getHomeRouteForRole()]);
+          },
         });
       },
       error: () => {
