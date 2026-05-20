@@ -56,7 +56,7 @@
   width: 2.625rem;
   height: 2.625rem;
   border-radius: 0.875rem;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #F1999a, #FFB247);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,7 +70,7 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #F1999a, #FFB247);
   filter: blur(8px);
   opacity: 0.5;
   z-index: -1;
@@ -79,7 +79,7 @@
 .logo__text {
   font-size: 1.375rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #F1999a, #FFB247);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -109,10 +109,9 @@
   color: #0f172a;
 }
 
-/* Lien actif — priorité maximale, le :hover ne doit pas l'écraser */
 .nav-link--active,
-.nav-link--active:hover {          /* ← c'est le fix clé */
-  background: linear-gradient(135deg, #667eea, #764ba2);
+.nav-link--active:hover {         
+  background: linear-gradient(135deg, #F1999a, #FFB247);
   color: #fff !important;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
@@ -130,7 +129,7 @@
   font-weight: 600;
   color: #fff;
   text-decoration: none;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #F1999a, #FFB247);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   white-space: nowrap;
@@ -168,7 +167,7 @@
 .searchbar__input {
   width: 100%;
   height: 2.625rem;
-  padding: 0 2.5rem 0 2.75rem; /* droite = place pour le bouton clear */
+  padding: 0 2.5rem 0 2.75rem;
   border: 2px solid #e2e8f0;
   border-radius: 0.75rem;
   font-size: 0.9rem;
@@ -189,7 +188,6 @@
   box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
 }
 
-/* Bouton ✕ pour vider le champ */
 .searchbar__clear {
   position: absolute;
   right: 0.625rem;
@@ -241,7 +239,7 @@
   width: 2.375rem;
   height: 2.375rem;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #F1999a, #FFB247);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -377,13 +375,12 @@
 }
 
 .nav-mobile__link:hover {
-  color: #6366f1;
+  color: #F1999a;
 }
 
-/* Lien mobile actif — même principe, le hover ne change rien */
 .nav-mobile__link--active,
-.nav-mobile__link--active:hover {   /* ← fix mobile aussi */
-  color: #6366f1;
+.nav-mobile__link--active:hover {   
+  color: #F1999a;
   font-weight: 700;
 }
 
@@ -426,9 +423,8 @@
   }
 }
 
-/* Style catalogue dans le menu mobile */
 .nav-mobile__link--catalogue {
-  color: #6366f1;
+  color: #F1999a;
   font-weight: 700;
 }
 

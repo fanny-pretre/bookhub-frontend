@@ -98,6 +98,11 @@ export class AuthService {
     return this.getUser()?.role ?? null;
   }
 
+  isAdmin(): boolean {
+  const role = this.getUserRole();
+  return role === 'ADMIN' || role === 'BIBLIOTHECAIRE';
+  }
+
   getHomeRouteForRole(): string {
     switch (this.getUserRole()) {
       case 'ADMIN':

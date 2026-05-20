@@ -10,7 +10,7 @@ import { AuthService } from '../../shared/services/auth.service';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './navbar-admin.html',
-  styleUrl: './navbar.css', // ← tu réutilises le même CSS
+  styleUrl: './navbar-admin.css',
 })
 export class NavbarAdmin implements OnInit, OnDestroy {
   userName = '';
@@ -24,7 +24,7 @@ export class NavbarAdmin implements OnInit, OnDestroy {
     { path: '/bibliothecaire/catalogue', label: 'Catalogue' },
     { path: '/bibliothecaire/statistiques', label: 'Statistiques' },
     { path: '/bibliothecaire/moderation', label: 'Modération' },
-    { path: '/lecteur/dashboard', label: 'Mode Lecteur' },
+    { path: '/bibliothecaire/utilisateurs', label: 'Utilisateurs' },
   ];
 
   private sub!: Subscription;

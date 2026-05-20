@@ -32,11 +32,14 @@ export class Navbar implements OnInit, OnDestroy {
     private router: Router,
   ) {}
 
+  isAdmin = false;
+
   ngOnInit(): void {
     this.sub = this.authService.currentUser$.subscribe((user) => {
       if (user) {
         this.userName = `${user.prenom ?? ''} ${user.nom ?? ''}`.trim() || 'Utilisateur';
         this.userEmail = user.email ?? '';
+        this.isAdmin = user.role === 'ADMIN' || user.role === 'BIBLIOTHECAIRE';
       }
     });
   }
