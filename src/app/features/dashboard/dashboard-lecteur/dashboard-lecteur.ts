@@ -118,11 +118,15 @@ export class DashboardLecteur implements OnInit, OnDestroy {
             });
 
           // Réservations
-          this.reservations = reservations.map((r) => ({
-            id: r.id,
-            title: r.bookTitle,
-            status: r.status,
-          }));
+          this.reservations = reservations
+
+            .filter((r) => r.status === 'En cours' || r.status === 'Liste attente')
+
+            .map((r) => ({
+              id: r.id,
+              title: r.bookTitle,
+              status: r.status,
+            }));
 
           // Livres récemment lus (emprunts terminés, du plus récent au plus ancien)
           this.recentBooks = allLoans
