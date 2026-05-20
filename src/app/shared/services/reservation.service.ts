@@ -28,8 +28,10 @@ export class ReservationService {
     .post<ApiResponse<ReservationResponse>>(this.apiUrl, reservation)
     .pipe(map(res => res.data));
 }
-  getAllReservations(): Observable<ApiResponse<ReservationResponse[]>> {
-    return this.http.get<ApiResponse<ReservationResponse[]>>(this.apiUrl);
+  getAllReservations(): Observable<ReservationResponse[]> {
+    return this.http
+      .get<ApiResponse<ReservationResponse[]>>(this.apiUrl)
+      .pipe(map(res => res.data));
   }
 
 getMyReservations(): Observable<ReservationResponse[]> {

@@ -1,0 +1,326 @@
+<app-navbar-admin></app-navbar-admin>
+
+<div class="loans-page">
+
+  <section class="loans-hero">
+    <div>
+      <h1>Gérer les emprunts</h1>
+      <p>Suivez et validez les emprunts de la bibliothèque</p>
+    </div>
+  </section>
+
+  <div *ngIf="successMessage" class="message message--success">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="message message--error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    Chargement...
+  </div>
+
+  <ng-container *ngIf="!loading">
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <div class="stat-card__icon stat-card__icon--blue">📖</div>
+        <div>
+          <p class="stat-card__label">En cours</p>
+          <p class="stat-card__value">{{ empruntsEnCours.length }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card__icon stat-card__icon--orange">🕘</div>
+        <div>
+          <p class="stat-card__label">À valider</p>
+          <p class="stat-card__value">{{ activeReservations.length }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card__icon stat-card__icon--red">!</div>
+        <div>
+          <p class="stat-card__label">En retard</p>
+          <p class="stat-card__value">{{ empruntsEnRetard.length }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card__icon stat-card__icon--green">✓</div>
+        <div>
+          <p class="stat-card__label">Complétés</p>
+          <p class="stat-card__value">{{ empruntsHistorique.length }}</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="actions-grid">
+
+      <div class="action-card" (click)="setTab('en-cours')">
+        <div class="action-card__icon action-card__icon--blue">👁</div>
+        <div>
+          <h3>Voir les emprunts</h3>
+          <p>Consulter tous les emprunts en cours</p>
+        </div>
+      </div>
+
+      <div class="action-card action-card--orange" (click)="setTab('a-valider')">
+        <div class="action-card__icon action-card__icon--white">✓</div>
+        <div>
+          <h3>Validation réservation</h3>
+          <p>Valider les demandes de réservation</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="tabs">
+
+        <button
+          class="tab"
+          [class.tab--active]="activeTab === 'en-cours'"
+          (click)="setTab('en-cours')">
+
+          En cours ({{ empruntsEnCours.length }})
+
+        </button>
+
+        <button
+          class="tab"
+          [class.tab--active]="activeTab === 'a-valider'"
+          (click)="setTab('a-valider')">
+
+          À valider ({{ activeReservations.length }})
+
+        </button>
+
+        <button
+          class="tab"
+          [class.tab--active]="activeTab === 'retard'"
+          (click)="setTab('retard')">
+
+          En retard ({{ empruntsEnRetard.length }})
+
+        </button>
+
+        <button
+          class="tab"
+          [class.tab--active]="activeTab === 'historique'"
+          (click)="setTab('historique')">
+
+          Historique ({{ empruntsHistorique.length }})
+
+        </button>
+
+      </div>
+
+      <div class="tab-content">
+
+        <!-- EN COURS -->
+
+        <div *ngIf="activeTab === 'en-cours'">
+
+          <div *ngIf="empruntsEnCours.length === 0" class="empty-state">
+            <h3>Aucun emprunt en cours</h3>
+            <p>Il n’y a aucun retour à enregistrer.</p>
+          </div>
+
+          <div class="loan-row" *ngFor="let emprunt of empruntsEnCours">
+
+            <div class="loan-row__left">
+
+              <h3>{{ getBookTitle(emprunt) }}</h3>
+
+              <p>
+                Emprunté par
+                <span>{{ getUserName(emprunt) }}</span>
+              </p>
+
+              <small>
+                Du {{ formatDate(emprunt.dateEmprunt) }}
+                au {{ formatDate(emprunt.dateRetourPrevue) }}
+              </small>
+
+            </div>
+
+            <div class="loan-row__right">
+
+              <button
+                class="btn-return"
+                [disabled]="returningId === emprunt.id"
+                (click)="returnLoan(emprunt.id)">
+
+                {{
+                  returningId === emprunt.id
+                    ? 'Validation...'
+                    : 'Marquer retourné'
+                }}
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- A VALIDER -->
+
+        <div *ngIf="activeTab === 'a-valider'">
+
+          <div *ngIf="activeReservations.length === 0" class="empty-state">
+            <h3>Aucune réservation à valider</h3>
+            <p>Les nouvelles demandes apparaîtront ici.</p>
+          </div>
+
+          <div
+            class="loan-row"
+            *ngFor="let reservation of activeReservations">
+
+            <div class="loan-row__left">
+
+              <h3>{{ reservation.bookTitle }}</h3>
+
+              <p>
+                Réservé par
+                <span>{{ getReservationUserName(reservation) }}</span>
+              </p>
+
+              <p>
+                ISBN :
+                <span>{{ reservation.isbn }}</span>
+              </p>
+
+              <small>
+                Réservé le {{ formatDate(reservation.reservationDate) }}
+              </small>
+
+            </div>
+
+            <div class="loan-row__right">
+
+              <button
+                class="btn-return"
+                [disabled]="validatingId === reservation.id"
+                (click)="validateReservation(reservation.id)">
+
+                {{
+                  validatingId === reservation.id
+                    ? 'Validation...'
+                    : 'Valider'
+                }}
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- RETARDS -->
+
+        <div *ngIf="activeTab === 'retard'">
+
+          <div *ngIf="empruntsEnRetard.length === 0" class="empty-state">
+            <h3>Aucun emprunt en retard</h3>
+            <p>Tout est à jour.</p>
+          </div>
+
+          <div
+            class="loan-row loan-row--late"
+            *ngFor="let emprunt of empruntsEnRetard">
+
+            <div class="loan-row__left">
+
+              <h3>{{ getBookTitle(emprunt) }}</h3>
+
+              <p>
+                Emprunté par
+                <span>{{ getUserName(emprunt) }}</span>
+              </p>
+
+              <small>
+                Retour prévu le
+                {{ formatDate(emprunt.dateRetourPrevue) }}
+              </small>
+
+            </div>
+
+            <div class="loan-row__right">
+
+              <div class="return-info return-info--late">
+                <span>Retard</span>
+                <strong>
+                  {{ getDaysLeft(emprunt.dateRetourPrevue) * -1 }} jours
+                </strong>
+              </div>
+
+              <button
+                class="btn-return"
+                (click)="returnLoan(emprunt.id)">
+
+                Marquer retourné
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- HISTORIQUE -->
+
+        <div *ngIf="activeTab === 'historique'">
+
+          <div *ngIf="empruntsHistorique.length === 0" class="empty-state">
+            <h3>Aucun historique</h3>
+            <p>Les emprunts retournés apparaîtront ici.</p>
+          </div>
+
+          <div
+            class="loan-row"
+            *ngFor="let emprunt of empruntsHistorique">
+
+            <div class="loan-row__left">
+
+              <h3>{{ getBookTitle(emprunt) }}</h3>
+
+              <p>
+                Emprunté par
+                <span>{{ getUserName(emprunt) }}</span>
+              </p>
+
+              <small>
+                Du {{ formatDate(emprunt.dateEmprunt) }}
+                au {{ formatDate(emprunt.dateRetourPrevue) }}
+              </small>
+
+            </div>
+
+            <div class="loan-row__right">
+
+              <span class="badge badge--completed">
+                Retourné
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </ng-container>
+
+</div>

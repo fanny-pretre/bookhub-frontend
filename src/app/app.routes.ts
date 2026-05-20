@@ -1,3 +1,4 @@
+
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
 import { SigninComponent } from './features/auth/signin/signin.component';
@@ -8,10 +9,10 @@ import { MesEmpruntsComponent } from './features/lecteur/mes-emprunts/mes-emprun
 import { BookAdminComponent } from './features/admin/book-admin/book-admin.component';
 import { ProfileComponent } from './features/lecteur/profil-lecteur/profil-lecteur';
 import { DashboardBibliothecaireComponent } from './features/dashboard/dashboard-bibliothecaire/dashboard-bibliothecaire';
-import { ReservationsValidation } from './features/bibliothecaire/reservations-validation/reservations-validation';
 import { Statistiques } from './features/bibliothecaire/statistiques/statistiques';
 import { Moderation } from './features/bibliothecaire/moderation/moderation';
 import { authGuard } from './core/guards/auth.guard';
+import { GestionEmpruntsComponent } from './features/bibliothecaire/gestion-emprunts/gestion-emprunts';
 
 export const routes: Routes = [
   // Redirection racine
@@ -46,7 +47,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardBibliothecaireComponent },
-      { path: 'gestionemprunts', component: ReservationsValidation },
+      { path: 'gestionemprunts', component: GestionEmpruntsComponent },
       { path: 'statistiques', component: Statistiques },
       { path: 'moderation', component: Moderation },
       { path: 'catalogue', component: BookAdminComponent },
