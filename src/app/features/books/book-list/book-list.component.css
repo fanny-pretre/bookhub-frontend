@@ -268,14 +268,14 @@
 }
 
 .pagination-btn-active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f1999a 0%, #e15f40 100%);
   border-color: transparent;
   color: white;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
 .pagination-btn-active:hover {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: linear-gradient(135deg, #f1999a 0%, #e15f40 100%) !important;
   color: white !important;
 }
 
