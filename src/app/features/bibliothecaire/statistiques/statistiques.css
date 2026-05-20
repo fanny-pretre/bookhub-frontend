@@ -2,17 +2,32 @@
  padding: 2rem;
 }
 
+/* ─────────────────────────────────────────
+   HERO
+───────────────────────────────────────── */
+
+.loans-hero {
+  position: relative;
+  background: linear-gradient(135deg, #ffb247, #FF6D49);
+  border-radius: 1.5rem;
+  padding: 3rem 2.5rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(99, 102, 241, .2);
+}
+
+
 /* TITRES */
 
 .page-title {
   font-size: 48px;
   font-weight: 800;
-  color: #151b3b;
+  color: white;
   margin-bottom: 8px;
 }
 
 .page-subtitle {
-  color: #8b92a6;
+  color: white;
   font-size: 16px;
   margin-bottom: 40px;
 }
@@ -49,19 +64,19 @@
 /* GRADIENTS */
 
 .gradient-pink {
-  background: linear-gradient(135deg, #ff9a9e, #f6416c, #ff9671);
+  background: linear-gradient(135deg, #F1999a, #FFB247);
 }
 
 .gradient-blue {
-  background: linear-gradient(135deg, #7f7fd5, #2b2d77, #1d2671);
+  background: linear-gradient(135deg, #FFB247, #95B2EA);
 }
 
 .gradient-orange {
-  background: linear-gradient(135deg, #ff8c42, #ffb347, #ffd56f);
+  background: linear-gradient(135deg, #95B2EA, #FF6D49);
 }
 
 .gradient-yellow {
-  background: linear-gradient(135deg, #f6d365, #fda085, #a1c4fd);
+  background: linear-gradient(135deg, #FF6D49, #F1999a);
 }
 
 /* ICON */
