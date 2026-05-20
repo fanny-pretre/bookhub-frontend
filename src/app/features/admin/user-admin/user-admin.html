@@ -1,0 +1,168 @@
+<app-navbar-admin></app-navbar-admin>
+
+<div class="admin-page">
+  <div class="admin-header">
+    <div>
+      <h1>Gestion des utilisateurs</h1>
+      <p *ngIf="!isLoading">{{ users.length }} utilisateur(s)</p>
+    </div>
+
+    <button class="btn-primary" (click)="openCreateModal()">+ Ajouter un utilisateur</button>
+  </div>
+
+  <div class="alert alert-success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert alert-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="search-bar">
+    <input
+      type="text"
+      placeholder="Rechercher un utilisateur..."
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="updateFilteredUsers()"
+      class="search-input"
+    />
+  </div>
+
+  <div class="table-card">
+    <div *ngIf="isLoading" class="loading">Chargement...</div>
+
+    <table class="admin-table" *ngIf="!isLoading">
+      <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Email</th>
+        <th>Téléphone</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let user of filteredUsers">
+        <td class="title-cell">{{ user.nom }}</td>
+        <td>{{ user.prenom }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.telephone ?? '—' }}</td>
+
+        <td class="actions">
+          <button class="btn-danger" (click)="openDeleteModal(user)">🗑️ Supprimer</button>
+        </td>
+      </tr>
+
+      <tr *ngIf="filteredUsers.length === 0">
+        <td colspan="5" class="empty-row">Aucun utilisateur trouvé.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()"></div>
+
+  <div class="modal" *ngIf="showModal" role="dialog" aria-label="Ajouter un utilisateur">
+    <div class="modal-header">
+      <h2>+ Ajouter un utilisateur</h2>
+      <button class="modal-close" (click)="closeModal()" aria-label="Fermer">✕</button>
+    </div>
+
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="prenom">Prénom *</label>
+          <input
+            id="prenom"
+            type="text"
+            formControlName="prenom"
+            placeholder="Prénom"
+            [class.input-error]="f['prenom'].invalid && f['prenom'].touched"
+          />
+          <span class="error-msg" *ngIf="f['prenom'].touched && f['prenom'].hasError('required')">
+            Requis.
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="nom">Nom *</label>
+          <input
+            id="nom"
+            type="text"
+            formControlName="nom"
+            placeholder="Nom"
+            [class.input-error]="f['nom'].invalid && f['nom'].touched"
+          />
+          <span class="error-msg" *ngIf="f['nom'].touched && f['nom'].hasError('required')">
+            Requis.
+          </span>
+        </div>
+
+        <div class="form-group form-group-full">
+          <label for="email">Email *</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="exemple@mail.com"
+            [class.input-error]="f['email'].invalid && f['email'].touched"
+          />
+          <span class="error-msg" *ngIf="f['email'].touched && f['email'].hasError('required')">
+            Requis.
+          </span>
+          <span class="error-msg" *ngIf="f['email'].touched && f['email'].hasError('email')">
+            Email invalide.
+          </span>
+        </div>
+
+        <div class="form-group form-group-full">
+          <label for="mdp">Mot de passe *</label>
+          <input
+            id="mdp"
+            type="password"
+            formControlName="mdp"
+            placeholder="Mot de passe"
+            [class.input-error]="f['mdp'].invalid && f['mdp'].touched"
+          />
+          <span class="error-msg" *ngIf="f['mdp'].touched && f['mdp'].hasError('required')">
+            Requis.
+          </span>
+          <span class="error-msg" *ngIf="f['mdp'].touched && f['mdp'].hasError('minlength')">
+            Minimum 8 caractères.
+          </span>
+          <span class="error-msg" *ngIf="f['mdp'].touched && f['mdp'].hasError('pattern')">
+            Majuscule, minuscule, chiffre et caractère spécial requis.
+          </span>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" (click)="closeModal()">Annuler</button>
+        <button type="submit" class="btn-primary" [disabled]="isSaving">
+          {{ isSaving ? 'Création...' : 'Ajouter' }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-overlay" *ngIf="showDeleteModal" (click)="closeDeleteModal()"></div>
+
+  <div
+    class="delete-modal"
+    *ngIf="showDeleteModal"
+    role="dialog"
+    aria-label="Confirmer la suppression"
+    (click)="$event.stopPropagation()"
+  >
+    <h2>Supprimer l’utilisateur ?</h2>
+
+    <p>
+      Voulez-vous vraiment supprimer
+      <strong>{{ userToDelete?.prenom }} {{ userToDelete?.nom }}</strong> ?
+    </p>
+
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" (click)="closeDeleteModal()">Annuler</button>
+
+      <button type="button" class="btn-danger" [disabled]="isDeleting" (click)="confirmDeleteUser()">
+        {{ isDeleting ? 'Suppression...' : 'Supprimer' }}
+      </button>
+    </div>
+  </div>
+</div>
