@@ -3,8 +3,6 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 import { forkJoin } from 'rxjs';
 
-import { Navbar } from '../../../core/navbar/navbar';
-
 import { ReservationService } from '../../../shared/services/reservation.service';
 import { EmpruntService } from '../../../shared/services/emprunt.service';
 import { UtilisateurService } from '../../../shared/services/utilisateur.service';
@@ -14,6 +12,7 @@ import { ReservationResponse } from '../../../shared/models/reservation.model';
 import { EmpruntResponse } from '../../../shared/models/emprunt.model';
 import { Utilisateur } from '../../../shared/models/utilisateur.model';
 import { Book } from '../../../shared/models/book.model';
+import { NavbarAdmin } from '../../../core/navbar admin/navbar-admin';
 
 const STATUT_RETOURNE = 1;
 const STATUT_EN_COURS = 2;
@@ -21,7 +20,7 @@ const STATUT_EN_COURS = 2;
 @Component({
   selector: 'app-gestion-emprunts',
   standalone: true,
-  imports: [CommonModule, Navbar],
+  imports: [CommonModule, NavbarAdmin],
   templateUrl: './gestion-emprunts.html',
   styleUrl: './gestion-emprunts.css',
 })
@@ -148,6 +147,17 @@ export class GestionEmpruntsComponent implements OnInit {
         this.cdr.detectChanges();
       },
     });
+  }
+
+  getReservationUserName(reservation: ReservationResponse): string {
+
+    const user = this.usersMap.get(
+      Number(reservation.idUtilisateur),
+    );
+
+    return user
+      ? `${user.prenom} ${user.nom}`
+      : `Utilisateur #${reservation.idUtilisateur}`;
   }
 
   get reservationsCount(): number {

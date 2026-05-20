@@ -1,3 +1,5 @@
+<app-navbar-admin></app-navbar-admin>
+
 <div class="loans-page">
 
   <section class="loans-hero">
@@ -187,7 +189,12 @@
               <h3>{{ reservation.bookTitle }}</h3>
 
               <p>
-                Réservation ISBN :
+                Réservé par
+                <span>{{ getReservationUserName(reservation) }}</span>
+              </p>
+
+              <p>
+                ISBN :
                 <span>{{ reservation.isbn }}</span>
               </p>
 

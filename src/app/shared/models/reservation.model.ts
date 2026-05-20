@@ -2,7 +2,7 @@ export interface Reservation {
   isbn: string;
 }
 export interface ApiResponse<T> {
-  success: boolean; 
+  success: boolean;
   message: string;
   data: T;
 }
@@ -15,4 +15,5 @@ export interface ReservationResponse {
   status: string;
   bookTitle: string;
   reservationDate: string;
+  idUtilisateur: number;
 }
