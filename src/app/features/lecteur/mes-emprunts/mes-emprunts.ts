@@ -23,6 +23,7 @@ export interface Loan {
   id: number;
   title: string;
   borrowDate: string;
+  coverUrl: string;
   dueDate: string;
   daysLeft: number;
   overdue: boolean;
@@ -31,6 +32,7 @@ export interface Loan {
 export interface HistoryLoan {
   id: number;
   title: string;
+  coverUrl: string;
   borrowDate: string;
   returnDate: string;
 }
@@ -41,6 +43,7 @@ export interface Reservation {
   reservedDate: string;
   position: number;
   estimatedDate: string;
+  coverUrl: string;
 }
 
 const STATUT_TERMINE = 1;
@@ -94,10 +97,12 @@ export class MesEmpruntsComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe(({ loans, reservations, books }) => {
-        const bookMap = new Map(books.map((book) => [book.isbn, book.titre]));
+        const bookMap = new Map(
+          books.map((book) => [book.isbn, { titre: book.titre, couverture: book.couverture }]),
+        );
 
         this.processLoans(loans, bookMap);
-        this.processReservations(reservations);
+        this.processReservations(reservations, bookMap); // ← passer bookMap
 
         this.isLoading = false;
         this.cdr.detectChanges();
@@ -111,19 +116,24 @@ export class MesEmpruntsComponent implements OnInit, OnDestroy {
 
   // ── Transformation DTO → modèle vue ──────────────────────────────────────
 
-  private processLoans(loans: EmpruntResponseDTO[], bookMap: Map<string, string>): void {
+  private processLoans(
+    loans: EmpruntResponseDTO[],
+    bookMap: Map<string, { titre: string; couverture: string }>,
+  ): void {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
     this.inProgressLoans = loans
       .filter((l) => l.idStatut === STATUT_ENCOURS)
       .map((l) => {
+        const book = bookMap.get(l.isbn);
         const dueDate = new Date(l.dateRetourPrevue);
         const diffMs = dueDate.getTime() - today.getTime();
         const daysLeft = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
         return {
           id: l.id,
-          title: bookMap.get(l.isbn) ?? l.isbn,
+          title: book?.titre ?? l.isbn,
+          coverUrl: book?.couverture ?? '', // ← ajout
           borrowDate: this.formatDate(l.dateEmprunt),
           dueDate: this.formatDate(l.dateRetourPrevue),
           daysLeft,
@@ -133,32 +143,29 @@ export class MesEmpruntsComponent implements OnInit, OnDestroy {
 
     this.historyLoans = loans
       .filter((l) => l.idStatut === STATUT_TERMINE)
-      .map((l) => ({
-        id: l.id,
-        title: bookMap.get(l.isbn) ?? l.isbn,
-        borrowDate: this.formatDate(l.dateEmprunt),
-        returnDate: this.formatDate(l.dateRetourPrevue),
-      }));
+      .map((l) => {
+        const book = bookMap.get(l.isbn);
+        return {
+          id: l.id,
+          title: book?.titre ?? l.isbn,
+          coverUrl: book?.couverture ?? '', // ← ajout
+          borrowDate: this.formatDate(l.dateEmprunt),
+          returnDate: this.formatDate(l.dateRetourPrevue),
+        };
+      });
   }
 
   private processReservations(
     reservations: ReservationResponseDTO[],
+    bookMap: Map<string, { titre: string; couverture: string }>,
   ): void {
-
     this.reservations = reservations
-
-      .filter(
-        (r) =>
-          r.status === 'En cours' ||
-          r.status === 'Liste attente',
-      )
-
+      .filter((r) => r.status === 'En cours' || r.status === 'Liste attente')
       .map((r) => ({
         id: r.id,
         title: r.bookTitle,
-        reservedDate: this.formatDate(
-          r.reservationDate,
-        ),
+        coverUrl: bookMap.get(r.isbn)?.couverture ?? '', // ← ajout
+        reservedDate: this.formatDate(r.reservationDate),
         position: r.queuePosition ?? 0,
         estimatedDate: '—',
       }));
@@ -185,17 +192,22 @@ export class MesEmpruntsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.mesEmpruntsService
-            .getMyReservations()
+          forkJoin({
+            reservations: this.mesEmpruntsService.getMyReservations(),
+            books: this.bookService.getAllBooks(),
+          })
             .pipe(takeUntil(this.destroy$))
-            .subscribe((reservations) => {
-              this.processReservations(reservations);
+            .subscribe(({ reservations, books }) => {
+              const bookMap = new Map(
+                books.map((b) => [b.isbn, { titre: b.titre, couverture: b.couverture }])
+              );
+              this.processReservations(reservations, bookMap);
               this.showSuccess('Vous avez bien annulé la réservation.');
             });
         },
         error: (err) => {
           console.error('Erreur suppression réservation', err);
-          this.errorMessage = 'Impossible d’annuler la réservation.';
+          this.errorMessage = 'Impossible annuler la réservation.';
           this.cdr.detectChanges();
         },
       });

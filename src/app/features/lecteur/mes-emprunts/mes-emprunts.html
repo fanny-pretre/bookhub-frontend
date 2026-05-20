@@ -2,26 +2,21 @@
 
 <div class="loans-page">
 
-  <!-- Chargement -->
   <div *ngIf="isLoading" class="loading-state">
     <div class="loading-spinner"></div>
     <p>Chargement de vos emprunts…</p>
   </div>
 
-  <!-- Erreur réseau / serveur -->
   <div *ngIf="errorMessage && !isLoading" class="error-state">
     <p>{{ errorMessage }}</p>
   </div>
 
-  <!-- 🔥 Ajoute ici -->
   <div *ngIf="successMessage" class="success-state">
     <p>{{ successMessage }}</p>
   </div>
 
-  <!-- Contenu principal : visible dès que le chargement est terminé, même si tout est vide -->
   <ng-container *ngIf="!isLoading">
 
-    <!-- Hero -->
     <div class="loans-hero">
       <div class="loans-hero__blobs" aria-hidden="true">
         <div class="loans-hero__blob loans-hero__blob--tr"></div>
@@ -35,7 +30,6 @@
       </div>
     </div>
 
-    <!-- Stats -->
     <div class="stats-grid">
 
       <div class="stat-card">
@@ -83,7 +77,6 @@
 
     </div>
 
-    <!-- Carte onglets : toujours affichée -->
     <div class="card">
 
       <div class="tabs">
@@ -109,7 +102,6 @@
         <!-- ── En cours ── -->
         <div *ngIf="activeTab === 'progress'">
 
-          <!-- Aucun emprunt en cours -->
           <div *ngIf="inProgressLoans.length === 0" class="empty-state">
             <div class="empty-state__icon">
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
@@ -126,7 +118,14 @@
           <div class="loan-list" *ngIf="inProgressLoans.length > 0">
             <div class="loan-item" *ngFor="let loan of inProgressLoans"
                  [class.loan-item--overdue]="loan.overdue">
-              <div class="loan-item__cover" [class]="getGradient(loan.id)"></div>
+
+              <div class="loan-item__cover" [class]="getGradient(loan.id)">
+                <img *ngIf="loan.coverUrl"
+                     [src]="loan.coverUrl"
+                     [alt]="loan.title"
+                     class="loan-item__cover-img" />
+              </div>
+
               <div class="loan-item__body">
                 <h3 class="loan-item__title">{{ loan.title }}</h3>
                 <div class="loan-item__dates">
@@ -150,6 +149,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="loan-item__badge">
                 <span class="badge badge--overdue" *ngIf="loan.overdue">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
@@ -164,6 +164,7 @@
                   {{ loan.daysLeft }} jours restants
                 </span>
               </div>
+
             </div>
           </div>
 
@@ -172,7 +173,6 @@
         <!-- ── Historique ── -->
         <div *ngIf="activeTab === 'history'">
 
-          <!-- Aucun historique -->
           <div *ngIf="historyLoans.length === 0" class="empty-state">
             <div class="empty-state__icon">
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
@@ -187,7 +187,14 @@
 
           <div class="loan-list" *ngIf="historyLoans.length > 0">
             <div class="loan-item" *ngFor="let loan of historyLoans">
-              <div class="loan-item__cover" [class]="getGradient(loan.id)"></div>
+
+              <div class="loan-item__cover" [class]="getGradient(loan.id)">
+                <img *ngIf="loan.coverUrl"
+                     [src]="loan.coverUrl"
+                     [alt]="loan.title"
+                     class="loan-item__cover-img" />
+              </div>
+
               <div class="loan-item__body">
                 <h3 class="loan-item__title">{{ loan.title }}</h3>
                 <div class="loan-item__dates">
@@ -209,6 +216,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="loan-item__badge">
                 <span class="badge badge--returned">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
@@ -219,6 +227,7 @@
                   Rendu
                 </span>
               </div>
+
             </div>
           </div>
 
@@ -227,7 +236,6 @@
         <!-- ── Réservations ── -->
         <div *ngIf="activeTab === 'reservations'">
 
-          <!-- Aucune réservation -->
           <div *ngIf="reservations.length === 0" class="empty-state">
             <div class="empty-state__icon">
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
@@ -243,7 +251,14 @@
 
           <div class="loan-list" *ngIf="reservations.length > 0">
             <div class="loan-item" *ngFor="let reservation of reservations">
-              <div class="loan-item__cover" [class]="getGradient(reservation.id)"></div>
+
+              <div class="loan-item__cover" [class]="getGradient(reservation.id)">
+                <img *ngIf="reservation.coverUrl"
+                     [src]="reservation.coverUrl"
+                     [alt]="reservation.title"
+                     class="loan-item__cover-img" />
+              </div>
+
               <div class="loan-item__body">
                 <h3 class="loan-item__title">{{ reservation.title }}</h3>
                 <div class="loan-item__dates">
@@ -267,6 +282,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="loan-item__badge">
                 <span class="badge badge--position">
                   Position {{ reservation.position }}
@@ -275,6 +291,7 @@
                   Annuler
                 </button>
               </div>
+
             </div>
           </div>
 
