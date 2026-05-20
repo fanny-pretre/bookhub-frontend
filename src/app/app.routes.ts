@@ -13,6 +13,7 @@ import { Statistiques } from './features/bibliothecaire/statistiques/statistique
 import { Moderation } from './features/bibliothecaire/moderation/moderation';
 import { authGuard } from './core/guards/auth.guard';
 import { GestionEmpruntsComponent } from './features/bibliothecaire/gestion-emprunts/gestion-emprunts';
+import { UserAdmin } from './features/admin/user-admin/user-admin';
 
 export const routes: Routes = [
   // Redirection racine
@@ -51,7 +52,7 @@ export const routes: Routes = [
       { path: 'statistiques', component: Statistiques },
       { path: 'moderation', component: Moderation },
       { path: 'catalogue', component: BookAdminComponent },
-      { path: 'utilisateurs', component: BookAdminComponent },
+      { path: 'utilisateurs', component: UserAdmin },
     ],
   },
 

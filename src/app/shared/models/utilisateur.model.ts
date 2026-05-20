@@ -6,6 +6,13 @@ export interface Utilisateur {
   telephone?: string;
 }
 
+export interface RegisterDto {
+  nom: string;
+  prenom: string;
+  email: string;
+  mdp: string;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   message: string;
