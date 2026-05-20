@@ -58,9 +58,10 @@ export interface BookFormData {
   couverture: string;
   disponibilite: boolean;
   dateAjout?: string;
+
   auteur: {
-    nom: string;
-    prenom: string;
+    id: number;
   };
-  categories: Categorie[]; // On envoie les noms, le back fait le mapping vers les entités
+
+  categories: Categorie[];
 }
