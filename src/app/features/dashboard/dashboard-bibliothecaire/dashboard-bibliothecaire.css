@@ -177,12 +177,12 @@
 
 /* Couleur de fond pour la bannière Action rapide */
 .banner--coral {
-  background: linear-gradient(135deg, #f97316, #ef4444);
+  background: linear-gradient(135deg, #FFB247, #FF6D49);
 }
 
 /* Couleur de fond pour la bannière Communauté */
 .banner--blue {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #95B2EA, #F1999a);
 }
 
 /* Overlay semi-transparent par-dessus */

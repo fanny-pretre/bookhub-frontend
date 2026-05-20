@@ -51,6 +51,7 @@ export const routes: Routes = [
       { path: 'statistiques', component: Statistiques },
       { path: 'moderation', component: Moderation },
       { path: 'catalogue', component: BookAdminComponent },
+      { path: 'utilisateurs', component: BookAdminComponent },
     ],
   },
 
