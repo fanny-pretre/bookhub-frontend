@@ -20,7 +20,7 @@
 
 /* En-tête moderne avec mesh gradient */
 .header-modern {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f1999a 0%, #e15f40 100%);
   position: relative;
   overflow: hidden;
 }

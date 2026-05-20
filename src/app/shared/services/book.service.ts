@@ -21,7 +21,7 @@ export class BookService {
   searchBooks(params: SearchParams): Observable<BooksPage> {
     let httpParams = new HttpParams()
       .set('page', (params.page ?? 0).toString())
-      .set('size', '20')
+      .set('size', (params.size ?? 10).toString())
       .set('sort', params.sort ?? 'titre,asc');
 
     if (params.search) httpParams = httpParams.set('search', params.search);
