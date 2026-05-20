@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarAdmin } from '../../../core/navbar admin/navbar-admin';
+import { StatistiquesService, StatsData } from '../../../shared/services/statistiques.service';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -9,55 +11,35 @@ import { NavbarAdmin } from '../../../core/navbar admin/navbar-admin';
   templateUrl: './statistiques.html',
   styleUrl: './statistiques.css',
 })
-export class Statistiques {
-  stats = [
-    {
-      title: 'Total de livres',
-      value: '1,245',
-      extra: '+12 ce mois',
-      icon: '📘',
-      gradient: 'from-pink-400 to-orange-500',
-    },
-    {
-      title: 'Lecteurs actifs',
-      value: '342',
-      extra: '+28 ce mois',
-      icon: '👥',
-      gradient: 'from-blue-400 to-indigo-900',
-    },
-    {
-      title: 'Emprunts en cours',
-      value: '89',
-      extra: '14 retours aujourd’hui',
-      icon: '📖',
-      gradient: 'from-orange-500 to-yellow-400',
-    },
-    {
-      title: 'Emprunts en retard',
-      value: '12',
-      extra: 'À relancer',
-      icon: '⚠️',
-      gradient: 'from-yellow-300 to-blue-300',
-    },
-  ];
+export class Statistiques implements OnInit {
+  stats: StatsData | null = null;
+  loading = true;
+  error = false;
+  constructor(
+    private statsService: StatistiquesService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
-  monthlyLoans = [
-    { month: 'Janvier', value: 85 },
-    { month: 'Février', value: 92 },
-    { month: 'Mars', value: 78 },
-    { month: 'Avril', value: 95 },
-    { month: 'Mai', value: 89 },
-  ];
+ngOnInit() {
+    this.statsService.getStats().subscribe({
+      next: (data) => {
+        this.stats = data;
+        this.loading = false;
+        this.cdr.detectChanges(); // force la mise à jour
+      },
+      error: (err) => {
+        this.error = true;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+    });
+}
 
-  categories = [
-    { name: 'Fiction', value: 458 },
-    { name: 'Science-Fiction', value: 342 },
-    { name: 'Romance', value: 287 },
-    { name: 'Fantasy', value: 213 },
-    { name: 'Biographie', value: 156 },
-  ];
+  get maxCategory(): number {
+    return Math.max(...(this.stats?.categories.map((c) => c.value) ?? [1]));
+  }
 
-  getWidth(value: number) {
-    return `${value / 5}%`;
+  get maxMonthlyLoan(): number {
+    return Math.max(...(this.stats?.empruntsParMois.map((m) => m.value) ?? [1]));
   }
 }
