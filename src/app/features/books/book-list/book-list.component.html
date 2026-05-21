@@ -1,0 +1,222 @@
+<app-navbar></app-navbar>
+<div class="books-page section-modern">
+  <div class="container-modern">
+
+    <!-- En-tête -->
+    <div class="books-header header-modern animate-fade-in-up">
+      <div class="books-header-content">
+        <h1>Catalogue de livres</h1>
+        <p>Découvrez et empruntez parmi notre collection de
+          <strong>{{ totalElements }}</strong> ouvrages
+        </p>
+      </div>
+    </div>
+
+    <!-- Barre de recherche et filtres -->
+    <div class="search-bar card-modern animate-fade-in-up-modern">
+      <div class="search-grid">
+
+        <!-- Recherche textuelle -->
+        <div class="search-field search-field-main">
+          <label for="search" class="search-label">Rechercher</label>
+          <div class="search-input-wrapper">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg"
+                 width="20" height="20" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input
+              id="search"
+              type="text"
+              class="input-modern input-with-icon"
+              placeholder="Titre, auteur, ISBN..."
+              [(ngModel)]="searchQuery"
+              (ngModelChange)="onSearchChange()"
+              aria-label="Rechercher un livre"
+            />
+            <button
+              *ngIf="searchQuery"
+              class="search-clear"
+              (click)="searchQuery = ''"
+              aria-label="Effacer la recherche">
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <!-- Filtre catégorie -->
+        <div class="search-field">
+          <label for="category" class="search-label">Catégorie</label>
+          <select
+            id="category"
+            class="input-modern"
+            [(ngModel)]="selectedCategory"
+            (ngModelChange)="onFilterChange()"
+            aria-label="Filtrer par catégorie">
+            <option value="">Toutes</option>
+            <option *ngFor="let cat of categories" [value]="cat">
+              {{ cat }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Filtre disponibilité -->
+        <div class="search-field">
+          <label for="availability" class="search-label">Disponibilité</label>
+          <select
+            id="availability"
+            class="input-modern"
+            [(ngModel)]="selectedAvailability"
+            (ngModelChange)="onFilterChange()"
+            aria-label="Filtrer par disponibilité">
+            <option value="">Tous</option>
+            <option value="true">Disponibles</option>
+            <option value="false">Indisponibles</option>
+          </select>
+        </div>
+
+        <!-- Tri -->
+        <div class="search-field">
+          <label for="sort" class="search-label">Trier par</label>
+          <select
+            id="sort"
+            class="input-modern"
+            [(ngModel)]="selectedSort"
+            (ngModelChange)="onFilterChange()"
+            aria-label="Trier les résultats">
+            <option value="titre,asc">Titre A→Z</option>
+            <option value="titre,desc">Titre Z→A</option>
+            <option value="auteur.nom,asc">Auteur</option>
+            <option value="dateAjout,desc">Plus récents</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Message d'erreur -->
+    <div class="alert alert-error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Compteurs -->
+    <div class="books-meta" *ngIf="!isLoading && books.length > 0">
+      <p class="books-count">
+        <strong>{{ totalElements }}</strong> résultats
+        — page {{ currentPageDisplay }}/{{ totalPages }}
+      </p>
+      <div class="books-badges">
+        <span class="badge-modern badge-success" role="status">
+          {{ availableCount }} disponibles
+        </span>
+        <span class="badge-modern badge-error" role="status">
+          {{ unavailableCount }} indisponibles
+        </span>
+      </div>
+    </div>
+
+    <!-- Skeleton de chargement -->
+    <div class="books-grid" *ngIf="isLoading" aria-busy="true">
+      <div class="book-card-skeleton" *ngFor="let i of [1,2,3,4,5,6,7,8]">
+        <div class="skeleton skeleton-cover"></div>
+        <div class="skeleton-body">
+          <div class="skeleton skeleton-title"></div>
+          <div class="skeleton skeleton-author"></div>
+          <div class="skeleton skeleton-badge"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grille livres -->
+    <div class="books-grid animate-fade-in-up-modern"
+         *ngIf="!isLoading && books.length > 0">
+
+      <a *ngFor="let book of books"
+      [routerLink]="['/lecteur/books', book.isbn]"
+      class="book-card book-card-modern"
+      [attr.aria-label]="'Voir ' + book.titre + ' par ' + book.auteur.prenom + ' ' + book.auteur.nom">
+
+      <div class="book-cover-wrapper">
+        <img
+          [src]="book.couverture"
+          [alt]="'Couverture de ' + book.titre"
+          class="book-cover book-cover-modern"
+          loading="lazy"
+        />
+        <span
+          class="book-availability-badge"
+          [class.badge-available]="book.disponibilite"
+          [class.badge-unavailable]="!book.disponibilite"
+          role="status">
+            {{ book.disponibilite ? '✓ Disponible' : '✗ Indisponible' }}
+          </span>
+      </div>
+
+      <div class="book-info">
+        <h3 class="book-title">{{ book.titre }}</h3>
+        <p class="book-author">{{ book.auteur.prenom }} {{ book.auteur.nom }}</p>
+
+        <div class="book-rating" *ngIf="book.rating">
+          <span class="star-icon">★</span>
+          <span class="rating-value">{{ book.rating }}</span>
+        </div>
+
+        <span class="book-category gradient-badge-category"
+              *ngIf="book.categories.length > 0">
+            {{ book.categories[0].typeCategorie }}
+          </span>
+      </div>
+
+      </a>
+
+    </div>
+
+    <!-- État vide -->
+    <div class="books-empty" *ngIf="!isLoading && books.length === 0 && !errorMessage">
+      <p>Aucun livre trouvé pour ces critères.</p>
+      <button class="btn-modern"
+              (click)="searchQuery=''; selectedCategory=''; selectedAvailability=''; onFilterChange()">
+        Réinitialiser les filtres
+      </button>
+    </div>
+
+    <!-- Pagination -->
+    <nav class="pagination" aria-label="Pagination"
+         *ngIf="!isLoading && totalPages > 1">
+
+      <button class="pagination-btn pagination-nav"
+              (click)="previousPage()"
+              [disabled]="currentPage === 0"
+              aria-label="Page précédente">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        <span class="pagination-nav-label">Précédent</span>
+      </button>
+
+      <button
+        *ngFor="let page of getPageNumbers()"
+        class="pagination-btn"
+        [class.pagination-btn-active]="page === currentPageDisplay"
+        (click)="goToPage(page)"
+        [attr.aria-current]="page === currentPageDisplay ? 'page' : null">
+        {{ page }}
+      </button>
+
+      <button class="pagination-btn pagination-nav"
+              (click)="nextPage()"
+              [disabled]="currentPage === totalPages - 1"
+              aria-label="Page suivante">
+        <span class="pagination-nav-label">Suivant</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+
+    </nav>
+
+  </div>
+</div>

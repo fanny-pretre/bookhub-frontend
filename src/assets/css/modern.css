@@ -1,0 +1,281 @@
+/* Design System Moderne et Élégant */
+
+/* Cards avec effet glassmorphisme subtil */
+.card-modern {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.07),
+    0 2px 8px 0 rgba(31, 38, 135, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-modern:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 20px 48px 0 rgba(31, 38, 135, 0.12),
+    0 8px 16px 0 rgba(31, 38, 135, 0.08);
+}
+
+/* En-tête moderne avec mesh gradient */
+.header-modern {
+  background: linear-gradient(135deg, #f1999a 0%, #e15f40 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.header-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Boutons modernes avec états */
+.btn-modern {
+  position: relative;
+  background: linear-gradient(135deg,#95b2ea, #ff6d49);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  box-shadow:
+    0 4px 15px 0 rgba(102, 126, 234, 0.4),
+    0 1px 3px 0 rgba(102, 126, 234, 0.2);
+}
+
+.btn-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #95b2ea, #ff6d49);
+  transition: left 0.4s ease;
+  z-index: -1;
+}
+
+.btn-modern:hover::before {
+  left: 0;
+}
+
+.btn-modern:active {
+  transform: translateY(0);
+}
+
+/* Input moderne */
+.input-modern {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  border-radius: 12px;
+  padding: 0.875rem 1.25rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.input-modern:hover {
+  border-color: rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.input-modern:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow:
+    0 0 0 4px rgba(102, 126, 234, 0.1),
+    0 4px 16px rgba(102, 126, 234, 0.15);
+}
+
+/* Badge moderne */
+.badge-modern {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.025em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.badge-success {
+  background: rgba(16, 185, 129, 0.1);
+  color: #047857;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.badge-error {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Navigation moderne */
+.nav-item-modern {
+  position: relative;
+  padding: 0.875rem 1.25rem;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  color: #64748b;
+}
+
+.nav-item-modern:hover {
+  background: rgba(102, 126, 234, 0.08);
+  color: #667eea;
+  transform: translateX(4px);
+}
+
+.nav-item-modern.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.nav-item-modern.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 70%;
+  background: white;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Carte de livre moderne */
+.book-card-modern {
+  background: white;
+  border-radius: 20px;
+  padding: 1.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.book-card-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.03), transparent);
+  transition: left 0.5s ease;
+}
+
+.book-card-modern:hover::before {
+  left: 100%;
+}
+
+.book-card-modern:hover {
+  transform: translateY(-8px);
+  border-color: rgba(102, 126, 234, 0.3);
+  box-shadow:
+    0 20px 40px rgba(102, 126, 234, 0.12),
+    0 8px 16px rgba(0, 0, 0, 0.05);
+}
+
+/* Couverture de livre avec effet 3D */
+.book-cover-modern {
+  border-radius: 16px;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.15),
+    0 8px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.book-cover-modern::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+  border-radius: 16px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.book-cover-modern:hover {
+  transform: rotateY(-5deg) rotateX(5deg) scale(1.05);
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.2),
+    0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.book-cover-modern:hover::after {
+  opacity: 1;
+}
+
+/* Typographie moderne */
+
+.gradient-text {
+  background: linear-gradient(135deg, #95b2ea, #ff6d49);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+}
+
+.gradient-logo {
+  background: linear-gradient(135deg, #95b2ea, #ff6d49);
+}
+
+/* Section avec fond subtil */
+.section-modern {
+  background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  min-height: 100vh;
+}
+
+/* Container avec padding adaptatif */
+.container-modern {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+@media (min-width: 768px) {
+  .container-modern {
+    padding: 3rem;
+  }
+}
+
+/* Animations douces */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up-modern {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Focus ring moderne */
+.focus-ring-modern:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 4px rgba(102, 126, 234, 0.2),
+    0 0 0 2px white;
+}

@@ -1,0 +1,379 @@
+/* =============================================
+   NAVBAR — BookHub
+   ============================================= */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* ── Container ── */
+.navbar__container {
+  max-width: 1400px;
+  height: 72px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* ── Côté gauche ── */
+.navbar__left {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  flex-shrink: 0;
+}
+
+/* ── Côté droit ── */
+.navbar__right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* =============================================
+   LOGO
+   ============================================= */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.logo__icon {
+  position: relative;
+  width: 2.625rem;
+  height: 2.625rem;
+  border-radius: 0.875rem;
+  background: linear-gradient(135deg, #FFB247, #FF6D49);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+  flex-shrink: 0;
+}
+
+.logo__icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #FFB247, #FF6D49);
+  filter: blur(8px);
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.logo__text {
+  font-size: 1.375rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #FFB247, #FF6D49);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* =============================================
+   NAVIGATION DESKTOP
+   ============================================= */
+.nav-desktop {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.nav-link {
+  padding: 0.625rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #475569;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav-link:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.nav-link--active,
+.nav-link--active:hover {         
+  background: linear-gradient(135deg, #FFB247, #FF6D49);
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* =============================================
+   BOUTON CATALOGUE
+   ============================================= */
+.btn-catalogue {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.125rem;
+  border-radius: 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  background: linear-gradient(135deg, #FFB247, #FF6D49);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.btn-catalogue:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.45);
+}
+
+.btn-catalogue:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+}
+
+/* =============================================
+   PROFIL + DROPDOWN
+   ============================================= */
+.profile {
+  position: relative;
+}
+
+.profile__btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem 0.375rem 0.375rem;
+  border: none;
+  background: transparent;
+  border-radius: 0.875rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.profile__btn:hover {
+  background: #f1f5f9;
+}
+
+.profile__avatar {
+  width: 2.375rem;
+  height: 2.375rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFB247, #FF6D49);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.35);
+}
+
+.profile__name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.profile__chevron {
+  color: #94a3b8;
+  transition: transform 0.25s ease;
+}
+
+.profile__chevron--open {
+  transform: rotate(180deg);
+}
+
+/* Dropdown */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 0.625rem);
+  right: 0;
+  width: 15rem;
+  background: #fff;
+  border-radius: 1rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  animation: fadeInDown 0.2s ease;
+}
+
+.dropdown__header {
+  padding: 1.125rem 1.25rem;
+  border-bottom: 1px solid #f1f5f9;
+  background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+}
+
+.dropdown__name {
+  margin: 0 0 0.125rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.dropdown__email {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #64748b;
+}
+
+.dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100%;
+  padding: 0.875rem 1.25rem;
+  border: none;
+  background: transparent;
+  text-align: left;
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #1e293b;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.dropdown__item:hover {
+  background: #f8fafc;
+}
+
+.dropdown__item--logout {
+  border-top: 1px solid #f1f5f9;
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.dropdown__item--logout:hover {
+  background: #fef2f2;
+}
+
+/* =============================================
+   BURGER
+   ============================================= */
+.burger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.625rem;
+  height: 2.625rem;
+  border: none;
+  background: transparent;
+  border-radius: 0.625rem;
+  color: #475569;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.burger:hover {
+  background: #f1f5f9;
+}
+
+/* =============================================
+   NAV MOBILE
+   ============================================= */
+.nav-mobile {
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem 1.5rem 1rem;
+  background: #fff;
+  border-top: 1px solid #e2e8f0;
+  animation: fadeInDown 0.2s ease;
+}
+
+.nav-mobile__link {
+  padding: 0.875rem 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.nav-mobile__link:last-child {
+  border-bottom: none;
+}
+
+.nav-mobile__link:hover {
+  color: #FFB247;
+}
+
+.nav-mobile__link--active,
+.nav-mobile__link--active:hover {  
+  color: #FFB247;
+  font-weight: 700;
+}
+
+/* =============================================
+   ANIMATIONS
+   ============================================= */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 1024px) {
+  .searchbar {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-desktop {
+    display: none;
+  }
+
+  .btn-catalogue {
+    display: none;
+  }
+
+  .burger {
+    display: flex;
+  }
+
+  .profile__name {
+    display: none;
+  }
+
+  .profile__chevron {
+    display: none;
+  }
+}
+
+/* Style catalogue dans le menu mobile */
+.nav-mobile__link--catalogue {
+  color: #FFB247;
+  font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  .navbar__container {
+    height: 64px;
+    padding: 0 1rem;
+  }
+
+  .logo__text {
+    display: none;
+  }
+
+  .navbar__left {
+    gap: 0;
+  }
+}

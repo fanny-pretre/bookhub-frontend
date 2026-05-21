@@ -1,0 +1,117 @@
+<app-navbar-admin></app-navbar-admin>
+
+<!-- WIP BANNER -->
+<div class="wip-banner">
+  🚧 Work in progress — cette page est en cours de développement
+</div>
+
+<div class="moderation-page">
+
+  <section class="loans-hero">
+    <div>
+      <h1 class="page-title">Modération</h1>
+    <p class="page-subtitle">Gérez les utilisateurs et les signalements</p>
+    </div>
+  </section>
+
+
+  <!-- STATS -->
+  <div class="stats-grid">
+    <div class="stat-card" *ngFor="let stat of stats">
+      <div class="stat-top">
+        <div class="stat-icon" [ngClass]="stat.color" [innerHTML]="sanitize(stat.icon)"></div>
+        <div class="stat-title">{{ stat.title }}</div>
+      </div>
+      <div class="stat-value">{{ stat.value }}</div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-grid">
+
+    <!-- REPORTS -->
+    <div class="panel">
+      <h2 class="panel-title">Signalements en attente</h2>
+
+      <div class="report-card" *ngFor="let report of reports">
+        <div class="report-header">
+          <span class="badge" [ngClass]="report.type === 'Utilisateur' ? 'badge-orange' : 'badge-red'">
+            {{ report.type }}
+          </span>
+          <span class="warning-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </span>
+        </div>
+
+        <div class="report-title">{{ report.title }}</div>
+        <div class="report-reason">{{ report.reason }}</div>
+        <div class="report-date">Signalé le {{ report.date }}</div>
+
+        <div class="report-actions">
+          <button class="btn btn-secondary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="15" y1="9" x2="9" y2="15"/>
+              <line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
+            Ignorer
+          </button>
+
+          <button class="btn btn-danger">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="15" y1="9" x2="9" y2="15"/>
+              <line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
+            Traiter
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- USERS -->
+    <div class="panel">
+      <h2 class="panel-title">Nouveaux utilisateurs</h2>
+
+      <div class="user-card" *ngFor="let user of users">
+        <div class="user-top">
+          <div class="avatar">{{ user.initials }}</div>
+          <div class="user-info">
+            <div class="user-name">{{ user.name }}</div>
+            <div class="user-email">{{ user.email }}</div>
+            <div class="user-date">Inscrit le {{ user.date }}</div>
+          </div>
+          <div class="status">actif</div>
+        </div>
+
+        <div class="user-actions">
+          <button class="btn btn-secondary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            Valider
+          </button>
+
+          <button class="btn btn-primary">Voir le profil</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHORTCUTS -->
+  <div class="shortcuts-grid">
+    <div class="shortcut-card" *ngFor="let shortcut of shortcuts">
+      <div class="shortcut-icon" [ngClass]="shortcut.color" [innerHTML]="sanitize(shortcut.icon)"></div>
+      <div class="shortcut-info">
+        <div class="shortcut-title">{{ shortcut.title }}</div>
+        <div class="shortcut-desc">{{ shortcut.desc }}</div>
+      </div>
+    </div>
+  </div>
+
+</div>

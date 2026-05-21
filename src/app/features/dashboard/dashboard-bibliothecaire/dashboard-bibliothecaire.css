@@ -1,0 +1,301 @@
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Header */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(135deg, #95b2ea 0%, #ff6d49 100%);
+  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.35);
+  animation: fadeInUp 0.5s ease;
+}
+
+.hero__blobs {
+  pointer-events: none;
+}
+
+.hero__blob {
+  position: absolute;
+  width: 22rem;
+  height: 22rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  filter: blur(48px);
+}
+
+.hero__blob--tr {
+  top: -6rem;
+  right: -6rem;
+}
+
+.hero__blob--bl {
+  bottom: -6rem;
+  left: -6rem;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero__title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  line-height: 1.2;
+}
+
+.hero__subtitle {
+  margin: 0;
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+/* Stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.07),
+    0 1px 2px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f1f5f9;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+
+.stat-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.stat-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.stat-card__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-card__trend {
+  display: flex;
+  align-items: center;
+}
+
+.stat-card__value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.25rem;
+}
+
+.stat-card__label {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Accès rapide */
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.quick-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.75rem;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.07),
+    0 1px 2px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f1f5f9;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
+  cursor: pointer;
+}
+
+.quick-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.quick-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.quick-card__icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quick-card__badge {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+}
+
+.quick-card__title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.quick-card__desc {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0;
+  flex: 1;
+}
+
+.quick-card__link {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin-top: 0.5rem;
+  transition: color 0.2s;
+}
+
+.quick-card:hover .quick-card__link {
+  color: #0f172a;
+}
+
+/* Bannières */
+.banner-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.banner {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 240px;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Couleur de fond pour la bannière Action rapide */
+.banner--coral {
+  background: linear-gradient(135deg, #ffb247, #ff6d49);
+}
+
+/* Couleur de fond pour la bannière Communauté */
+.banner--blue {
+  background: linear-gradient(135deg, #95b2ea, #f1999a);
+}
+
+.banner__content {
+  position: relative;
+  z-index: 1;
+  padding: 1.75rem;
+  width: 100%;
+  color: white;
+}
+
+.banner__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.banner__desc {
+  font-size: 0.95rem;
+  opacity: 0.92;
+  margin: 0 0 1.25rem;
+}
+
+.banner__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: white;
+  color: #ef4444;
+  padding: 0.65rem 1.25rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.banner__btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard {
+    padding: 1.25rem;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .quick-grid {
+    grid-template-columns: 1fr;
+  }
+  .banner-grid {
+    grid-template-columns: 1fr;
+  }
+  .dashboard__title {
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,189 @@
+<app-navbar></app-navbar>
+<div class="dashboard">
+
+  <!-- ───── BANNIÈRE RETARD ───── -->
+  <div class="overdue-banner" *ngIf="hasOverdue">
+    <div class="overdue-banner__icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0
+                 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9"  x2="12" y2="13"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+    </div>
+    <p>
+      <strong>{{ overdueCount }} emprunt{{ overdueCount > 1 ? 's' : '' }} en retard.</strong>
+      Veuillez retourner {{ overdueCount > 1 ? 'ces livres' : 'ce livre' }} dès que possible.
+    </p>
+  </div>
+
+  <!-- ───── HERO HEADER ───── -->
+  <div class="hero">
+    <div class="hero__blobs" aria-hidden="true">
+      <div class="hero__blob hero__blob--tr"></div>
+      <div class="hero__blob hero__blob--bl"></div>
+    </div>
+    <div class="hero__content">
+      <h1 class="hero__title">Bienvenue, {{ userName }}&nbsp;!</h1>
+      <p class="hero__subtitle">Voici votre activité de lecture</p>
+    </div>
+  </div>
+
+  <!-- ───── SKELETON CHARGEMENT ───── -->
+  <ng-container *ngIf="isLoading">
+    <div class="stats">
+      <div class="stat-card stat-card--skeleton" *ngFor="let i of [1,2,3]"></div>
+    </div>
+  </ng-container>
+
+  <!-- ───── CONTENU PRINCIPAL ───── -->
+  <ng-container *ngIf="!isLoading">
+
+    <!-- STAT CARDS -->
+    <div class="stats">
+
+      <!-- Emprunts actifs -->
+      <a routerLink="/lecteur/mes-emprunts" class="stat-card stat-card--link">
+        <div class="stat-card__header">
+          <span class="stat-card__label">Emprunts actifs</span>
+          <div class="stat-card__icon stat-card__icon--indigo">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="stat-card__value">{{ loans.length }}</div>
+      </a>
+
+      <!-- Réservations -->
+      <a routerLink="/lecteur/mes-emprunts" class="stat-card stat-card--link">
+        <div class="stat-card__header">
+          <span class="stat-card__label">Réservations</span>
+          <div class="stat-card__icon stat-card__icon--purple">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8"  y1="2" x2="8"  y2="6"/>
+              <line x1="3"  y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+        </div>
+        <div class="stat-card__value">{{ reservations.length }}</div>
+      </a>
+
+      <!-- Livres cette année -->
+      <div class="stat-card">
+        <div class="stat-card__header">
+          <span class="stat-card__label">Livres lus</span>
+          <div class="stat-card__icon stat-card__icon--emerald">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+              <polyline points="16 7 22 7 22 13"/>
+            </svg>
+          </div>
+        </div>
+        <div class="stat-card__value">{{ readingGoalCurrent }}</div>
+      </div>
+
+    </div>
+
+    <!-- LIVRES RÉCENTS -->
+    <div class="card">
+      <div class="card__header">
+        <h2 class="card__title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" aria-hidden="true"
+               class="card__title-icon">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          Lus récemment
+        </h2>
+        <a routerLink="/lecteur/mes-emprunts" class="card__link">
+          Voir tout
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+      </div>
+
+      <ng-container *ngIf="recentBooks.length > 0; else noBooks">
+        <div class="books-grid">
+          <div class="book" *ngFor="let book of recentBooks">
+            <div class="book__cover-wrap">
+              <img
+                *ngIf="book.cover; else coverPlaceholder"
+                class="book__cover"
+                [src]="book.cover"
+                [alt]="'Couverture de ' + book.title"
+                loading="lazy"
+              />
+              <ng-template #coverPlaceholder>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+              </ng-template>
+            </div>
+            <h3 class="book__title">{{ book.title }}</h3>
+            <p class="book__author">{{ book.author }}</p>
+            <p class="book__date">Rendu : {{ book.readDate }}</p>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #noBooks>
+        <p class="empty-state">Aucun livre lu pour l'instant.</p>
+      </ng-template>
+    </div>
+
+    <!-- OBJECTIF DE LECTURE -->
+    <div class="card">
+      <div class="goal">
+        <h2 class="goal__title">Objectif de lecture 2026</h2>
+        <p class="goal__desc">
+          {{ readingGoalPercent >= 100
+          ? 'Félicitations, objectif atteint !'
+          : 'Vous êtes en bonne voie pour atteindre votre objectif de ' + readingGoalTotal + ' livres cette année\u00a0!'
+          }}
+        </p>
+        <div class="goal__meta">
+          <span class="goal__label">{{ readingGoalCurrent }} sur {{ readingGoalTotal }} livres</span>
+          <span class="goal__pct">{{ readingGoalPercent }}%</span>
+        </div>
+        <div class="goal__bar-bg">
+          <div
+            class="goal__bar-fill"
+            [style.width.%]="readingGoalPercent"
+            [attr.aria-valuenow]="readingGoalPercent"
+            role="progressbar"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIONS RAPIDES -->
+    <div class="card card--actions">
+      <h2 class="card__title card__title--sm">Actions rapides</h2>
+      <div class="actions">
+        <a routerLink="/lecteur/books" class="btn btn--primary">
+          Parcourir le catalogue
+        </a>
+        <a routerLink="/lecteur/mes-emprunts" class="btn btn--outline-indigo">
+          Mes emprunts &amp; réservations
+        </a>
+      </div>
+    </div>
+
+  </ng-container>
+
+</div>
