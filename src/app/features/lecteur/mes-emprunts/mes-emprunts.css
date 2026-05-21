@@ -157,7 +157,7 @@
   display: inline-flex; align-items: center; transition: opacity .2s;
   text-decoration: none; }
 .btn:hover      { opacity: .88; }
-.btn--primary   { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
+.btn--primary   { background: linear-gradient(135deg, #ffb247, #ff6d49); color: white; }
 
 /* ── Cover gradients ── */
 .gradient-indigo  { background: linear-gradient(135deg, #ff6d49, #f1999a); }

@@ -1,18 +1,13 @@
 <app-navbar-admin></app-navbar-admin>
 
 <div class="admin-page">
-
   <!-- ── BANNIÈRE HEADER ── -->
   <div class="page-banner">
     <div class="banner-overlay"></div>
     <div class="banner-content">
       <h1>Gérer le catalogue</h1>
-      <p *ngIf="!isLoading">
-        {{ books.length }} livre(s) dans la bibliothèque
-      </p>
-      <p *ngIf="isLoading">
-        Consultez, ajoutez et modifiez les livres de votre bibliothèque
-      </p>
+      <p *ngIf="!isLoading">{{ books.length }} livre(s) dans la bibliothèque</p>
+      <p *ngIf="isLoading">Consultez, ajoutez et modifiez les livres de votre bibliothèque</p>
     </div>
   </div>
 
@@ -24,7 +19,18 @@
   <div class="action-cards">
     <div class="action-card">
       <div class="action-icon icon-blue">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
       </div>
       <div>
         <span class="action-title">Voir le catalogue</span>
@@ -34,7 +40,18 @@
 
     <button type="button" class="action-card action-card-coral" (click)="openCreateModal()">
       <div class="action-icon icon-white">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
       </div>
       <div>
         <span class="action-title">Ajouter un livre</span>
@@ -44,7 +61,18 @@
 
     <button type="button" class="action-card" (click)="openCreateAuthorModal()">
       <div class="action-icon icon-yellow">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M12 20h9" />
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" />
+        </svg>
       </div>
       <div>
         <span class="action-title">Ajouter un auteur</span>
@@ -54,7 +82,20 @@
 
     <div class="action-card">
       <div class="action-icon icon-red">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="3 6 5 6 21 6" />
+          <path d="M19 6l-1 14H6L5 6" />
+          <path d="M10 11v6M14 11v6" />
+          <path d="M9 6V4h6v2" />
+        </svg>
       </div>
       <div>
         <span class="action-title">Supprimer un livre</span>
@@ -66,7 +107,19 @@
   <!-- ── RECHERCHE ── -->
   <div class="search-block">
     <div class="search-wrapper">
-      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <svg
+        class="search-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
       <input
         type="text"
         placeholder="Rechercher par titre, auteur ou ISBN..."
@@ -83,42 +136,80 @@
 
     <table class="admin-table" *ngIf="!isLoading">
       <thead>
-      <tr>
-        <th>Titre</th>
-        <th>Auteur</th>
-        <th>Catégorie</th>
-        <th>ISBN</th>
-        <th>Disponibilité</th>
-        <th class="th-right">Actions</th>
-      </tr>
+        <tr>
+          <th>Titre</th>
+          <th>Auteur</th>
+          <th>Catégorie</th>
+          <th>ISBN</th>
+          <th>Disponibilité</th>
+          <th class="th-right">Actions</th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let book of filteredBooks">
-        <td class="title-cell">{{ book.titre }}</td>
-        <td>{{ book.auteur.prenom }} {{ book.auteur.nom }}</td>
-        <td>
-          <span class="badge-category">{{ book.categories[0]?.typeCategorie ?? '—' }}</span>
-        </td>
-        <td class="isbn">{{ book.isbn }}</td>
-        <td>
-          <span class="badge" [class.available]="book.disponibilite" [class.unavailable]="!book.disponibilite">
-            {{ book.disponibilite ? 'Disponible' : 'Indisponible' }}
-          </span>
-        </td>
-        <td>
-          <div class="actions">
-            <button type="button" class="icon-btn icon-btn-yellow" title="Modifier" (click)="openEditModal(book)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            </button>
-            <button type="button" class="icon-btn icon-btn-red" title="Supprimer" (click)="deleteBook(book)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
-            </button>
-          </div>
-        </td>
-      </tr>
-      <tr *ngIf="filteredBooks.length === 0">
-        <td colspan="6" class="empty-row">Aucun livre trouvé.</td>
-      </tr>
+        <tr *ngFor="let book of filteredBooks">
+          <td class="title-cell">{{ book.titre }}</td>
+          <td>{{ book.auteur.prenom }} {{ book.auteur.nom }}</td>
+          <td>
+            <span class="badge-category">{{ book.categories[0]?.typeCategorie ?? '—' }}</span>
+          </td>
+          <td class="isbn">{{ book.isbn }}</td>
+          <td>
+            <span
+              class="badge"
+              [class.available]="book.disponibilite"
+              [class.unavailable]="!book.disponibilite"
+            >
+              {{ book.disponibilite ? 'Disponible' : 'Indisponible' }}
+            </span>
+          </td>
+          <td>
+            <div class="actions">
+              <button
+                type="button"
+                class="icon-btn icon-btn-yellow"
+                title="Modifier"
+                (click)="openEditModal(book)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                class="icon-btn icon-btn-red"
+                title="Supprimer"
+                (click)="deleteBook(book)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="3 6 5 6 21 6" />
+                  <path d="M19 6l-1 14H6L5 6" />
+                  <path d="M10 11v6M14 11v6" />
+                  <path d="M9 6V4h6v2" />
+                </svg>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="filteredBooks.length === 0">
+          <td colspan="6" class="empty-row">Aucun livre trouvé.</td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -126,58 +217,113 @@
   <!-- ── MODALE LIVRE ── -->
   <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()"></div>
 
-  <div class="modal" *ngIf="showModal" role="dialog" [attr.aria-label]="isEditMode ? 'Modifier un livre' : 'Ajouter un livre'">
-
+  <div
+    class="modal"
+    *ngIf="showModal"
+    role="dialog"
+    [attr.aria-label]="isEditMode ? 'Modifier un livre' : 'Ajouter un livre'"
+  >
     <div class="modal-header">
       <div class="modal-header-left">
         <div class="modal-header-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="22"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="white"
+            stroke-width="2"
+          >
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+          </svg>
         </div>
         <h2>{{ isEditMode ? 'Modifier le livre' : 'Ajouter un nouveau livre' }}</h2>
       </div>
       <button type="button" class="modal-close" (click)="closeModal()" aria-label="Fermer">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
       </button>
     </div>
 
     <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" novalidate class="modal-body">
       <div class="form-grid">
-
         <div class="form-group form-group-full">
           <label for="titre">Titre du livre *</label>
-          <input id="titre" type="text" formControlName="titre" placeholder="Ex: Le Petit Prince"
-                 [class.input-error]="f['titre'].invalid && f['titre'].touched" />
-          <span class="error-msg" *ngIf="f['titre'].touched && f['titre'].hasError('required')">Le titre est requis.</span>
+          <input
+            id="titre"
+            type="text"
+            formControlName="titre"
+            placeholder="Ex: Le Petit Prince"
+            [class.input-error]="f['titre'].invalid && f['titre'].touched"
+          />
+          <span class="error-msg" *ngIf="f['titre'].touched && f['titre'].hasError('required')"
+            >Le titre est requis.</span
+          >
         </div>
 
         <div class="form-group form-group-full">
           <label for="auteurId">Auteur *</label>
-          <select id="auteurId" formControlName="auteurId"
-                  [class.input-error]="f['auteurId'].invalid && f['auteurId'].touched">
+          <select
+            id="auteurId"
+            formControlName="auteurId"
+            [class.input-error]="f['auteurId'].invalid && f['auteurId'].touched"
+          >
             <option value="">Choisir un auteur</option>
             <option *ngFor="let auteur of auteurs" [value]="auteur.id">
               {{ auteur.prenom }} {{ auteur.nom }}
             </option>
           </select>
-          <span class="error-msg" *ngIf="f['auteurId'].touched && f['auteurId'].hasError('required')">L'auteur est requis.</span>
+          <span
+            class="error-msg"
+            *ngIf="f['auteurId'].touched && f['auteurId'].hasError('required')"
+            >L'auteur est requis.</span
+          >
         </div>
 
         <div class="form-group">
           <label for="categorie">Catégorie *</label>
-          <select id="categorie" formControlName="categorie"
-                  [class.input-error]="f['categorie'].invalid && f['categorie'].touched">
+          <select
+            id="categorie"
+            formControlName="categorie"
+            [class.input-error]="f['categorie'].invalid && f['categorie'].touched"
+          >
             <option value="">Choisir...</option>
             <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
           </select>
-          <span class="error-msg" *ngIf="f['categorie'].touched && f['categorie'].hasError('required')">Requis.</span>
+          <span
+            class="error-msg"
+            *ngIf="f['categorie'].touched && f['categorie'].hasError('required')"
+            >Requis.</span
+          >
         </div>
 
         <div class="form-group">
           <label for="isbn">ISBN * (13 chiffres)</label>
-          <input id="isbn" type="text" formControlName="isbn" placeholder="9782070612758"
-                 [class.input-error]="f['isbn'].invalid && f['isbn'].touched" />
-          <span class="error-msg" *ngIf="f['isbn'].touched && f['isbn'].hasError('required')">Requis.</span>
-          <span class="error-msg" *ngIf="f['isbn'].touched && f['isbn'].hasError('pattern')">13 chiffres requis.</span>
+          <input
+            id="isbn"
+            type="text"
+            formControlName="isbn"
+            placeholder="9782070612758"
+            [class.input-error]="f['isbn'].invalid && f['isbn'].touched"
+          />
+          <span class="error-msg" *ngIf="f['isbn'].touched && f['isbn'].hasError('required')"
+            >Requis.</span
+          >
+          <span class="error-msg" *ngIf="f['isbn'].touched && f['isbn'].hasError('pattern')"
+            >13 chiffres requis.</span
+          >
         </div>
 
         <div class="form-group">
@@ -190,22 +336,37 @@
 
         <div class="form-group form-group-full">
           <label for="description">Description *</label>
-          <textarea id="description" formControlName="description" placeholder="Brève description du livre..." rows="4"
-                    [class.input-error]="f['description'].invalid && f['description'].touched"></textarea>
-          <span class="error-msg" *ngIf="f['description'].touched && f['description'].hasError('required')">Requis.</span>
+          <textarea
+            id="description"
+            formControlName="description"
+            placeholder="Brève description du livre..."
+            rows="4"
+            [class.input-error]="f['description'].invalid && f['description'].touched"
+          ></textarea>
+          <span
+            class="error-msg"
+            *ngIf="f['description'].touched && f['description'].hasError('required')"
+            >Requis.</span
+          >
         </div>
 
         <div class="form-group form-group-full">
           <label for="couverture">Image de couverture</label>
-          <input id="couverture" type="text" formControlName="couverture" placeholder="https://... ou chemin relatif" />
+          <input
+            id="couverture"
+            type="text"
+            formControlName="couverture"
+            placeholder="https://... ou chemin relatif"
+          />
         </div>
-
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn-cancel" (click)="closeModal()">Annuler</button>
         <button type="submit" class="btn-submit" [disabled]="isSaving">
-          {{ isSaving ? 'Enregistrement...' : isEditMode ? 'Modifier le livre' : 'Ajouter le livre' }}
+          {{
+            isSaving ? 'Enregistrement...' : isEditMode ? 'Modifier le livre' : 'Ajouter le livre'
+          }}
         </button>
       </div>
     </form>
@@ -215,22 +376,42 @@
   <div class="modal-overlay" *ngIf="showAuthorModal" (click)="closeAuthorModal()"></div>
 
   <div class="modal" *ngIf="showAuthorModal" role="dialog" aria-label="Ajouter un auteur">
-
     <div class="modal-header">
       <div class="modal-header-left">
         <div class="modal-header-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="22"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="white"
+            stroke-width="2"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
         </div>
         <h2>Ajouter un auteur</h2>
       </div>
       <button type="button" class="modal-close" (click)="closeAuthorModal()" aria-label="Fermer">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
       </button>
     </div>
 
     <form [formGroup]="authorForm" (ngSubmit)="onSubmitAuthor()" novalidate class="modal-body">
       <div class="form-grid">
-
         <div class="form-group">
           <label for="authorPrenom">Prénom *</label>
           <input id="authorPrenom" type="text" formControlName="prenom" placeholder="Ex: Antoine" />
@@ -238,9 +419,13 @@
 
         <div class="form-group">
           <label for="authorNom">Nom *</label>
-          <input id="authorNom" type="text" formControlName="nom" placeholder="Ex: de Saint-Exupéry" />
+          <input
+            id="authorNom"
+            type="text"
+            formControlName="nom"
+            placeholder="Ex: de Saint-Exupéry"
+          />
         </div>
-
       </div>
 
       <div class="modal-footer">
@@ -251,6 +436,4 @@
       </div>
     </form>
   </div>
-
 </div>
- 

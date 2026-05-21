@@ -27,7 +27,7 @@
 }
 
 .auth-page.dark .logo-label {
-  background: linear-gradient(135deg, var(--primary), #a78bfa);
+  background: linear-gradient(135deg, var(--primary), #ff6d49);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

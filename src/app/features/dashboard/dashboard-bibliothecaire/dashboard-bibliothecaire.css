@@ -74,13 +74,17 @@
   background: #fff;
   border-radius: 16px;
   padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.07),
+    0 1px 2px rgba(0, 0, 0, 0.04);
   border: 1px solid #f1f5f9;
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
 }
 
 .stat-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
 }
 
@@ -130,18 +134,22 @@
   background: #fff;
   border-radius: 16px;
   padding: 1.75rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.07),
+    0 1px 2px rgba(0, 0, 0, 0.04);
   border: 1px solid #f1f5f9;
   text-decoration: none;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
   cursor: pointer;
 }
 
 .quick-card:hover {
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
 }
 
@@ -217,19 +225,12 @@
 
 /* Couleur de fond pour la bannière Action rapide */
 .banner--coral {
-  background: linear-gradient(135deg, #FFB247, #FF6D49);
+  background: linear-gradient(135deg, #ffb247, #ff6d49);
 }
 
 /* Couleur de fond pour la bannière Communauté */
 .banner--blue {
-  background: linear-gradient(135deg, #95B2EA, #F1999a);
-}
-
-/* Overlay semi-transparent par-dessus */
-.banner__overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #95b2ea, #f1999a);
 }
 
 .banner__content {
@@ -263,24 +264,38 @@
   font-weight: 600;
   font-size: 0.9rem;
   text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .banner__btn:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive */
 @media (max-width: 1024px) {
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 640px) {
-  .dashboard { padding: 1.25rem; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .quick-grid { grid-template-columns: 1fr; }
-  .banner-grid { grid-template-columns: 1fr; }
-  .dashboard__title { font-size: 1.5rem; }
+  .dashboard {
+    padding: 1.25rem;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .quick-grid {
+    grid-template-columns: 1fr;
+  }
+  .banner-grid {
+    grid-template-columns: 1fr;
+  }
+  .dashboard__title {
+    font-size: 1.5rem;
+  }
 }
