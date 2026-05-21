@@ -1,11 +1,33 @@
 <h1 align="center"> 📚 Bienvenue sur BookHub ! 📚 </h1>
 
-<br>
-
 # 📄 A propos :
 
 BookHub est une application de gestion de bibliothèque moderne, intuitive et accessible.
 Elle permet aux lecteurs de consulter le catalogue, emprunter et réserver des livres, tandis que les bibliothécaires et administrateurs disposent d'outils dédiés pour gérer les ressources et les utilisateurs.
+
+
+# 🎨 Aperçu de l'application :
+
+<p align="center">
+  <img src="./public/dashboardlecteur.PNG" alt="Dashboard Lecteur" width="100%" />
+</p>
+
+
+### 👤 Espace Lecteur
+
+<p align="center">
+  <img src="./public/cataloguelecteur.PNG" alt="Catalogue Lecteur" width="49%" />
+  <img src="./public/empruntlecteur.PNG" alt="Emprunt Lecteur" width="49%" />
+</p>
+
+
+
+### 🛠️ Espace Administrateur
+
+<p align="center">
+  <img src="./public/catalogueadmin.PNG" alt="Catalogue Admin" width="49%" />
+  <img src="./public/cataloguegestion.PNG" alt="Catalogue Gestion" width="49%" />
+</p>
 
 
 # 👩🏽‍💻 Découvrez l'application :
