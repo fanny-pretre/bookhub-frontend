@@ -1,148 +1,102 @@
-# 📚 BookHub - Frontend Angular
+<h1 align="center"> 📚 Bienvenue sur BookHub ! 📚 </h1>
 
-Interface web de la plateforme de gestion de bibliothèque communautaire **BookHub**.  
-Développée avec Angular 21 dans le cadre du projet DEV25_0364B.
+# 📄 A propos :
 
----
+BookHub est une application de gestion de bibliothèque moderne, intuitive et accessible.
+Elle permet aux lecteurs de consulter le catalogue, emprunter et réserver des livres, tandis que les bibliothécaires et administrateurs disposent d'outils dédiés pour gérer les ressources et les utilisateurs.
 
-## 🛠️ Stack technique
 
-| Technologie | Version |
-|---|---|
-| Angular | 21 |
-| TypeScript | 5.9 |
-| Angular HttpClient | inclus dans `@angular/common` |
-| Jasmine / Karma | Configuré par defaut dans un projet Angular CLI classique |
+# 🎨 Aperçu de l'application :
 
----
+<p align="center">
+  <img src="./public/dashboardlecteur.PNG" alt="Dashboard Lecteur" width="100%" />
+</p>
 
-## 📋 Prérequis
 
-- [Node.js](https://nodejs.org/) v24.15.0
-- [npm](https://www.npmjs.com/) v11.12.1 
-- [Angular CLI](https://angular.io/cli) v21
+### 👤 Espace Lecteur
 
-```bash
-npm install -g @angular/cli
-```
+<p align="center">
+  <img src="./public/cataloguelecteur.PNG" alt="Catalogue Lecteur" width="49%" />
+  <img src="./public/empruntlecteur.PNG" alt="Emprunt Lecteur" width="49%" />
+</p>
 
----
 
-## 🚀 Installation et lancement
 
-### 1. Cloner le dépôt
+### 🛠️ Espace Administrateur
 
-```bash
-git clone https://github.com/fanny-pretre/bookhub-frontend.git
-cd bookhub-frontend
-```
+<p align="center">
+  <img src="./public/catalogueadmin.PNG" alt="Catalogue Admin" width="49%" />
+  <img src="./public/cataloguegestion.PNG" alt="Catalogue Gestion" width="49%" />
+</p>
 
-### 2. Installer les dépendances
 
+# 👩🏽‍💻 Découvrez l'application :
+
+Site pas encore déployé - Chargement des livres en cours ... 🔖
+
+# 💻 Stack Technique :
+
+![Angular](https://img.shields.io/badge/-Angular-FF6D49?style=flat&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/-TypeScript-FF6D49?style=flat&logo=typescript&logoColor=white)
+![Java](https://img.shields.io/badge/-Java-FF6D49?style=flat&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/-Spring%20Boot-FF6D49?style=flat&logo=springboot&logoColor=white)
+![SQL Server](https://img.shields.io/badge/-SQL%20Server-FF6D49?style=flat&logo=microsoftsqlserver&logoColor=white)
+![GIT](https://img.shields.io/badge/-Git-FF6D49?style=flat&logo=git&logoColor=white)
+![GITHUB](https://img.shields.io/badge/-GitHub-FF6D49?style=flat&logo=github&logoColor=white)
+
+# 👨‍🔧 Installation :
+
+### Prérequis
+- Node.js & npm
+- Java 25
+- SQL Server
+
+### Lancement
+
+- Lancement du back-end de l'application 
+
+- Lancement du front-end de l'appplication : 
 ```bash
 npm install
-```
-
-### 3. Configurer l'environnement
-
-Copier le fichier d'environnement et renseigner l'URL de l'API :
-
-```bash
-cp src/environments/environment.example.ts src/environments/environment.ts
-```
-
-```typescript
-// src/environments/environment.ts
-export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:8080/api'
-};
-```
-
-### 4. Lancer l'application
-
-```bash
 ng serve
 ```
 
-L'application est accessible sur **http://localhost:4200**
+Une fois le serveur lancé, ouvrez votre navigateur sur `http://localhost:4200/`.
 
----
+# 🏗️ Architecture :
 
-## 🏗️ Structure du projet
+L'application repose sur une architecture **3 tiers MVC** :
+- **Frontend** — Angular
+- **Backend** — Java Spring Boot (API REST)
+- **Base de données** — SQL Server
 
-```
-src/
-├── app/
-│   ├── core/                  # Services globaux, intercepteurs, guards
-│   │   ├── auth/              # AuthService, JwtInterceptor, AuthGuard
-│   │   └── services/          # BookService, LoanService, ReservationService...
-│   ├── shared/                # Composants réutilisables (header, footer, spinner...)
-│   ├── features/              # Modules fonctionnels
-│   │   ├── auth/              # Inscription, Connexion, Profil
-│   │   ├── catalogue/         # Liste livres, Détail livre, Recherche
-│   │   ├── loans/             # Mes emprunts, Historique
-│   │   ├── reservations/      # Mes réservations
-│   │   ├── ratings/           # Notation et commentaires
-│   │   └── dashboard/         # Dashboard lecteur, bibliothécaire, admin
-│   └── app-routing.module.ts
-├── environments/
-│   ├── environment.ts
-│   └── environment.prod.ts
-└── assets/
-```
+Toutes les informations relatives à la construction de l'application sont disponibles dans le "dossier de conception". Pour les implications techniques, elles sont visibles dans le "dossier des choix techniques"
 
----
-
-## 🔐 Authentification
-
-Le token JWT est stocké côté client et transmis automatiquement via un intercepteur HTTP sur toutes les requêtes authentifiées.
-
-Les routes sont protégées par des **guards Angular** selon les rôles :
+# 👥 Rôles utilisateurs :
 
 | Rôle | Accès |
 |---|---|
-| `USER` | Catalogue, emprunts, réservations, notation |
-| `LIBRARIAN` | + Gestion catalogue, validation retours, modération |
-| `ADMIN` | + Gestion utilisateurs, accès complet |
+| Visiteur | Accès à la connexion et création de compte |
+| Lecteur | Emprunts & réservations |
+| Bibliothécaire | Gestion des emprunts et retours |
+| Administrateur | Gestion complète de la plateforme |
 
----
+# 📖 Livrables :
 
-## 🧪 Tests
+* [Back-end du projet](https://github.com/fanny-pretre/bookhub-backend)
+* [Dossier de conception](https://campuseni-my.sharepoint.com/:w:/r/personal/emma_baudin2024_campus-eni_fr/_layouts/15/Doc.aspx?sourcedoc=%7B14782B95-3094-4926-8251-4B831BDB1D46%7D&file=%F0%9F%93%98%20Document%20de%20conception%20%E2%80%94%20BookHub.docx&action=default&mobileredirect=true)
+* [Dossier de choix techniques](https://campuseni-my.sharepoint.com/:w:/r/personal/emma_baudin2024_campus-eni_fr/_layouts/15/Doc.aspx?sourcedoc=%7B0DB1C78C-5096-41E1-8BA6-6C6157460280%7D&file=BookHub-%20Choix%20Techniques.docx&action=default&mobileredirect=true)
+* [Manuel utilisateur](https://campuseni-my.sharepoint.com/:w:/r/personal/emma_baudin2024_campus-eni_fr/_layouts/15/Doc.aspx?sourcedoc=%7BBE889983-9FDE-4A31-9C32-6323DAB25ED4%7D&file=Manuel_utilisateur_BookHub.docx&action=default&mobileredirect=true)
+* [Swagger / documentation API](http://localhost:8080/swagger-ui/index.html)
 
-```bash
-# Lancer les tests unitaires
-ng test
 
-# Avec rapport de couverture
-ng test --code-coverage
-```
+# ©️ Remerciements :
 
-> Couverture minimale attendue : **20%**
+BookHub est un projet réalisé dans le cadre d'une formation en développement web à l'ENI de Niort par l'équipe de la Poule Request Agency.
+* [Emma Baudin](https://www.linkedin.com/in/emmbdn)
+* [Agathe Perrin](https://fr.linkedin.com/in/agathe-perrin)
+* [Fanny Prêtre](https://fr.linkedin.com/in/fanny-pr%C3%AAtre)
+* [Sofia Renault-Shlyapnikova](https://www.linkedin.com/in/sofia-renault-shlyapnikova?utm_source=share_via&utm_content=profile&utm_medium=member_ios)
 
----
 
-## 📦 Build de production
-
-```bash
-ng build --configuration production
-```
-
-Les fichiers compilés sont générés dans `dist/bookhub-frontend/`.
-
----
-
-## 👥 Équipe
-
-| Nom | Rôle |
-|---|---|
-| Fanny | - |
-| Emma | - |
-| Sofia | - |
-| Agathe | - |
-
----
-
-## 📄 Licence
-
-Projet réalisé dans le cadre de la formation **CDA** - ENI École Informatique.
+Merci à toute l'équipe pédagogique pour son accompagnement tout au long du projet (**Souheil Sultan**).
